@@ -1,0 +1,24 @@
+@import './variable.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+}
+
+#app {
+  @extend .fullScreen;
+  overflow: hidden;
+}
+
+.fullScreen {
+  width: 100vw;
+  height: 100vh;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

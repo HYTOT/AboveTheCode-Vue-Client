@@ -1,32 +1,71 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <transition :name="transitionName">
+      <router-view/>
+    </transition>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Route } from 'vue-router'
+import { Toast } from 'mint-ui'
 
-#nav {
-  padding: 30px;
+@Component
+export default class App extends Vue {
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  private transitionName:string = ''
 
-    &.router-link-exact-active {
-      color: #42b983;
+  @Watch('$route')
+  private watchRoute(to:Route, from:Route) {
+    if (to.meta.index > from.meta.index) {
+      this.transitionName = 'slide-left'
+    } else {
+      this.transitionName = 'slide-right'
     }
   }
+
+  private created():void {
+    window.addEventListener('storage', () => {
+      if (localStorage.getItem('code-login') !== '666666') {
+        localStorage.removeItem('code-login')
+        window.location.reload()
+      }
+    })
+  }
+
 }
+</script>
+
+<style lang="scss">
+#app {
+  background: #eee;
+  //转场动画
+  .slide-right-enter-active,
+  .slide-right-leave-active,
+  .slide-left-enter-active,
+  .slide-left-leave-active {
+    // 启用硬件加速
+    will-change: transform;
+    transition: all .2s;
+    position: fixed;
+  }
+  .slide-left-enter {
+    transform: translate(100vw);
+    transition-timing-function: ease-in;
+  }
+  .slide-left-leave-to {
+    transform: translate(-100vw);
+    transition-timing-function: ease-out;
+  }
+  .slide-right-enter {
+    transform: translate(-100vw);
+    transition-timing-function: ease-in;
+  }
+  .slide-right-leave-to {
+    transform: translate(100vw);
+    transition-timing-function: ease-out;
+  }
+}
+
 </style>

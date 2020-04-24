@@ -104,6 +104,15 @@ const routes:Array<RouteConfig> = [
       index: 10.2,
       title: '码上OA-我的名片',
     }
+  },
+  {
+    path: '/official/list',
+    name: 'OfficialList',
+    component: () => import(/* webpackChunkName: "official" */ '../views/OfficialList.vue'),
+    meta: {
+      index: 12,
+      title: '码上OA-公文列表',
+    }
   }
 ]
 

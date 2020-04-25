@@ -30,6 +30,7 @@ export default class SectionItem extends Vue {
   height: 15vw;
   display: flex;
   align-items: center;
+  user-select: none;
   background: #eee;
   margin: -.5vw 0;
   border: {

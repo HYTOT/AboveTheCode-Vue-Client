@@ -15,3 +15,9 @@ export enum Greet {
   AFTERNOON = '下午好',
   EVENING = '晚上好',
 }
+
+export enum SwiperBgColor {
+  '#32A1E6',
+  '#8D5A6E',
+  '#578E7B',
+}

@@ -1,7 +1,9 @@
 <template>
   <div class="index">
     <transition :name="transitionName">
-      <router-view/>
+      <keep-alive>
+        <router-view/>
+      </keep-alive>
     </transition>
     <NavBar :navBarList="navBarList"/>
   </div>

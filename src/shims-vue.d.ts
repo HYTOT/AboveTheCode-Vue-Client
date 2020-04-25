@@ -8,3 +8,4 @@ declare class VConsole {}
 declare module 'mint-ui'
 declare module 'vue-calendar-component'
 declare module 'vue-qr'
+declare module 'vue-echarts'

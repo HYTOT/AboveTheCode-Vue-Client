@@ -106,6 +106,16 @@ const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/schedule/day/:date',
+    name: 'Day',
+    component: () => import(/* webpackChunkName: "schedule" */ '../views/Day.vue'),
+    meta: {
+      index: 10.8,
+      title: '码上OA-日程',
+    },
+    props: true
+  },
+  {
     path: '/official/list',
     name: 'OfficialList',
     component: () => import(/* webpackChunkName: "official" */ '../views/OfficialList.vue'),
@@ -113,6 +123,11 @@ const routes:Array<RouteConfig> = [
       index: 12,
       title: '码上OA-公文列表',
     }
+  },
+  {
+    path: '*',
+    name: '404',
+    redirect: '/schedule',
   }
 ]
 

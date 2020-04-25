@@ -42,7 +42,14 @@ export default class Schedule extends Vue {
   private weekLabels:Array<string> = ['日','一','二','三','四','五','六']
 
   private choseDay(day:string):void {
-    console.log(day)
+    let arr:Array<string> = day.split('/')
+    for(let i = 1; i < arr.length; i++) {
+      arr[i].length < 2 && (arr[i] = `0${arr[i]}`)
+    }
+    let afterFormat:string = arr.join('')
+    setTimeout(() => {
+      this.$router.push(`/schedule/day/${afterFormat}`)
+    }, 300)
   }
 
   private get greet():Greet {
@@ -64,9 +71,11 @@ export default class Schedule extends Vue {
 <style lang="scss" scoped>
 .schedule {
   width: 100vw;
+  background: #dedede;
   .account-operations {
     width: 100vw;
     height: 13vw;
+    user-select: none;
     position: sticky;
     top: 0;
     background: $typescript-color;

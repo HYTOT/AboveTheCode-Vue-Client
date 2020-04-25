@@ -30,6 +30,7 @@ export default class NavBar extends Vue {
   height: 9vh;
   position: fixed;
   top: 91vh;
+  user-select: none;
   ul {
     display: flex;
     list-style: none;

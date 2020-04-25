@@ -23,6 +23,7 @@ export default class Header extends Vue {
 .header-component {
   width: 100vw;
   height: 13vw;
+  user-select: none;
   position: sticky;
   top: 0;
   z-index: 2;

@@ -10,6 +10,10 @@ export interface NavBarItem {
   icon:string;
 }
 
+export interface HTMLInputEvent extends Event {
+  target: HTMLInputElement & EventTarget;
+}
+
 export enum Greet {
   MORNING = '上午好',
   AFTERNOON = '下午好',

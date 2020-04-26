@@ -38,7 +38,7 @@ export default class OfficialItem extends Vue {
   width: 100vw;
   background: #eee;
   margin: -.5vw 0;
-  padding: 4vw 8vw;
+  padding: 4vw 10vw;
   border: {
     top: .1vw solid #dedede;
     bottom: .1vw solid #dedede;
@@ -63,15 +63,14 @@ export default class OfficialItem extends Vue {
     margin: 0 2vw;
   }
   .item-content {
-    font-size: 4vw;
+    font-size: 3vw;
     width: 50vw;
-    max-height: 37.5vw;
+    max-height: 40vw;
     margin: 1vw 2vw;
-    padding: 1vw;
-    line-height: 6vw;
+    padding: 2vw;
+    line-height: 7vw;
     background: burlywood;
     opacity: .8;
-    text-decoration: underline;
     text-indent: 2em;
     text-align: justify;
     overflow: hidden;

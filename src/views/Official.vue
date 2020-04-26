@@ -16,6 +16,8 @@
     </section>
     <GapLine/>
     <SectionItem title="公文列表" @tapItem="$router.push('/official/list')"/>
+    <GapLine/>
+    <SectionItem title="我的公文"/>
   </div>
 </template>
 
@@ -23,16 +25,14 @@
 import { Vue, Component } from 'vue-property-decorator'
 import GapLine from '../components/GapLine.vue'
 import SectionItem from '../components/SectionItem.vue'
-import { Swipe, SwipeItem } from 'mint-ui'
 import { SwiperBgColor } from '../util/types'
-
-Vue.component(Swipe.name, Swipe)
-Vue.component(SwipeItem.name, SwipeItem)
 
 @Component({
   components: {
     GapLine,
     SectionItem,
+    'mt-swipe': () => import('mint-ui/lib/swipe'),
+    'mt-swipe-item': () => import('mint-ui/lib/swipe-item'),
   }
 })
 export default class Official extends Vue {

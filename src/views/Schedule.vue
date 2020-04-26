@@ -26,13 +26,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Calendar from 'vue-calendar-component'
 import SectionItem from '../components/SectionItem.vue'
 import { Greet } from '../util/types'
 
 @Component({
   components: {
-    Calendar,
+    Calendar: () => import('vue-calendar-component'),
     SectionItem,
   }
 })

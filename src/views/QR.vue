@@ -20,12 +20,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import Header from '../components/Header.vue'
-import VueQr from 'vue-qr'
 
 @Component({
   components: {
     Header,
-    VueQr,
+    VueQr: () => import('vue-qr')
   }
 })
 export default class QR extends Vue {

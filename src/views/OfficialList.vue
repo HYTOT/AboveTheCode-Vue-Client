@@ -63,7 +63,7 @@ export default class OfficialList extends Vue {
   }
   private animate():void {
     if (this.ui_topValue > 0) {
-      this.ui_topValue -= this.officialItems.length * 5
+      this.ui_topValue -= window.scrollY / 20
       scrollTo(0, this.ui_topValue)
       setTimeout(this.animate, this.ui_time)
     }
@@ -74,7 +74,7 @@ export default class OfficialList extends Vue {
     this.loading = true
   }
   private async getMore():Promise<void> {
-    if (this.officialItems.length < 30) {
+    if (this.officialItems.length < 50) {
       this.loadMsg = '拼命加载中...'
       let res = await axios.get('/mock/officialList')
       // console.log(res.data)

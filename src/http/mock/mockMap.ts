@@ -1,10 +1,6 @@
 import Mock from 'mockjs'
 
-export const mockMap:{ [index: string]:any } = {
-  '/mock/officialList': officialList(),
-}
-
-function officialList():Array<any> {
+const officialList:Function = ():Array<any> => {
   return Mock.mock({
     "list|10": [{
       "id": "@guid",
@@ -21,4 +17,8 @@ function officialList():Array<any> {
       }
     }]
   }).list
+}
+
+export const mockMap:{ [index: string]:any } = {
+  '/mock/officialList': officialList(),
 }

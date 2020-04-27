@@ -116,6 +116,24 @@ const routes:Array<RouteConfig> = [
     props: true
   },
   {
+    path: '/schedule/search',
+    name: 'Search',
+    component: () => import(/* webpackChunkName: "schedule" */ '../views/Search.vue'),
+    meta: {
+      index: 10.9,
+      title: '码上OA-搜索日程',
+    }
+  },
+  {
+    path: '/document/pdf',
+    name: 'PDF',
+    component: () => import(/* webpackChunkName: "document" */ '../views/PDF.vue'),
+    meta: {
+      index: 11,
+      title: '码上OA-PDF预览',
+    }
+  },
+  {
     path: '/official/list',
     name: 'OfficialList',
     component: () => import(/* webpackChunkName: "official" */ '../views/OfficialList.vue'),

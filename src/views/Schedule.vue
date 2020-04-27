@@ -14,7 +14,8 @@
     <header class="account-operations">
       <i @click="showOperations=true" class="iconfont icon-wuxupailie"></i>
       <div class="header-right">
-        <div class="searchBox">
+        <div class="searchBox"
+          @click="$router.push('/schedule/search')">
           <i class="iconfont icon-sousuo"></i>搜索日程记录
         </div>
       </div>
@@ -52,16 +53,14 @@ export default class Schedule extends Vue {
   }
 
   private get greet():Greet {
-    let str:Greet,
-        hours:number = new Date().getHours()
+    const hours:number = new Date().getHours()
     if (hours >= 5 && hours < 13) {
-      str = Greet.MORNING
+      return Greet.MORNING
     } else if (hours >= 13 && hours < 19) {
-      str = Greet.AFTERNOON
+      return Greet.AFTERNOON
     } else {
-      str = Greet.EVENING
+      return Greet.EVENING
     }
-    return str
   }
 
 }
@@ -119,7 +118,6 @@ export default class Schedule extends Vue {
     z-index: 10;
     top: 0;
     left: 0;
-    will-change: transform;
     transform: translate(-100vw);
     background: rgba(black, 0);
     transition: all .3s;

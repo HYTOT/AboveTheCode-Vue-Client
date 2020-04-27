@@ -30,7 +30,7 @@ export default class Config extends Vue {
     MessageBox.confirm('您确定要退出登录吗？')
     .then((action:any) => {
       // 退登重新初始化 vuex
-      this.$store.dispatch('setFileBuffer', '')
+      this.$store.dispatch('setFileBuffer', ['', ''])
       localStorage.removeItem('code-login')
       this.$router.push('/login')
     }).catch(() => {})

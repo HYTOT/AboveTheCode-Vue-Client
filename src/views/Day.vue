@@ -1,6 +1,7 @@
 <template>
   <div class="day" v-if="day">
     <Header :title="chinessDay" :back="true"/>
+    <i class="iconfont icon-icon_addmessage"></i>
   </div>
 </template>
 
@@ -40,5 +41,16 @@ export default class Day extends Vue {
 .day {
   @extend .fullScreen;
   background: #dedede;
+  .icon-icon_addmessage {
+    @extend .flexCenter;
+    width: 20vw;
+    height: 13vw;
+    top: 0;
+    left: 80vw;
+    font-size: 5vw;
+    position: fixed;
+    z-index: 5;
+    color: white;
+  }
 }
 </style>

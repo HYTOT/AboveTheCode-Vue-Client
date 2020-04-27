@@ -14,5 +14,7 @@ export default class Mail extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
+.mail {
+  width: 100vw;
+}
 </style>

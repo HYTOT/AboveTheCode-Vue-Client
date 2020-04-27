@@ -53,7 +53,8 @@ export default class QR extends Vue {
 
 <style lang="scss" scoped>
 .qr-code {
-  @extend .fullScreen;
+  width: 100vw;
+  min-height: 100vh;
   background: linear-gradient(to bottom, $typescript-color, #dedede);
   .qr-box {
     width: 100vw;

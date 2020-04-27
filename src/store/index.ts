@@ -6,19 +6,22 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fileBuffer: ''
+    fileBuffer: '',
+    fileName: '',
   },
   getters: {
     getFileBuffer: (state):string => state.fileBuffer,
+    getFileName: (state):string => state.fileName,
   },
   mutations: {
-    [Types.SET_FILE_BUFFER]: (state, fileSrc):void => {
-      state.fileBuffer = fileSrc
+    [Types.SET_FILE_BUFFER]: (state, [fileSrc, fileName]):void => {
+      state.fileBuffer = fileSrc || ''
+      state.fileName = fileName || ''
     },
   },
   actions: {
-    setFileBuffer: ({ commit }, fileSrc):void => {
-      commit(Types.SET_FILE_BUFFER, fileSrc)
+    setFileBuffer: ({ commit }, [fileSrc, fileName]):void => {
+      commit(Types.SET_FILE_BUFFER, [fileSrc, fileName])
     },
   }
 })

@@ -7,12 +7,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import Header from '../components/Header.vue'
 import { Route } from 'vue-router'
 
 @Component({
   components: {
-    Header,
+    Header: () => import('../components/Header.vue'),
   }
 })
 export default class Day extends Vue {

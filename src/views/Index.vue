@@ -14,6 +14,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 import { NavBarItem } from '../util/types'
 import NavBar from '../components/NavBar.vue'
+import axios from '../http/axios.config'
 
 @Component({
   components: {
@@ -27,7 +28,7 @@ export default class Index extends Vue {
     {id: 1, title: '日程', path: '/schedule', icon: 'icon-calendar-alt'},
     {id: 2, title: '文档', path: '/document', icon: 'icon-folder-open'},
     {id: 3, title: '公文', path: '/official', icon: 'icon-news'},
-    {id: 4, title: '邮件', path: '/mail', icon: 'icon-paper-plane'},
+    {id: 4, title: '邮件', path: '/mail', icon: 'icon-paper-plane', hotText: true },
     {id: 5, title: '管理', path: '/management', icon: 'icon-cloud-machine'},
   ]
 
@@ -38,6 +39,12 @@ export default class Index extends Vue {
     } else {
       this.transitionName = 'slide-right'
     }
+  }
+
+  private created():void {
+    axios.get('/mock/mailCount')
+    .then(res => this.$store.dispatch('setMailCount', res.data))
+    .catch(err => console.log(err))
   }
 
 }

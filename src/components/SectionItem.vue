@@ -7,6 +7,7 @@
     <h3 class="title">{{ title }}</h3>
     <h3 class="title2">{{ title2 }}</h3>
     <i class="iconfont icon-angle-right"></i>
+    <span v-if="showHotText" class="hot-text">{{ hotText }}</span>
   </div>
 </template>
 
@@ -20,6 +21,11 @@ export default class SectionItem extends Vue {
   @Prop(String) private iconColor?:string
   @Prop(String) private title?:string
   @Prop(String) private title2?:string
+  @Prop(String) private hotText?:string
+
+  private get showHotText():boolean {
+    return this.hotText && this.$store.getters.getMailCount !== '0'
+  }
 
 }
 </script>
@@ -64,6 +70,17 @@ export default class SectionItem extends Vue {
   .icon-angle-right {
     font-size: 4vw;
     color: gray;
+  }
+  .hot-text {
+    font-size: 3.5vw;
+    min-width: 5.5vw;
+    color: white;
+    background: #e74c3c;
+    padding: .8vw 1vw;
+    border-radius: 3.5vw;
+    position: absolute;
+    left: 80vw;
+    @extend .flexCenter;
   }
 }
 </style>

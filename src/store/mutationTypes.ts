@@ -1,3 +1,4 @@
 export enum Types {
   SET_FILE_BUFFER = 'SET_FILE_BUFFER',
+  SET_MAIL_COUNT = 'SET_MAIL_COUNT',
 }

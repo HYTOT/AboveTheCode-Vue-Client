@@ -19,11 +19,10 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Header from '../components/Header.vue'
 
 @Component({
   components: {
-    Header,
+    Header: () => import('../components/Header.vue'),
     VueQr: () => import('vue-qr')
   }
 })

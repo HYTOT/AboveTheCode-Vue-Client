@@ -1,22 +1,28 @@
-const webpack = require('webpack');
-const OptimizeCss = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require("compression-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require('webpack')
+const OptimizeCss = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CompressionPlugin = require("compression-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
+
+const isProduction = !true
 
 module.exports = {
   chainWebpack: config => {
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')
+    config.optimization.minimize(true)
+    config.optimization.splitChunks({
+      chunks: 'all'
+    })
   },
   // webpack 相关配置
   configureWebpack: {
-    mode: "production",
+    mode: isProduction ? 'production' : 'development',
     devServer: {
       port: 80,
       host: '0.0.0.0',
       hot: true,
-      compress: true, // 启用gzip 压缩
+      compress: true,
       proxy: {
         '/api': {
           target: 'http://127.0.0.1:8080/',
@@ -29,14 +35,11 @@ module.exports = {
       }
     },
     performance: {
-      // 入口起点的最大体积 整型（字节为单位）
       maxEntrypointSize: 50000000,
-      // 生成文件的最大体积 整型（字节为单位）
       maxAssetSize: 30000000,
-      // 只给出 js 文件的性能提示
       assetFilter: assetFilename => assetFilename.endsWith('.js')
     },
-    plugins: [
+    plugins: isProduction ? [
       new OptimizeCss({
         cssProcessor: require('cssnano'), //引入cssnano配置压缩选项
         cssProcessorOptions: { 
@@ -49,7 +52,9 @@ module.exports = {
         test: /\.js($|\?)/i,
         sourceMap: false,
         uglifyOptions: {
-          warnings: false
+          warnings: false,
+          parallel: true,
+          cache: true,
         }
       }),
       new CompressionPlugin({
@@ -65,10 +70,10 @@ module.exports = {
       new TerserPlugin({
         parallel: 4
       })
-    ]
+    ] : [ ] // 开发环境不使用插件
   },
   css: {
-    extract: false, // 是否使用css分离插件 ExtractTextPlugin
+    extract: true, // 是否使用css分离插件 ExtractTextPlugin
     sourceMap: false, // 开启 CSS source maps?
     // css预设器配置项
     loaderOptions: {

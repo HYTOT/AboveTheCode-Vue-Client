@@ -22,18 +22,23 @@
     </header>
     <Calendar :textTop="weekLabels" :sundayStart="true"
       @choseDay="choseDay"/>
+    <section class="future-schedule">
+      <div class="future-title"><h1>未来日程</h1></div>
+      <SectionItem v-for="i in 20" :key="i"
+        :title="`待办事项${i}`"
+        :title2="`2020/5/${i}`"/>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import SectionItem from '../components/SectionItem.vue'
 import { Greet } from '../util/types'
 
 @Component({
   components: {
     Calendar: () => import('vue-calendar-component'),
-    SectionItem,
+    SectionItem: () => import('../components/SectionItem.vue'),
   }
 })
 export default class Schedule extends Vue {
@@ -69,6 +74,11 @@ export default class Schedule extends Vue {
 <style lang="scss" scoped>
 .schedule {
   width: 100vw;
+  height: 91vh;
+  overflow: {
+    x: hidden;
+    y: scroll;
+  }
   background: #dedede;
   .account-operations {
     width: 100vw;
@@ -76,6 +86,7 @@ export default class Schedule extends Vue {
     user-select: none;
     position: sticky;
     top: 0;
+    z-index: 3;
     background: $typescript-color;
     display: flex;
     align-items: center;
@@ -112,8 +123,7 @@ export default class Schedule extends Vue {
     }
   }
   .background-block {
-    width: 100vw;
-    height: 100vh;
+    @extend .fullScreen;
     position: fixed;
     z-index: 10;
     top: 0;
@@ -156,13 +166,43 @@ export default class Schedule extends Vue {
       }
     }
   }
+  .future-schedule {
+    .future-title {
+      width: 100vw;
+      height: 20vw;
+      position: sticky;
+      top: 8vw;
+      @extend .flexCenter;
+      font-size: 3.8vw;
+      border: {
+        bottom-left-radius: 10vw;
+        bottom-right-radius: 10vw;
+      }
+      h1 {
+        width: 100vw;
+        height: 10vw;
+        background: #dedede;
+        color: $typescript-color;
+        position: sticky;
+        top: 10.5vw;
+        @extend .flexCenter;
+        border: {
+          bottom-left-radius: 10vw;
+          bottom-right-radius: 10vw;
+        }
+      }
+    }
+  }
 }
 
 /deep/ .wh_container {
-  position: absolute;
-  left: 0;
+  @media screen {
+    @media (min-width: 480px) {
+      display: none; // PC端隐藏
+    }
+  }
   width: 100vw;
-  min-height: 100vw;
+  height: 100vw;
   .wh_content_all {
     width: 100vw;
     min-height: 100vw;

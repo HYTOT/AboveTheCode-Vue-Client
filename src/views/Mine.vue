@@ -15,15 +15,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Header from '../components/Header.vue'
-import GapLine from '../components/GapLine.vue'
-import SectionItem from '../components/SectionItem.vue'
 
 @Component({
   components: {
-    Header,
-    GapLine,
-    SectionItem,
+    Header: () => import('../components/Header.vue'),
+    GapLine: () => import('../components/GapLine.vue'),
+    SectionItem: () => import('../components/SectionItem.vue'),
   }
 })
 export default class Mine extends Vue {

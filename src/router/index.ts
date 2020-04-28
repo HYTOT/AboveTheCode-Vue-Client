@@ -16,7 +16,7 @@ const routes:Array<RouteConfig> = [
       {
         path: '/schedule',
         name: 'Schedule',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Schedule.vue'),
+        component: () => import(/* webpackChunkName: "schedule" */ '../views/Schedule.vue'),
         meta: {
           index: 2,
           title: '码上OA-日程',
@@ -25,7 +25,7 @@ const routes:Array<RouteConfig> = [
       {
         path: '/document',
         name: 'Document',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Document.vue'),
+        component: () => import(/* webpackChunkName: "document" */ '../views/Document.vue'),
         meta: {
           index: 3,
           title: '码上OA-文档',
@@ -34,7 +34,7 @@ const routes:Array<RouteConfig> = [
       {
         path: '/official',
         name: 'Official',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Official.vue'),
+        component: () => import(/* webpackChunkName: "official" */ '../views/Official.vue'),
         meta: {
           index: 4,
           title: '码上OA-公文',
@@ -43,7 +43,7 @@ const routes:Array<RouteConfig> = [
       {
         path: '/mail',
         name: 'Mail',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Mail.vue'),
+        component: () => import(/* webpackChunkName: "mail" */ '../views/Mail.vue'),
         meta: {
           index: 5,
           title: '码上OA-邮件',
@@ -52,7 +52,7 @@ const routes:Array<RouteConfig> = [
       {
         path: '/management',
         name: 'Management',
-        component: () => import(/* webpackChunkName: "index" */ '../views/Management.vue'),
+        component: () => import(/* webpackChunkName: "management" */ '../views/Management.vue'),
         meta: {
           index: 6,
           title: '码上OA-管理',
@@ -90,7 +90,7 @@ const routes:Array<RouteConfig> = [
   {
     path: '/schedule/config/mine',
     name: 'Mine',
-    component: () => import(/* webpackChunkName: "config" */ '../views/Mine.vue'),
+    component: () => import(/* webpackChunkName: "mine" */ '../views/Mine.vue'),
     meta: {
       index: 10.1,
       title: '码上OA-我的信息',
@@ -99,7 +99,7 @@ const routes:Array<RouteConfig> = [
   {
     path: '/schedule/config/mine/qrcode',
     name: 'QR',
-    component: () => import(/* webpackChunkName: "config" */ '../views/QR.vue'),
+    component: () => import(/* webpackChunkName: "qrcode" */ '../views/QR.vue'),
     meta: {
       index: 10.2,
       title: '码上OA-我的名片',
@@ -108,7 +108,7 @@ const routes:Array<RouteConfig> = [
   {
     path: '/schedule/day/:date',
     name: 'Day',
-    component: () => import(/* webpackChunkName: "schedule" */ '../views/Day.vue'),
+    component: () => import(/* webpackChunkName: "day" */ '../views/Day.vue'),
     meta: {
       index: 10.8,
       title: '码上OA-日程',
@@ -118,7 +118,7 @@ const routes:Array<RouteConfig> = [
   {
     path: '/schedule/search',
     name: 'Search',
-    component: () => import(/* webpackChunkName: "schedule" */ '../views/Search.vue'),
+    component: () => import(/* webpackChunkName: "search" */ '../views/Search.vue'),
     meta: {
       index: 10.9,
       title: '码上OA-搜索日程',
@@ -127,7 +127,7 @@ const routes:Array<RouteConfig> = [
   {
     path: '/document/pdf',
     name: 'PDF',
-    component: () => import(/* webpackChunkName: "document" */ '../views/PDF.vue'),
+    component: () => import(/* webpackChunkName: "pdf" */ '../views/PDF.vue'),
     meta: {
       index: 11,
       title: '码上OA-PDF预览',
@@ -136,10 +136,19 @@ const routes:Array<RouteConfig> = [
   {
     path: '/official/list',
     name: 'OfficialList',
-    component: () => import(/* webpackChunkName: "official" */ '../views/OfficialList.vue'),
+    component: () => import(/* webpackChunkName: "list" */ '../views/OfficialList.vue'),
     meta: {
       index: 12,
       title: '码上OA-公文列表',
+    }
+  },
+  {
+    path: '/mail/inbox',
+    name: 'Inbox',
+    component: () => import(/* webpackChunkName: "inbox" */ '../views/Inbox.vue'),
+    meta: {
+      index: 13.1,
+      title: '码上OA-收件箱',
     }
   },
   {

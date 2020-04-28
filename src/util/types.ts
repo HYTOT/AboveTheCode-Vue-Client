@@ -8,6 +8,7 @@ export interface NavBarItem {
   title:string;
   path:string;
   icon:string;
+  hotText?:boolean;
 }
 
 export interface HTMLInputEvent extends Event {

@@ -17,12 +17,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
-import Header from '../components/Header.vue'
 import { Route } from 'vue-router'
 
 @Component({
   components: {
-    Header,
+    Header: () => import('../components/Header.vue'),
     pdf: () => import('vue-pdf'),
   }
 })

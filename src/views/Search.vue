@@ -6,12 +6,11 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Header from '../components/Header.vue'
 import { Route } from 'vue-router'
 
 @Component({
   components: {
-    Header,
+    Header: () => import('../components/Header.vue'),
   }
 })
 export default class Search extends Vue {

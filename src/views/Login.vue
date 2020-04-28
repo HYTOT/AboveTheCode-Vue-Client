@@ -17,13 +17,12 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
-import InputGroup from '../components/InputGroup.vue'
 import { LoginForm } from '../util/types'
 import { Route } from 'vue-router'
 
 @Component({
   components: {
-    InputGroup
+    InputGroup: () => import('../components/InputGroup.vue')
   }
 })
 export default class Login extends Vue {

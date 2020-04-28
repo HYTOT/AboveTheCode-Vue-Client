@@ -30,17 +30,15 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import Header from '../components/Header.vue'
-import OfficialItem from '../components/OfficialItem.vue'
 import { InfiniteScroll } from 'mint-ui'
 import axios from '../http/axios.config'
 
-Vue.use(InfiniteScroll)
+Vue.use(InfiniteScroll) // 注册指令 v-infinite-scroll
 
 @Component({
   components: {
-    Header,
-    OfficialItem,
+    Header: () => import('../components/Header.vue'),
+    OfficialItem: () => import('../components/OfficialItem.vue'),
     InfiniteScroll,
   }
 })

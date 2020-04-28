@@ -164,6 +164,7 @@ export default class Document extends Vue {
           width: 60%;
           font-size: 3vw;
           text-align: center;
+          color: gray;
         }
       }
       .pdf-tips {

@@ -8,9 +8,10 @@
     <GapLine/>
     <SectionItem title="发邮件"
       iconUrl="icon-icon_compile" iconColor="#294E80"/>
-    <GapLine/>
     <SectionItem title="草稿箱"
       iconUrl="icon-icon_invite" iconColor="#294E80"/>
+    <SectionItem title="已发送"
+      iconUrl="icon-icon_at" iconColor="#294E80"/>
   </div>
 </template>
 

@@ -14,8 +14,10 @@ import { Toast } from 'mint-ui'
 @Component
 export default class App extends Vue {
 
+  // 用于表示路由组件过渡动画的方向
   private transitionName:string = ''
 
+  // 判断路由组件 index 值，动态改变过渡动画方向
   @Watch('$route')
   private watchRoute(to:Route, from:Route) {
     if (to.meta.index > from.meta.index) {
@@ -26,6 +28,7 @@ export default class App extends Vue {
   }
 
   private created():void {
+    // 监听 storage 值变化
     window.addEventListener('storage', () => {
       if (localStorage.getItem('code-login') !== '666666') {
         localStorage.removeItem('code-login')

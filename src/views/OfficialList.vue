@@ -53,7 +53,7 @@ export default class OfficialList extends Vue {
   private clickedContent:string = ''
   private loadMsg:string = '上拉加载更多'
 
-  // UI： 返回顶部
+  // 火箭式返回顶部
   private toTop():void {
     this.ui_topValue = document.body.scrollTop || document.documentElement.scrollTop
     this.ui_time = 1000 / this.ui_topValue
@@ -66,11 +66,12 @@ export default class OfficialList extends Vue {
       setTimeout(this.animate, this.ui_time)
     }
   }
-  // 上拉触底
+  // 上拉触底触发事件
   private loadMore():void {
     this.getMore()
     this.loading = true
   }
+  // 请求公文列表数据，瀑布流分页
   private async getMore():Promise<void> {
     if (this.officialItems.length < 50) {
       this.loadMsg = '拼命加载中...'
@@ -88,6 +89,7 @@ export default class OfficialList extends Vue {
   }
 
   private mounted():void {
+    // 用于控制头部组件 UI 效果
     this.$nextTick(() => {
       document.onscroll = () => {
         let padding = (window.pageYOffset

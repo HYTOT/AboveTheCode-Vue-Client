@@ -13,17 +13,18 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 import { NavBarItem } from '../util/types'
-import NavBar from '../components/NavBar.vue'
 import axios from '../http/axios.config'
 
 @Component({
   components: {
-    NavBar
+    NavBar: () => import('../components/NavBar.vue')
   }
 })
 export default class Index extends Vue {
   
+  // 用于表示路由组件过渡动画的方向
   private transitionName:string = ''
+  // 导航栏列表
   private navBarList:Array<NavBarItem> = [
     {id: 1, title: '日程', path: '/schedule', icon: 'icon-calendar-alt'},
     {id: 2, title: '文档', path: '/document', icon: 'icon-folder-open'},
@@ -32,19 +33,26 @@ export default class Index extends Vue {
     {id: 5, title: '管理', path: '/management', icon: 'icon-cloud-machine'},
   ]
 
+  private async initApplication():Promise<void> {
+    // 程序首次加载才执行后面查询，否则直接结束方法
+    if (!this.$store.getters.isPageFirstLoad) return
+    let res = await axios.get('/mock/mailCount')
+    this.$store.dispatch('setMailCount', res.data)
+    this.$store.dispatch('setPageLoadState', false)
+  }
+
+  // 判断路由组件 index 值，动态改变过渡动画方向
   @Watch('$route')
   watchRoute(to:Route, from:Route) {
-    if (to.meta.index > from.meta.index) {
-      this.transitionName = 'slide-left'
-    } else {
-      this.transitionName = 'slide-right'
-    }
+    this.transitionName = (
+      to.meta.index > from.meta.index
+      ? 'slide-left'
+      : 'slide-right'
+    )
   }
 
   private created():void {
-    axios.get('/mock/mailCount')
-    .then(res => this.$store.dispatch('setMailCount', res.data))
-    .catch(err => console.log(err))
+    this.initApplication()
   }
 
 }

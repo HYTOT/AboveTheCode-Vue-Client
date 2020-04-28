@@ -11,6 +11,13 @@ export interface NavBarItem {
   hotText?:boolean;
 }
 
+export interface PDF_File {
+  src:string;
+  page:number;
+  total:number;
+  loaded:boolean;
+}
+
 export interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
 }

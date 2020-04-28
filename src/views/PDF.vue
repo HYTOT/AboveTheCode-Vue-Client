@@ -1,6 +1,6 @@
 <template>
   <div class="pdf-preview">
-    <Header title="pdf文件预览" :back="true"/>
+    <Header :title="fileName" :back="true"/>
     <pdf :src="pdf.src" :page="pdf.page"
       @num-pages="getTotalPages($event)"
       @loaded="loaded($event)"/>
@@ -18,6 +18,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
 import { Route } from 'vue-router'
+import { PDF_File } from '../util/types'
 
 @Component({
   components: {
@@ -27,13 +28,15 @@ import { Route } from 'vue-router'
 })
 export default class PDF extends Vue {
 
-  private pdf:any = {
+  // pdf 文件对象属性
+  private pdf:PDF_File = {
     src: this.$store.getters.getFileBuffer,
     page: 1,
     total: 1,
     loaded: false,
   }
 
+  // 读取 pdf 总页数
   private getTotalPages(totalPages:number):void {
     this.pdf.total = totalPages
   }
@@ -43,12 +46,21 @@ export default class PDF extends Vue {
       Indicator.close()
     }, 500)
   }
-
+  // 翻页操作
   private prePage():void {
     this.pdf.page > 1 && this.pdf.page--
   }
   private nextPage():void {
     this.pdf.page < this.pdf.total && this.pdf.page++
+  }
+  
+  // 截取文件名
+  private get fileName():string {
+    const limit:number = 8
+    let name = this.$store.getters.getFileName.split('.')[0]
+    return name.length > limit
+      ? name.slice(0, limit).concat('....pdf')
+      : name.concat('.pdf')
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

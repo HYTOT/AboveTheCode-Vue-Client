@@ -18,6 +18,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
 import { LoginForm } from '../util/types'
+import Util from '../util/util'
 import { Route } from 'vue-router'
 
 @Component({
@@ -27,15 +28,18 @@ import { Route } from 'vue-router'
 })
 export default class Login extends Vue {
 
+  // 登录表单双向绑定属性
   private model:LoginForm = {
     username: '',
     password: '',
   }
+  // 登录表单错误提示信息
   private error:LoginForm = {
     username: '',
     password: '',
   }
 
+  // 登录表单校验
   private loginHandler():void {
     if (!this.model.username || !this.model.password) {
       if (!this.model.username.trim()) {
@@ -53,6 +57,7 @@ export default class Login extends Vue {
       this.model.password.trim())
     }, 1000)
   }
+  // 发送请求检验登录
   private checkLogin(username:string, password:string):void {
     Indicator.close()
     if (username === 'bobo' && password === '123') {
@@ -68,10 +73,12 @@ export default class Login extends Vue {
     }
   }
 
+  // 获取页面高度，防止输入法影响样式
   private get getHeight():string {
-    return `${document.body.clientHeight}px`
+    return `${window.innerHeight || document.body.clientHeight}px`
   }
 
+  // 监听表单输入，清空错误提示
   @Watch('model.username')
   private refreshUsername() {
     this.error.username = ''

@@ -33,6 +33,7 @@ export default class QR extends Vue {
   private userId:string = '123'
   private male:boolean = !true
 
+  // 二维码加载回调
   private qrCallback(url:string, id:string):void {
     /**
      * url: Base 64格式
@@ -42,6 +43,7 @@ export default class QR extends Vue {
     // console.log(id)
   }
 
+  // 判断性别展示图标
   private get gender():string {
     return this.male ? 'icon-gender-male' : 'icon-gender-female'
   }

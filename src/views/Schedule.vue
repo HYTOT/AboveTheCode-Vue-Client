@@ -46,6 +46,7 @@ export default class Schedule extends Vue {
   private showOperations:boolean = false
   private weekLabels:Array<string> = ['日','一','二','三','四','五','六']
 
+  // 日历组件点击某天
   private choseDay(day:string):void {
     let arr:Array<string> = day.split('/')
     for(let i = 1; i < arr.length; i++) {
@@ -57,6 +58,7 @@ export default class Schedule extends Vue {
     }, 300)
   }
 
+  // 根据时间，决定问候语
   private get greet():Greet {
     const hours:number = new Date().getHours()
     if (hours >= 5 && hours < 13) {

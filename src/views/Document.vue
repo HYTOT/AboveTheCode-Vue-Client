@@ -93,6 +93,7 @@ export default class Document extends Vue {
   private get fileBuffer():string {
     return this.$store.getters.getFileBuffer
   }
+  // 截取文件名
   private get fileName():string {
     const limit:number = 10
     let name = this.$store.getters.getFileName.split('.')[0]

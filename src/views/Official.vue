@@ -37,10 +37,12 @@ export default class Official extends Vue {
 
   private bgColor:string = SwiperBgColor[0]
 
+  // 动态改变轮播图组件底部背景色
   private swiperChange(index:number):void {
     this.bgColor = SwiperBgColor[index]
   }
 
+  // 轮播图从随机下标的一张图开始
   private get randomIndex():number {
     return Math.random() * 3 >> 0
   }

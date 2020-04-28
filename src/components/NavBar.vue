@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar" :style="{height: getHeight}">
     <ul>
       <li
         v-for="item in navBarList"
@@ -24,6 +24,11 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class NavBar extends Vue {
 
   @Prop(Array) navBarList?:Array<any>
+
+  // 获取页面高度
+  private get getHeight():string {
+    return `${window.innerHeight || document.body.clientHeight}px`
+  }
 
 }
 </script>

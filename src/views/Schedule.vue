@@ -173,7 +173,7 @@ export default class Schedule extends Vue {
       width: 100vw;
       height: 20vw;
       position: sticky;
-      top: 8vw;
+      top: 7.5vw;
       @extend .flexCenter;
       font-size: 3.8vw;
       border: {
@@ -186,7 +186,8 @@ export default class Schedule extends Vue {
         background: #dedede;
         color: $typescript-color;
         position: sticky;
-        top: 10.5vw;
+        top: 10vw;
+        box-shadow: 0 0 5vw #dedede;
         @extend .flexCenter;
         border: {
           bottom-left-radius: 10vw;

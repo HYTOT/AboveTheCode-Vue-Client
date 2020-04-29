@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { InfiniteScroll } from 'mint-ui'
 import axios from '../http/axios.config'
 
@@ -86,6 +86,11 @@ export default class OfficialList extends Vue {
   }
   private readContent(content:string):void {
     this.clickedContent = content
+  }
+
+  @Watch('searchValue')
+  private searchValueChanged(value:string) {
+    console.log(value)
   }
 
   private mounted():void {

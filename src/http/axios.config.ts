@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { mockMap } from './mock/mockMap'
+import { mockMapper } from './mock/mockMapper'
 import { Indicator } from 'mint-ui'
 
 axios.interceptors.request
@@ -12,7 +12,9 @@ axios.interceptors.request
 
 axios.interceptors.response
 .use(res => {
-  Indicator.close()
+  setTimeout(() => {
+    Indicator.close()
+  }, 300)
   return res
 }, err => {
   // console.dir(err)
@@ -20,7 +22,8 @@ axios.interceptors.response
     Indicator.close()
   }, 300)
   return {
-    data: mockMap[err.config.url]
+    // 响应信息错误则返回假数据
+    data: mockMapper[err.config.url]
   }
 })
 

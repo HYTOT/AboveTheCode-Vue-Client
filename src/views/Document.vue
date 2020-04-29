@@ -64,12 +64,14 @@ export default class Document extends Vue {
     const reader:FileReader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => {
-      this.$store.dispatch('setFileBuffer', [reader.result, file.name])
-      Indicator.close()
-      Toast({
-        message: '文件上传成功',
-        duration: 1000,
-      })
+      setTimeout(() => {
+        this.$store.dispatch('setFileBuffer', [reader.result, file.name])
+        Indicator.close()
+        Toast({
+          message: '文件上传成功',
+          duration: 1000,
+        })
+      }, 500)
     }
   }
   private clearFile():void {

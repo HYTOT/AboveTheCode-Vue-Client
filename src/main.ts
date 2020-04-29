@@ -20,4 +20,4 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-loadScript(() => new VConsole())
+!true && loadScript(() => new VConsole())

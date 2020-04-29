@@ -23,12 +23,26 @@ const inboxList:Function = ():Array<any> => {
   return Mock.mock({
     "list|10": [{
       "messageid": "@guid",
-      "title": "@ctitle",
+      "title": "@csentence",
+      "content": "@cparagraph",
+      "createtime": "@datetime",
       "sendtime": "@datetime",
       "fromuser": {
-        "id": "@guid",
+        "uid": "@guid",
         "sex|1": [0, 1],
         "name": "@cname",
+        "email": "@email",
+        "worktime": "@datetime",
+        "depart": {
+          "departName|1": ["人力资源部", "IT部", "财务部"],
+        }
+      },
+      "touser": {
+        "uid": "@guid",
+        "sex|1": [0, 1],
+        "name": "@cname",
+        "email": "@email",
+        "worktime": "@datetime",
         "depart": {
           "departName|1": ["人力资源部", "IT部", "财务部"],
         }
@@ -45,7 +59,7 @@ const mailCount:Function = ():number => {
   }).count
 }
 
-export const mockMap:{ [index: string]:any } = {
+export const mockMapper:{ [index: string]:any } = {
   '/mock/officialList': officialList(),
   '/mock/inboxList': inboxList(),
   '/mock/mailCount': mailCount(),

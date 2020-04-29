@@ -5,7 +5,7 @@
       'color': iconColor || '#333'
     }"></i>
     <h3 class="title">{{ title }}</h3>
-    <h3 class="title2">{{ title2 }}</h3>
+    <h3 class="title2">{{ title2 && titleSlice }}</h3>
     <i class="iconfont icon-angle-right"></i>
     <span v-if="showHotText" class="hot-text">{{ hotText }}</span>
   </div>
@@ -25,6 +25,11 @@ export default class SectionItem extends Vue {
 
   private get showHotText():boolean {
     return this.hotText && this.$store.getters.getMailCount !== '0'
+  }
+  private get titleSlice():string {
+    return (this.title2 && this.title2.length <= 12)
+      ? this.title2
+      : this.title2.slice(0, 12).concat('...')
   }
 
 }

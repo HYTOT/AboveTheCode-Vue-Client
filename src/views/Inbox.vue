@@ -8,7 +8,11 @@
       <SectionItem title2="全部设为已读"
         iconUrl="icon-success" iconColor="#294E80"/>
       <SectionItem v-for="(mail, i) in mailsUnread" :key="i"
-        :title="mail.fromuser.name" :title2="mail.title"/>
+        :title="mail.fromuser.name" :title2="mail.title"
+        @tapItem="$router.push({
+          name: 'Details',
+          params: { mail },
+        })"/>
       <SectionItem title2="点击查看更多未读邮件"
         iconUrl="icon-gengduo" iconColor="#294E80"
         @tapItem="getMoreUnread"/>

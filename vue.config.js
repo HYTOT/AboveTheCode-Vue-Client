@@ -73,7 +73,7 @@ module.exports = {
     ] : [ ] // 开发环境不使用插件
   },
   css: {
-    extract: true, // 是否使用css分离插件 ExtractTextPlugin
+    extract: false, // 是否使用css分离插件 ExtractTextPlugin
     sourceMap: false, // 开启 CSS source maps?
     // css预设器配置项
     loaderOptions: {

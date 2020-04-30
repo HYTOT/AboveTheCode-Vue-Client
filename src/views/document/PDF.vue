@@ -18,11 +18,11 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
 import { Route } from 'vue-router'
-import { PDF_File } from '../util/types'
+import { PDF_File } from '../../util/types'
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
+    Header: () => import('../../components/Header.vue'),
     pdf: () => import('vue-pdf'),
   }
 })

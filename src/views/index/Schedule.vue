@@ -33,12 +33,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Greet } from '../util/types'
+import { Greet } from '../../util/types'
 
 @Component({
   components: {
     Calendar: () => import('vue-calendar-component'),
-    SectionItem: () => import('../components/SectionItem.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
   }
 })
 export default class Schedule extends Vue {

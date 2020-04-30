@@ -22,7 +22,7 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
+    Header: () => import('../../components/Header.vue'),
     VueQr: () => import('vue-qr')
   }
 })

@@ -13,7 +13,7 @@
           name: 'Details',
           params: { mail },
         })"/>
-      <SectionItem title2="点击查看更多未读邮件"
+      <SectionItem title2="查看更多未读邮件"
         iconUrl="icon-gengduo" iconColor="#294E80"
         @tapItem="getMoreUnread"/>
     </section>
@@ -22,8 +22,12 @@
         <h1>已读邮件</h1>
       </div>
       <SectionItem v-for="(mail, i) in mailsIsread" :key="i"
-        :title="mail.fromuser.name" :title2="mail.title"/>
-      <SectionItem title2="点击查看更多已读邮件"
+        :title="mail.fromuser.name" :title2="mail.title"
+        @tapItem="$router.push({
+          name: 'Details',
+          params: { mail },
+        })"/>
+      <SectionItem title2="查看更多已读邮件"
         iconUrl="icon-gengduo" iconColor="#294E80"
         @tapItem="getMoreIsread"/>
     </section>
@@ -32,12 +36,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import axios from '../http/axios.config'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
-    SectionItem: () => import('../components/SectionItem.vue'),
+    Header: () => import('../../components/Header.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
   }
 })
 export default class Inbox extends Vue {
@@ -50,13 +54,13 @@ export default class Inbox extends Vue {
   // 请求更多未读邮件
   private async getMoreUnread():Promise<void> {
     let res = await axios.get('/mock/inboxList')
-    console.log(res.data)
+    // console.log(res.data)
     this.mailsUnread.push(...Object.freeze(res.data))
   }
   // 请求更多已读邮件
   private async getMoreIsread():Promise<void> {
     let res = await axios.get('/mock/inboxList')
-    console.log(res.data)
+    // console.log(res.data)
     this.mailsIsread.push(...Object.freeze(res.data))
   }
 

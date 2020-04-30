@@ -10,7 +10,7 @@ import { Route } from 'vue-router'
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
+    Header: () => import('../../components/Header.vue'),
   }
 })
 export default class Search extends Vue {
@@ -18,8 +18,11 @@ export default class Search extends Vue {
   private title:string = '搜索'
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
-    next((vm:any) => {
-      from.path !== '/schedule' && vm.$router.push('/schedule')
+    next((vm:Search) => {
+      if (from.path !== '/schedule') {
+        vm.$router.push('/schedule')
+        return
+      }
       vm.title = '搜索日程记录'
     })
   }

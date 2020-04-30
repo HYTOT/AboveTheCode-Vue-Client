@@ -6,7 +6,7 @@
     <i class="iconfont icon-icon_addmessage"></i>
     <Header title="公文列表" :back="true"/>
     <div class="official-search">
-      <input v-model="searchValue" placeholder="输入关键词筛选" class="searchInput">
+      <input v-model.trim="searchValue" placeholder="输入关键词筛选" class="searchInput">
       <div class="padding-box" :style="{width: `${searchPadding}vw`}"></div>
     </div>
     <ul
@@ -31,14 +31,14 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { InfiniteScroll } from 'mint-ui'
-import axios from '../http/axios.config'
+import axios from '../../http/axios.config'
 
 Vue.use(InfiniteScroll) // 注册指令 v-infinite-scroll
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
-    OfficialItem: () => import('../components/OfficialItem.vue'),
+    Header: () => import('../../components/Header.vue'),
+    OfficialItem: () => import('../../components/OfficialItem.vue'),
     InfiniteScroll,
   }
 })
@@ -89,7 +89,7 @@ export default class OfficialList extends Vue {
   }
 
   @Watch('searchValue')
-  private searchValueChanged(value:string) {
+  private searchValueChanged(value:string):void {
     console.log(value)
   }
 

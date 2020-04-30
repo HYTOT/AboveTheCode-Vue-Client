@@ -9,9 +9,11 @@
     <SectionItem title="发邮件"
       iconUrl="icon-icon_compile" iconColor="#294E80"/>
     <SectionItem title="草稿箱"
-      iconUrl="icon-icon_invite" iconColor="#294E80"/>
+      iconUrl="icon-icon_invite" iconColor="#294E80"
+      @tapItem="$router.push('/mail/draft')"/>
     <SectionItem title="已发送"
-      iconUrl="icon-icon_at" iconColor="#294E80"/>
+      iconUrl="icon-icon_at" iconColor="#294E80"
+      @tapItem="$router.push('/mail/sentout')"/>
   </div>
 </template>
 
@@ -20,8 +22,8 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
   components: {
-    GapLine: () => import('../components/GapLine.vue'),
-    SectionItem: () => import('../components/SectionItem.vue'),
+    GapLine: () => import('../../components/GapLine.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
   }
 })
 export default class Mail extends Vue {

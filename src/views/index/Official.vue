@@ -23,12 +23,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { SwiperBgColor } from '../util/types'
+import { SwiperBgColor } from '../../util/types'
 
 @Component({
   components: {
-    GapLine: () => import('../components/GapLine.vue'),
-    SectionItem: () => import('../components/SectionItem.vue'),
+    GapLine: () => import('../../components/GapLine.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
     'mt-swipe': () => import('mint-ui/lib/swipe'),
     'mt-swipe-item': () => import('mint-ui/lib/swipe-item'),
   }

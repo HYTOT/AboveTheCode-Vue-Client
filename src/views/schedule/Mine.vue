@@ -18,9 +18,9 @@ import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
   components: {
-    Header: () => import('../components/Header.vue'),
-    GapLine: () => import('../components/GapLine.vue'),
-    SectionItem: () => import('../components/SectionItem.vue'),
+    Header: () => import('../../components/Header.vue'),
+    GapLine: () => import('../../components/GapLine.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
   }
 })
 export default class Mine extends Vue {

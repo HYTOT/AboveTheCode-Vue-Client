@@ -60,7 +60,7 @@ export default class Login extends Vue {
   // 发送请求检验登录
   private checkLogin(username:string, password:string):void {
     Indicator.close()
-    if (username === 'bobo' && password === '123') {
+    if (username === 'JavaScript' && password === '123') {
       localStorage.setItem('code-login', '666666')
       this.$router.push('/schedule')
       Toast('欢迎回来，张三')
@@ -80,11 +80,11 @@ export default class Login extends Vue {
 
   // 监听表单输入，清空错误提示
   @Watch('model.username')
-  private refreshUsername() {
+  private refreshUsername():void {
     this.error.username = ''
   }
   @Watch('model.password')
-  private refreshPassword() {
+  private refreshPassword():void {
     this.error.password = ''
   }
 

@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
-import { HTMLInputEvent } from '../util/types'
+import { HTMLInputEvent } from '../../util/types'
 
 @Component({
   components: {

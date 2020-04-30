@@ -24,8 +24,8 @@
       @choseDay="choseDay"/>
     <section class="future-schedule">
       <div class="future-title"><h1>未来日程</h1></div>
-      <SectionItem v-for="i in 20" :key="i"
-        :title="`待办事项${i}`"
+      <SectionItem v-for="i in 31" :key="i"
+        title="敲代码"
         :title2="`2020/5/${i}`"/>
     </section>
   </div>

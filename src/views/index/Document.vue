@@ -65,7 +65,7 @@ export default class Document extends Vue {
     reader.readAsDataURL(file)
     reader.onload = () => {
       setTimeout(() => {
-        this.$store.dispatch('setFileBuffer', [reader.result, file.name])
+        this.$store.dispatch('setFileBuffer', [file, reader.result, file.name])
         Indicator.close()
         Toast({
           message: '文件上传成功',
@@ -81,7 +81,8 @@ export default class Document extends Vue {
       Indicator.open()
       this.renderInput = false
       setTimeout(() => {
-        this.$store.dispatch('setFileBuffer', ['', ''])
+        // 清空 vuex 的缓存文件对象
+        this.$store.dispatch('setFileBuffer', [{}, '', ''])
         this.renderInput = true
         Indicator.close()
         Toast({

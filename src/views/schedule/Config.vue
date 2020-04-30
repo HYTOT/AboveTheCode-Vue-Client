@@ -29,7 +29,7 @@ export default class Config extends Vue {
       // 退登重新初始化 vuex，清除登录 storage 值
       this.$store.dispatch('setMailCount', 0)
       this.$store.dispatch('setPageLoadState', true)
-      this.$store.dispatch('setFileBuffer', ['', ''])
+      this.$store.dispatch('setFileBuffer', [{}, '', ''])
       localStorage.removeItem('code-login')
       this.$router.push('/login')
     }).catch(() => {})

@@ -4,6 +4,7 @@
       <li
         v-for="item in navBarList"
         :key="item.id"
+        :style="{ background: theme }"
         :class="{'active': $route.path === item.path}"
         @click="($route.path !== item.path) && $router.push(item.path)">
         <i class="iconfont" :class="item.icon"></i>
@@ -28,6 +29,10 @@ export default class NavBar extends Vue {
   // 获取页面高度
   private get getHeight():string {
     return `${window.innerHeight || document.body.clientHeight}px`
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
 }

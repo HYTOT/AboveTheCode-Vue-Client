@@ -1,10 +1,10 @@
 <template>
   <div class="document">
     <form action="post" class="upload-form">
-      <div class="upload-btn">
+      <div class="upload-btn" :style="{ border: borderTheme }">
         <input type="file" accept="application/pdf"
           @change="getFile" v-if="renderInput">
-        <i class="iconfont icon-upload"></i>
+        <i class="iconfont icon-upload" :style="{ color: theme }"></i>
       </div>
       <div class="pdf-container">
         <div class="pdf-box" v-if="fileBuffer"
@@ -103,6 +103,16 @@ export default class Document extends Vue {
     return name.length > limit
       ? name.slice(0, limit).concat('...')
       : name
+  }
+  // 边框颜色主题
+  private get borderTheme():string {
+    return localStorage.getItem('code-theme')
+      ? `.5vw dotted ${localStorage.getItem('code-theme')}`
+      : ''
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
 }

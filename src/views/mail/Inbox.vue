@@ -3,10 +3,10 @@
     <Header title="收件箱" :back="true"/>
     <section class="inbox-unread" v-if="mailsUnread.length">
       <div class="unread-title">
-        <h1>未读邮件（共{{ mailCount }}封）</h1>
+        <h1 :style="{ color: theme }">未读邮件（共{{ mailCount }}封）</h1>
       </div>
       <SectionItem title2="全部设为已读"
-        iconUrl="icon-success" iconColor="#294E80"/>
+        iconUrl="icon-success" :iconColor="theme"/>
       <SectionItem v-for="(mail, i) in mailsUnread" :key="i"
         :title="mail.fromuser.name" :title2="mail.title"
         @tapItem="$router.push({
@@ -14,12 +14,12 @@
           params: { mail },
         })"/>
       <SectionItem title2="查看更多未读邮件"
-        iconUrl="icon-gengduo" iconColor="#294E80"
+        iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreUnread"/>
     </section>
     <section class="inbox-isread" v-if="mailsIsread.length">
       <div class="isread-title">
-        <h1>已读邮件</h1>
+        <h1 :style="{ color: theme }">已读邮件</h1>
       </div>
       <SectionItem v-for="(mail, i) in mailsIsread" :key="i"
         :title="mail.fromuser.name" :title2="mail.title"
@@ -28,7 +28,7 @@
           params: { mail },
         })"/>
       <SectionItem title2="查看更多已读邮件"
-        iconUrl="icon-gengduo" iconColor="#294E80"
+        iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreIsread"/>
     </section>
   </div>
@@ -67,6 +67,10 @@ export default class Inbox extends Vue {
   // 未读邮件数量
   private get mailCount():string {
     return this.$store.getters.getRealMailCount
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
   private async created():Promise<void> {

@@ -5,7 +5,7 @@
         <router-view class="view"/>
       </keep-alive>
     </transition>
-    <NavBar :navBarList="navBarList"/>
+    <NavBar :navBarList="NAV_BAR_LIST"/>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default class Index extends Vue {
   // 用于表示路由组件过渡动画的方向
   private transitionName:string = ''
   // 导航栏列表
-  private readonly navBarList:Array<NavBarItem> = [
+  private readonly NAV_BAR_LIST:Array<NavBarItem> = [
     {id: 1, title: '日程', path: '/schedule', icon: 'icon-calendar-alt'},
     {id: 2, title: '文档', path: '/document', icon: 'icon-folder-open'},
     {id: 3, title: '公文', path: '/official', icon: 'icon-news'},

@@ -1,5 +1,5 @@
 <template>
-  <div class="header-component">
+  <div class="header-component" :style="{ background: theme }">
     <span class="back" v-if="back" @click="$router.go(-1)">
       <i class="iconfont icon-angle-right"></i>
     </span>
@@ -13,8 +13,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class Header extends Vue {
 
-  @Prop(String) title?:string;
-  @Prop(Boolean) back?:boolean;
+  @Prop(String) title?:string
+  @Prop(Boolean) back?:boolean
+
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
+  }
 
 }
 </script>

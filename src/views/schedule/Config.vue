@@ -4,6 +4,8 @@
     <GapLine/>
     <SectionItem title="我的信息" @tapItem="$router.push('/schedule/config/mine')"/>
     <GapLine/>
+    <SectionItem title="通用" @tapItem="$router.push('/schedule/config/general')"/>
+    <GapLine/>
     <SectionItem title="关于码上" title2="v0.0.0"/>
     <GapLine/>
     <button class="logout" @click="logout">退出登录</button>

@@ -1,6 +1,6 @@
 <template>
   <article class="official-item" v-if="item">
-    <h3 class="item-user">
+    <h3 class="item-user" :style="{ color: theme }">
       <span>{{ item.createUser.depart.departName }}主管</span>
       <span>{{ item.createUser.name }}</span>
       <i class="iconfont" :class="gender" :style="{
@@ -11,7 +11,7 @@
     <section @click="$emit('readContent', item.content)" class="item-content">{{ item.content }}</section>
     <div class="bottom">
       <time class="publish-time">{{ item.documentTime }}</time>
-      <i>··</i>
+      <i :style="{ color: theme }">··</i>
     </div>
   </article>
 </template>
@@ -28,6 +28,10 @@ export default class OfficialItem extends Vue {
 
   private get gender():string {
     return !this.item.createUser.sex ? 'icon-gender-male' : 'icon-gender-female'
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
 }

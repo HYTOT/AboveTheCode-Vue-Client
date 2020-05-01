@@ -2,28 +2,35 @@
   <div class="schedule">
     <div class="background-block" :class="{showOperations}" @click="showOperations=false">
       <section class="operations-block" @click.stop>
-        <div class="greeting">
+        <div class="greeting" :style="{ color: theme }">
           <span>{{ greet }}，</span><span>张三</span>
         </div>
         <SectionItem iconUrl="icon-qrcode" iconColor="green"
           @tapItem="$router.push('/schedule/config/mine/qrcode')" title="我的名片"/>
-        <SectionItem iconUrl="icon-cog" iconColor="#294E80"
+        <SectionItem iconUrl="icon-cog" iconColor="#666"
           @tapItem="$router.push('/schedule/config')" title="设置"/>
       </section>
     </div>
-    <header class="account-operations">
+    <header class="account-operations" :style="{ background: theme }">
       <i @click="showOperations=true" class="iconfont icon-wuxupailie"></i>
       <div class="header-right">
-        <div class="searchBox"
+        <div class="searchBox" :style="{ color: theme }"
           @click="$router.push('/schedule/search')">
-          <i class="iconfont icon-sousuo"></i>搜索日程记录
+          <i class="iconfont icon-sousuo" :style="{ color: theme }"></i>搜索日程记录
         </div>
       </div>
     </header>
     <Calendar :textTop="weekLabels" :sundayStart="true"
-      @choseDay="choseDay"/>
+      @choseDay="choseDay" :class="{
+        'green': theme === THEME_MAPPER.green,
+        'pink': theme === THEME_MAPPER.pink,
+        'brown': theme === THEME_MAPPER.brown,
+        'black': theme === THEME_MAPPER.black,
+      }"/>
     <section class="future-schedule">
-      <div class="future-title"><h1>未来日程</h1></div>
+      <div class="future-title">
+        <h1 :style="{ color: theme }">未来日程</h1>
+      </div>
       <SectionItem v-for="i in 31" :key="i"
         title="敲代码"
         :title2="`2020/5/${i}`"/>
@@ -45,6 +52,12 @@ export default class Schedule extends Vue {
 
   private showOperations:boolean = false
   private weekLabels:Array<string> = ['日','一','二','三','四','五','六']
+  private readonly THEME_MAPPER:Object = {
+    'green': '#27ae60',
+    'pink': '#fd79a8',
+    'brown': '#b33939',
+    'black': '#1e272e',
+  }
 
   // 日历组件点击某天
   private choseDay(day:string):void {
@@ -68,6 +81,10 @@ export default class Schedule extends Vue {
     } else {
       return Greet.EVENING
     }
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
 }
@@ -149,12 +166,12 @@ export default class Schedule extends Vue {
         flex-direction: column;
         justify-content: center;
         padding: 6vw 0;
+        color: $typescript-color;
         span {
           flex: 1;
           display: flex;
           align-items: center;
           margin: 0 5vw;
-          color: $typescript-color;
           &:nth-child(1) {
             font-size: 5vw;
           }
@@ -209,7 +226,7 @@ export default class Schedule extends Vue {
   .wh_content_all {
     width: 100vw;
     min-height: 100vw;
-    background: linear-gradient(to bottom, $typescript-color, rgb(98, 133, 180));
+    background: linear-gradient(to bottom, $typescript-color, rgba($typescript-color, .7));
     .wh_item_date{
       transition: all .3s;
       &.wh_chose_day {
@@ -223,6 +240,66 @@ export default class Schedule extends Vue {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-evenly;
+    }
+  }
+}
+
+/deep/ .green {
+  .wh_content_all {
+    background: linear-gradient(to bottom, #27ae60, rgba(#27ae60, .7));
+    .wh_item_date{
+      transition: all .3s;
+      &.wh_chose_day {
+        background: gray;
+      }
+      &.wh_isToday {
+        background: green;
+      }
+    }
+  }
+}
+
+/deep/ .pink {
+  .wh_content_all {
+    background: linear-gradient(to bottom, #fd79a8, rgba(#fd79a8, .7));
+    .wh_item_date{
+      transition: all .3s;
+      &.wh_chose_day {
+        background: gray;
+      }
+      &.wh_isToday {
+        background: #e84393;
+      }
+    }
+  }
+}
+
+/deep/ .brown {
+  .wh_content_all {
+    background: linear-gradient(to bottom, #b33939, rgba(#b33939, .7));
+    .wh_item_date{
+      transition: all .3s;
+      &.wh_chose_day {
+        background: gray;
+      }
+      &.wh_isToday {
+        background: brown;
+      }
+    }
+  }
+}
+
+/deep/ .black {
+  .wh_content_all {
+    background: linear-gradient(to bottom, #1e272e, rgba(#1e272e, .7));
+    .wh_item_date{
+      transition: all .3s;
+      &.wh_chose_day {
+        background: gray;
+      }
+      &.wh_isToday {
+        background: black;
+      }
     }
   }
 }

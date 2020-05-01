@@ -94,11 +94,29 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/schedule/config/general',
+    name: 'General',
+    component: () => import(/* webpackChunkName: "general" */ '../views/schedule/General.vue'),
+    meta: {
+      index: 10.2,
+      title: '码上OA-通用',
+    }
+  },
+  {
+    path: '/schedule/config/general/theme',
+    name: 'Theme',
+    component: () => import(/* webpackChunkName: "theme" */ '../views/schedule/Theme.vue'),
+    meta: {
+      index: 10.21,
+      title: '码上OA-颜色主题',
+    }
+  },
+  {
     path: '/schedule/config/mine/qrcode',
     name: 'QR',
     component: () => import(/* webpackChunkName: "qrcode" */ '../views/schedule/QR.vue'),
     meta: {
-      index: 10.2,
+      index: 10.7,
       title: '码上OA-我的名片',
     }
   },

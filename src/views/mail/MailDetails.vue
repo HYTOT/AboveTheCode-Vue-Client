@@ -16,7 +16,7 @@
     </article>
     <div class="background-block" :class="{showOperations}" @click="showOperations=false">
       <section class="operations-block" @click.stop>
-        <div class="more-operations">
+        <div class="more-operations" :style="{ color: theme }">
           <span>更多选项：</span>
         </div>
         <SectionItem iconUrl="icon-delete" iconColor="red"
@@ -42,7 +42,7 @@ export default class MailDetails extends Vue {
   // 一封邮件对象
   private mail:any = null
   private showOperations:boolean = false
-  private readonly allowUrls:Array<string> = ['/mail/inbox', '/mail/sentout']
+  private readonly ALLOW_URL:Array<string> = ['/mail/inbox', '/mail/sentout']
 
   // 删除此邮件
   private deleteMail():void {
@@ -66,11 +66,15 @@ export default class MailDetails extends Vue {
     return `${this.mail.fromuser.depart.departName}
       ${this.mail.fromuser.name}`
   }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
+  }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
     next((vm:MailDetails) => {
       // 路由 url 白名单
-      if (!vm.allowUrls.includes(from.path)) {
+      if (!vm.ALLOW_URL.includes(from.path)) {
         vm.$router.push('/mail')
         return
       }
@@ -197,12 +201,12 @@ export default class MailDetails extends Vue {
         flex-direction: column;
         justify-content: center;
         padding: 6vw 0;
+        color: $typescript-color;
         span {
           flex: 1;
           display: flex;
           align-items: center;
           margin: 0 5vw;
-          color: $typescript-color;
           font: {
             size: 6.5vw;
             weight: bold;

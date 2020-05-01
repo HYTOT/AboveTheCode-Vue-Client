@@ -1,9 +1,9 @@
 <template>
-  <div class="qr-code">
+  <div class="qr-code" :style="{ background: bgTheme }">
     <Header title="我的名片" :back="true"/>
     <section class="qr-box">
       <div class="qr-container">
-        <h3 class="name">
+        <h3 class="name" :style="{ color: theme }">
           <span>{{ department }}</span>
           <span>{{ name }}</span>
           <i class="iconfont" :class="gender" :style="{
@@ -47,7 +47,16 @@ export default class QR extends Vue {
   private get gender():string {
     return this.male ? 'icon-gender-male' : 'icon-gender-female'
   }
-  
+  // 颜色主题（背景）
+  private get bgTheme():string {
+    return localStorage.getItem('code-theme')
+      ? `linear-gradient(to bottom, ${localStorage.getItem('code-theme')}, #dedede)`
+      : ''
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
+  }
 
 }
 </script>

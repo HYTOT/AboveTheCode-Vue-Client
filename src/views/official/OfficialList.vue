@@ -2,10 +2,11 @@
   <div class="official-list">
     <i class="iconfont icon-long-arrow-up"
       :class="{'show': searchPadding >= 14}"
+      :style="{ background: theme, boxShadow: shadowTheme }"
       @click="toTop"></i>
     <i class="iconfont icon-icon_addmessage"></i>
     <Header title="公文列表" :back="true"/>
-    <div class="official-search">
+    <div class="official-search" :style="{ background: theme }">
       <input v-model.trim="searchValue" placeholder="输入关键词筛选" class="searchInput">
       <div class="padding-box" :style="{width: `${searchPadding}vw`}"></div>
     </div>
@@ -86,6 +87,17 @@ export default class OfficialList extends Vue {
   }
   private readContent(content:string):void {
     this.clickedContent = content
+  }
+
+  // 阴影主题
+  private get shadowTheme():string {
+    return localStorage.getItem('code-theme')
+      ? `0 0 2vw ${localStorage.getItem('code-theme')}`
+      : ''
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
   @Watch('searchValue')

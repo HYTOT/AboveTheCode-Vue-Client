@@ -6,9 +6,11 @@
       @loaded="loaded($event)"/>
     <div class="page-btn" v-if="loaded">
       <button @click="prePage"
+        :style="{ background: theme }"
         v-show="this.pdf.page > 1">&lt;</button>
         <div class="flex-box"></div>
       <button @click="nextPage"
+        :style="{ background: theme }"
         v-show="this.pdf.page < this.pdf.total">&gt;</button>
     </div>
   </div>
@@ -61,6 +63,10 @@ export default class PDF extends Vue {
     return name.length > limit
       ? name.slice(0, limit).concat('....pdf')
       : name.concat('.pdf')
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || ''
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

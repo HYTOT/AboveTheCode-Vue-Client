@@ -38,13 +38,13 @@ const inboxList:Function = ():Array<any> => {
         }
       },
       "touser": {
-        "uid": "@guid",
-        "sex|1": [0, 1],
-        "name": "@cname",
-        "email": "@email",
-        "worktime": "@datetime",
+        "uid": "8363BCB85F064430A1A41D05CD1B5342",
+        "sex": 1,
+        "name": "张三",
+        "email": "3123321@163.com",
+        "worktime": "2017-08-22 00:00:00",
         "depart": {
-          "departName|1": ["人力资源部", "IT部", "财务部"],
+          "departName": "IT部",
         }
       },
       "ifread|1": [1, 2],

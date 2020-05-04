@@ -8,6 +8,7 @@
         <span class="more" @click="showOperations=true">
           <i class="iconfont icon-wuxupailie"></i>
         </span>
+        <p class="mail-touser">{{ toUser }}</p>
         <h1 class="mail-title">{{ mail.title }}</h1>
         <section class="mail-content">{{ mail.content }}</section>
         <p class="mail-fromuser">{{ fromUser }}</p>
@@ -61,7 +62,11 @@ export default class MailDetails extends Vue {
     }).catch(() => {})
   }
 
-  // 格式化邮件署名
+  // 格式化邮件收件人署名
+  private get toUser():string {
+    return `${this.mail.touser.name}${this.mail.touser.sex===0?'先生':'女士'}，您好：`
+  }
+  // 格式化邮件发件人署名
   private get fromUser():string {
     return `${this.mail.fromuser.depart.departName}
       ${this.mail.fromuser.name}`
@@ -132,10 +137,21 @@ export default class MailDetails extends Vue {
           font-size: 5vh;
         }
       }
+      .mail-touser {
+        width: 60vw;
+        position: fixed;
+        top: 11vh;
+        left: 20vw;
+        font: {
+          size: 2.5vh;
+          weight: bold;
+        }
+        color: #333;
+      }
       .mail-title {
         margin: 10vh auto 5vh;
-        max-width: 70vw;
-        font-size: 3.5vh;
+        max-width: 60vw;
+        font-size: 3.3vh;
         white-space: nowrap;
         color: #333;
         overflow-x: scroll;
@@ -155,11 +171,11 @@ export default class MailDetails extends Vue {
       .mail-fromuser {
         width: 80vw;
         position: fixed;
-        top: 82vh;
+        top: 83vh;
         left: 10vw;
         text-align: right;
         font: {
-          size: 3vh;
+          size: 2.5vh;
           weight: bold;
         }
         color: #333;

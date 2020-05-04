@@ -1,10 +1,16 @@
 import axios from 'axios'
 import { mockMapper } from './mock/mockMapper'
 import { Indicator } from 'mint-ui'
+import $store from '../store/index'
 
 axios.interceptors.request
 .use(config => {
   Indicator.open()
+  // 请求携带 token
+  config.headers['Access-Token'] = (
+    $store.getters.getLoginState
+    && $store.getters.getLoginState.token
+  ) || localStorage.getItem('code-login')
   return config
 }, err => {
   return Promise.reject(err)

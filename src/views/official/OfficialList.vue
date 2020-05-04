@@ -1,7 +1,7 @@
 <template>
   <div class="official-list">
     <i class="iconfont icon-long-arrow-up"
-      :class="{'show': searchPadding >= 14}"
+      :class="{'show': searchPadding >= 16}"
       :style="{ background: theme, boxShadow: shadowTheme }"
       @click="toTop"></i>
     <i class="iconfont icon-icon_addmessage"></i>
@@ -113,7 +113,7 @@ export default class OfficialList extends Vue {
           || document.documentElement.scrollTop
           || document.body.scrollTop || 0)
           / document.body.clientWidth * 150
-        this.searchPadding = padding <= 14 ? padding : 14
+        this.searchPadding = padding <= 16 ? padding : 16
         this.clickedContent = ''
       }
     })

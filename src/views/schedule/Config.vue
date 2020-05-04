@@ -4,6 +4,8 @@
     <GapLine/>
     <SectionItem title="我的信息" @tapItem="$router.push('/schedule/config/mine')"/>
     <GapLine/>
+    <SectionItem title="安全中心" title2="已保护"/>
+    <GapLine/>
     <SectionItem title="通用" @tapItem="$router.push('/schedule/config/general')"/>
     <GapLine/>
     <SectionItem title="关于码上" title2="v0.0.0"/>
@@ -32,6 +34,7 @@ export default class Config extends Vue {
       this.$store.dispatch('setMailCount', 0)
       this.$store.dispatch('setPageLoadState', true)
       this.$store.dispatch('setFileBuffer', [{}, '', ''])
+      localStorage.removeItem('code-theme')
       localStorage.removeItem('code-login')
       this.$router.push('/login')
     }).catch(() => {})

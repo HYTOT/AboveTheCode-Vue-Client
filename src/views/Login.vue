@@ -5,8 +5,13 @@
     </header>
     <InputGroup v-model="model.username" placeholder="登录账号" :error="error.username"/>
     <InputGroup v-model="model.password" placeholder="登录密码" :error="error.password" type="password"/>
-    <button @click="loginHandler" class="login-btn">登录</button>
-    <button @click="$router.push('/register')" class="register-btn">注册</button>
+    <slide-verify v-if="!validated" :l="40" :r="10"
+      :w="getWidth * 0.7" :h="getWidth * 0.35"
+      slider-text="向右滑动" @success="validateSuccess"/>
+    <button v-else @click="loginHandler" class="login-btn">登录</button>
+    <button @click="$router.push('/register')" class="register-btn">
+      <i class="iconfont icon-zhuce"></i>
+    </button>
     <div class="copyright">
       <p>Developed By HeY, QiuJP, LiQX</p>
       <p>AboveTheCode©2020</p>
@@ -18,16 +23,21 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
 import { LoginForm } from '../util/types'
-import Util from '../util/util'
 import { Route } from 'vue-router'
+import Util from '../util/util'
+import SlideVerify from 'vue-monoplasty-slide-verify'
+
+Vue.use(SlideVerify)
 
 @Component({
   components: {
-    InputGroup: () => import('../components/InputGroup.vue')
+    InputGroup: () => import('../components/InputGroup.vue'),
   }
 })
 export default class Login extends Vue {
 
+  // 控制验证拼图显示
+  private validated:boolean = false
   // 登录表单双向绑定属性
   private model:LoginForm = {
     username: '',
@@ -39,6 +49,16 @@ export default class Login extends Vue {
     password: '',
   }
 
+  // 验证通过
+  private validateSuccess():void {
+    Toast({
+      message: '验证通过',
+      duration: 1000,
+    })
+    setTimeout(() => {
+      this.validated = true
+    }, 1000)
+  }
   // 登录表单校验
   private loginHandler():void {
     if (!this.model.username || !this.model.password) {
@@ -60,10 +80,12 @@ export default class Login extends Vue {
   // 发送请求检验登录
   private checkLogin(username:string, password:string):void {
     Indicator.close()
-    if (username === 'JavaScript' && password === '123') {
-      localStorage.setItem('code-login', '666666')
+    if (username === 'sam' && password === '123456') {
+      const user = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
+      localStorage.setItem('code-login', user.token)
+      this.$store.dispatch('saveUserLoginState', user)
       this.$router.push('/schedule')
-      Toast('欢迎回来，张三')
+      Toast(`欢迎回来，${this.$store.getters.getLoginState.user.name}`)
     } else {
       Toast({
         message: '用户名或密码错误',
@@ -73,6 +95,10 @@ export default class Login extends Vue {
     }
   }
 
+  // 获取页面宽度
+  private get getWidth():string {
+    return `${window.innerWidth || document.body.clientWidth}`
+  }
   // 获取页面高度，防止输入法影响样式
   private get getHeight():string {
     return `${window.innerHeight || document.body.clientHeight}px`
@@ -89,11 +115,11 @@ export default class Login extends Vue {
   }
 
   private beforeRouteLeave(to:Route, from:Route, next:Function):void {
-    this.model.username = '';
-    this.model.password = '';
-    this.error.username = '';
-    this.error.password = '';
-    next();
+    this.model.username = ''
+    this.model.password = ''
+    this.error.username = ''
+    this.error.password = ''
+    next()
   }
 
 }
@@ -102,6 +128,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 .login {
   width: 100vw;
+  overflow: hidden;
   background: #dedede;
   display: flex;
   flex-direction: column;
@@ -126,7 +153,19 @@ export default class Login extends Vue {
       transform: translateY(20vw);
     }
   }
-  .login-btn, .register-btn {
+  #slideVerify {
+    &.slide-verify {
+      width: 70vw;
+      /deep/ .slide-verify-slider {
+        width: 70vw;
+        margin-top: 0;
+        .slide-verify-slider-mask-item {
+          @extend .flexCenter;
+        }
+      }
+    }
+  }
+  .login-btn {
     font-size: 4.5vw;
     width: 70vw;
     height: 12vw;
@@ -145,14 +184,24 @@ export default class Login extends Vue {
     }
   }
   .register-btn {
-    background: royalblue;
+    width: 6vw;
+    height: 6vw;
+    color: royalblue;
+    border: none;
+    outline: none;
+    position: fixed;
+    top: 3vh;
+    left: 88vw;
+    .icon-zhuce {
+      font-size: 6vw;
+    }
   }
   .copyright {
     @extend .flexCenter;
     flex-direction: column;
-    font-size: 3.5vw;
+    font-size: 3vw;
     position: sticky;
-    top: 90vh;
+    top: 92vh;
     color: #7f8c8d;
     p {
       margin: .5vw;

@@ -2,8 +2,10 @@
   <div class="schedule">
     <div class="background-block" :class="{showOperations}" @click="showOperations=false">
       <section class="operations-block" @click.stop>
-        <div class="greeting" :style="{ color: theme }">
-          <span>{{ greet }}，</span><span>张三</span>
+        <div class="greeting" :style="{ color: theme }"
+          v-if="$store.getters.getLoginState">
+          <span>{{ greet }}，</span>
+          <span>{{ $store.getters.getLoginState.user.name }}</span>
         </div>
         <SectionItem iconUrl="icon-qrcode" iconColor="green"
           @tapItem="$router.push('/schedule/config/mine/qrcode')" title="我的名片"/>

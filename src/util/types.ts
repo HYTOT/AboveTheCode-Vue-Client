@@ -1,25 +1,30 @@
 export interface LoginForm {
-  username:string;
-  password:string;
+  username:string
+  password:string
 }
 
 export interface NavBarItem {
-  id:number;
-  title:string;
-  path:string;
-  icon:string;
-  hotText?:boolean;
+  id:number
+  title:string
+  path:string
+  icon:string
+  hotText?:boolean
+}
+
+export interface ThemeConfig {
+  title:string
+  color:string
 }
 
 export interface PDF_File {
-  src:string;
-  page:number;
-  total:number;
-  loaded:boolean;
+  src:string
+  page:number
+  total:number
+  loaded:boolean
 }
 
 export interface HTMLInputEvent extends Event {
-  target: HTMLInputElement & EventTarget;
+  target: HTMLInputElement & EventTarget
 }
 
 export enum Greet {

@@ -1,14 +1,24 @@
 <template>
   <div class="management">
-    系统管理（管理员身份）
+    <h1>系统管理（管理员）</h1>
+    <h1>敬请期待</h1>
+    <input type="text" placeholder="防XSS" v-model="v">
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import Util from '../../util/util'
 
 @Component
 export default class Management extends Vue {
+
+  v:string = ''
+
+  @Watch('v')
+  value(v:string) {
+    console.log(Util.htmlToEscape(v))
+  }
 
 }
 </script>

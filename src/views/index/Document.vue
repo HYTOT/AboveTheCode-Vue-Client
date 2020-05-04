@@ -47,7 +47,7 @@ export default class Document extends Vue {
       { '日期': '3月', '访问用户': 3792, '好评用户': 3492 },
       { '日期': '4月', '访问用户': 5830, '好评用户': 5530 },
       { '日期': '5月', '访问用户': 7593, '好评用户': 7293 },
-    ]
+    ],
   }
 
   private getFile(e:HTMLInputEvent):void {

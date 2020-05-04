@@ -4,11 +4,15 @@
     <GapLine/>
     <SectionItem title="颜色主题" :title2="THEME_NAME[currentTheme]"
       @tapItem="$router.push('/schedule/config/general/theme')"/>
+    <GapLine/>
+    <SectionItem title="邮件提示" :title2="mailCountTitle"
+      @tapItem="switchMailConfig"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { Toast, MessageBox } from 'mint-ui'
 
 @Component({
   components: {
@@ -27,9 +31,23 @@ export default class General extends Vue {
     '#1e272e': '炫酷黑',
   }
 
+  private switchMailConfig():void {
+    MessageBox.confirm(`您确定要${this.$store.getters.isAllowMailCount ?'禁用':'开启'}未读邮件提示吗？`)
+    .then((action:any) => {
+      Toast({
+        message: `邮件提示功能已${this.$store.getters.isAllowMailCount ?'禁用':'开启'}`,
+        duration: 1000,
+      })
+      this.$store.dispatch('allowMailCount', !this.$store.getters.isAllowMailCount)
+    }).catch(() => {})
+  }
+
   private get currentTheme():string {
     return localStorage.getItem('code-theme') || '#294E80'
-  } 
+  }
+  private get mailCountTitle():string {
+    return `已${!this.$store.getters.isAllowMailCount ?'禁用':'开启'}`
+  }
 
 }
 </script>

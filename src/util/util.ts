@@ -20,4 +20,15 @@ export default class Util {
     return num % 2 === 0;
   }
 
+  public static readonly htmlToEscape = (str:string):string => {
+    return str.replace(/[<>&"]/g, (c:string):string => tagMapper[c])
+  }
+
+}
+
+const tagMapper:{ [index: string]:string } = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '&': '&amp;',
+  '"': '&quot;',
 }

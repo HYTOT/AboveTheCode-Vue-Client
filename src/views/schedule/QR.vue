@@ -4,14 +4,15 @@
     <section class="qr-box">
       <div class="qr-container">
         <h3 class="name" :style="{ color: theme }">
-          <span>{{ department }}</span>
-          <span>{{ name }}</span>
+          <span>{{ user.depart.departname }}</span>
+          <span>{{ user.name }}</span>
           <i class="iconfont" :class="gender" :style="{
-            color: male ? '#6698cb' : '#fa5a5a'
+            color: user.sex === 0 ? '#6698cb' : '#fa5a5a'
           }"></i>
         </h3>
-        <vue-qr :text="name" :qid="userId" :margin="0"
-          :callback="qrCallback"></vue-qr>
+        <vue-qr :text="`${user.depart.departname}-${user.name}`"
+          :qid="user.uid" :margin="0"
+          :callback="qrCallback"/>
       </div>
     </section>
   </div>
@@ -19,6 +20,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { Indicator } from 'mint-ui'
 
 @Component({
   components: {
@@ -28,13 +30,11 @@ import { Vue, Component } from 'vue-property-decorator'
 })
 export default class QR extends Vue {
 
-  private department:string = 'IT部'
-  private name:string = '张三'
-  private userId:string = '123'
-  private male:boolean = !true
+  private user:any = this.$store.getters.getLoginState.user
 
   // 二维码加载回调
   private qrCallback(url:string, id:string):void {
+    Indicator.close()
     /**
      * url: Base 64格式
      * id: userId
@@ -45,7 +45,7 @@ export default class QR extends Vue {
 
   // 判断性别展示图标
   private get gender():string {
-    return this.male ? 'icon-gender-male' : 'icon-gender-female'
+    return this.user.sex === 0 ? 'icon-gender-male' : 'icon-gender-female'
   }
   // 颜色主题（背景）
   private get bgTheme():string {
@@ -56,6 +56,10 @@ export default class QR extends Vue {
   // 颜色主题
   private get theme():string {
     return localStorage.getItem('code-theme') || ''
+  }
+
+  private created():void {
+    Indicator.open()
   }
 
 }

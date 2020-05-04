@@ -27,13 +27,9 @@ export default class App extends Vue {
   }
 
   private created():void {
-    // 监听 storage 值变化
-    window.addEventListener('storage', () => {
-      if (localStorage.getItem('code-login') !== '666666') {
-        localStorage.removeItem('code-login')
-        window.location.reload()
-      }
-    })
+    // 初始化，根据 token 判断登录状态，未失效则存到 vuex
+    const user = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
+    this.$store.dispatch('saveUserLoginState', user)
   }
 
 }
@@ -50,6 +46,7 @@ export default class App extends Vue {
       &::after {
         content: '请在手机端浏览';
         position: fixed;
+        z-index: 1001;
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -89,7 +86,7 @@ export default class App extends Vue {
         position: fixed;
         top: -10vh;
         left: 0;
-        z-index: 10;
+        z-index: 1001;
         width: 100vw;
         height: 120vh;
         background: #dedede;

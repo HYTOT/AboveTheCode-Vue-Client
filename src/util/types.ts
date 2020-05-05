@@ -27,6 +27,10 @@ export interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
 }
 
+export interface ManagementItem {
+  type:string
+}
+
 export enum Greet {
   MORNING = '上午好',
   AFTERNOON = '下午好',

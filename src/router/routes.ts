@@ -158,6 +158,15 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/official/self',
+    name: 'Self',
+    component: () => import(/* webpackChunkName: "self" */ '../views/official/Self.vue'),
+    meta: {
+      index: 12.5,
+      title: '码上OA-我的公文',
+    }
+  },
+  {
     path: '/mail/inbox',
     name: 'Inbox',
     component: () => import(/* webpackChunkName: "inbox" */ '../views/mail/Inbox.vue'),
@@ -191,6 +200,15 @@ export const routes:Array<RouteConfig> = [
     meta: {
       index: 13.8,
       title: '码上OA-邮件详情',
+    }
+  },
+  {
+    path: '/management/workspace',
+    name: 'Workspace',
+    component: () => import(/* webpackChunkName: "workspace" */ '../views/management/Workspace.vue'),
+    meta: {
+      index: 14,
+      title: '码上OA-后台管理',
     }
   },
   {

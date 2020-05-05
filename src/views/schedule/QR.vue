@@ -25,7 +25,7 @@ import { Indicator } from 'mint-ui'
 @Component({
   components: {
     Header: () => import('../../components/Header.vue'),
-    VueQr: () => import('vue-qr')
+    VueQr: () => import('vue-qr'),
   }
 })
 export default class QR extends Vue {

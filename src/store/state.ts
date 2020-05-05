@@ -9,5 +9,7 @@ export default {
   fileName: '',
   // 邮件红色气泡数量显示
   mailCount: 0,
-  mailCount_show: true
+  mailCount_show: true,
+  // 后台管理工作区
+  workspace: [],
 }

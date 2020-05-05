@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { Types } from './mutationTypes'
 import state from './state'
+import { Types } from './mutationTypes'
+import { ManagementItem } from '../util/types'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       return state.mailCount > 99 ? '99+' : `${state.mailCount}`
     },
     getRealMailCount: (state):string => `${state.mailCount}`,
+    getWorkspace: (state):Array<ManagementItem> => state.workspace,
   },
   mutations: {
     [Types.SAVE_USER_LOGIN_STATE]: (state, user:any):void => {
@@ -38,6 +40,12 @@ export default new Vuex.Store({
     [Types.ALLOW_MAIL_COUNT]: (state, flag:boolean):void => {
       state.mailCount_show = flag
     },
+    [Types.SET_ITEM_TO_WORKSPACE]: (state, [item, isPush]):void => {
+      isPush
+        ? !state.workspace.includes(item)
+          && state.workspace.push(item)
+        : state.workspace.splice(state.workspace.indexOf(item), 1)
+    },
   },
   actions: {
     saveUserLoginState: ({ commit }, user:any):void => {
@@ -54,6 +62,9 @@ export default new Vuex.Store({
     },
     allowMailCount: ({ commit }, flag:boolean):void => {
       commit(Types.ALLOW_MAIL_COUNT, flag)
+    },
+    setItemToWorkspace: ({ commit }, [item, isPush]):void => {
+      commit(Types.SET_ITEM_TO_WORKSPACE, [item, isPush])
     },
   }
 })

@@ -17,7 +17,7 @@
     <GapLine/>
     <SectionItem title="公文列表" @tapItem="$router.push('/official/list')"/>
     <GapLine/>
-    <SectionItem title="我的公文"/>
+    <SectionItem title="我的公文" @tapItem="$router.push('/official/self')"/>
   </div>
 </template>
 

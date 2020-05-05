@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const OptimizeCss = require('optimize-css-assets-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CompressionPlugin = require("compression-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
 
@@ -48,15 +47,6 @@ module.exports = {
           }
         }
       }),
-      new UglifyJsPlugin({
-        test: /\.js($|\?)/i,
-        sourceMap: false,
-        uglifyOptions: {
-          warnings: false,
-          parallel: true,
-          cache: true,
-        }
-      }),
       new CompressionPlugin({
         test: /\.js$|\.html$|\.css/i,
         minRatio: 0,
@@ -73,7 +63,7 @@ module.exports = {
     ] : [ ] // 开发环境不使用插件
   },
   css: {
-    extract: false, // 是否使用css分离插件 ExtractTextPlugin
+    extract: isProduction, // 是否使用css分离插件 ExtractTextPlugin
     sourceMap: false, // 开启 CSS source maps?
     // css预设器配置项
     loaderOptions: {

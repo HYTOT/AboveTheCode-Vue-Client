@@ -43,7 +43,7 @@ export default new Vuex.Store({
     [Types.SET_ITEM_TO_WORKSPACE]: (state, [item, isPush]):void => {
       isPush
         ? !state.workspace.includes(item)
-          && state.workspace.push(item)
+          && state.workspace.unshift(item)
         : state.workspace.splice(state.workspace.indexOf(item), 1)
     },
   },

@@ -1,7 +1,7 @@
 const webpack = require('webpack')
-const OptimizeCss = require('optimize-css-assets-webpack-plugin')
-const CompressionPlugin = require("compression-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
+const CompressionPlugin = require("compression-webpack-plugin")
+const OptimizeCss = require('optimize-css-assets-webpack-plugin')
 
 const isProduction = !true
 
@@ -59,7 +59,7 @@ module.exports = {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new TerserPlugin({
         parallel: 4
-      })
+      }),
     ] : [ ] // 开发环境不使用插件
   },
   css: {

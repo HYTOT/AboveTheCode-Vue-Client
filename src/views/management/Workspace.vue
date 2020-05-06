@@ -1,8 +1,10 @@
 <template>
   <div class="workspace">
+    <i class="iconfont icon-guanbi close-all-btn"
+      @click="closeAllItems"></i>
     <Header title="后台管理工作区" :back="true"/>
-    <WorkspaceItem v-for="(item, i) in workspace" :key="i"
-      :title="item" :closeable="true" @close="closeItem(item)"/>
+    <WorkspaceItem v-for="item in workspace" :key="item"
+      :title="item" @close="closeItem(item)"/>
   </div>
 </template>
 
@@ -21,10 +23,17 @@ import { Route } from 'vue-router'
 export default class Workspace extends Vue {
 
   private closeItem(item:ManagementItem):void {
-    MessageBox.confirm(`您确定要关闭“${item}管理”选项卡吗？请注意保存！`)
+    MessageBox.confirm(`您确定要关闭“${item}管理”选项卡吗？`, '请注意保存！')
     .then((action:any) => {
       this.$store.dispatch('setItemToWorkspace', [item, false])
       if (!this.workspace.length) this.$router.go(-1)
+    }).catch(() => {})
+  }
+  private closeAllItems():void {
+    MessageBox.confirm('您确定要关闭所有选项卡并退出吗？', '请注意保存！')
+    .then((action:any) => {
+      this.$store.dispatch('clearWorkspace')
+      this.$router.go(-1)
     }).catch(() => {})
   }
 
@@ -45,5 +54,21 @@ export default class Workspace extends Vue {
 <style lang="scss" scoped>
 .workspace {
   width: 100vw;
+  min-height: 100vh;
+  background: #ccc;
+  .close-all-btn {
+    @extend .flexCenter;
+    position: fixed;
+    top: 0;
+    left: 80vw;
+    width: 20vw;
+    height: 13vw;
+    z-index: 5;
+    color: white;
+    font: {
+      size: 4vw;
+      weight: bold;
+    }
+  }
 }
 </style>

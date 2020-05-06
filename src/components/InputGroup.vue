@@ -22,12 +22,16 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class InputGroup extends Vue {
 
-  private borderColor:string = '#95a5a6';
+  private borderColor:string = '#95a5a6'
 
-  @Prop(String) type!:string;
-  @Prop(String) value!:string;
-  @Prop(String) placeholder!:string;
-  @Prop(String) error!:string;
+  @Prop(String)
+  private type!:string
+  @Prop(String)
+  private value!:string
+  @Prop(String)
+  private placeholder!:string
+  @Prop(String)
+  private error!:string
 
 }
 </script>

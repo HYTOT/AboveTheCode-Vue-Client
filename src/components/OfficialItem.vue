@@ -22,7 +22,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class OfficialItem extends Vue {
 
-  @Prop(Object) private item?:any
+  @Prop(Object)
+  private item?:any
 
   private male:boolean = !this.item.createUser.sex
 

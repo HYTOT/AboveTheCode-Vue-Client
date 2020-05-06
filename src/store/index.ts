@@ -46,6 +46,9 @@ export default new Vuex.Store({
           && state.workspace.unshift(item)
         : state.workspace.splice(state.workspace.indexOf(item), 1)
     },
+    [Types.CLEAR_WORKSPACE]: (state):void => {
+      state.workspace.splice(0, state.workspace.length)
+    },
   },
   actions: {
     saveUserLoginState: ({ commit }, user:any):void => {
@@ -65,6 +68,9 @@ export default new Vuex.Store({
     },
     setItemToWorkspace: ({ commit }, [item, isPush]):void => {
       commit(Types.SET_ITEM_TO_WORKSPACE, [item, isPush])
+    },
+    clearWorkspace: ({ commit }):void => {
+      commit(Types.CLEAR_WORKSPACE)
     },
   }
 })

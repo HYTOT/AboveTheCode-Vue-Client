@@ -17,11 +17,16 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class SectionItem extends Vue {
 
-  @Prop(String) private iconUrl?:string
-  @Prop(String) private iconColor?:string
-  @Prop(String) private title?:string
-  @Prop(String) private title2?:string
-  @Prop(String) private hotText?:string
+  @Prop(String)
+  private iconUrl?:string
+  @Prop(String)
+  private iconColor?:string
+  @Prop(String)
+  private title?:string
+  @Prop(String)
+  private title2?:string
+  @Prop(String)
+  private hotText?:string
 
   private get showHotText():boolean {
     return this.hotText && this.$store.getters.getMailCount !== '0'

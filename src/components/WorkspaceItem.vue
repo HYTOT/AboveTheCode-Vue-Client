@@ -2,20 +2,39 @@
   <div class="workspace-item">
     <header class="workspace-item-title">
       <span>{{ title }}管理</span>
+      <i class="iconfont icon-angle-right" v-if="minimizable"
+        :class="{'hide': !min}" @click="min=!min"></i>
       <i class="iconfont icon-guanbi" v-if="closeable"
         @click="$emit('close')"></i>
     </header>
+    <section class="workspace-item-section"
+      :class="{'minimize': min}">
+      <BScroll ref="bscroll">
+        <h1 v-for="i in 30" :key="i"
+          style="text-align: center; line-height: 15vw;">{{ i }}</h1>
+      </BScroll>
+    </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component
+@Component({
+  components: {
+    BScroll: () => import('vue-bscroll'),
+  }
+})
 export default class WorkspaceItem extends Vue {
 
-  @Prop(String) title?:string
-  @Prop(Boolean) closeable?:boolean
+  @Prop(String)
+  private title?:string
+  @Prop({ type:Boolean, default:true })
+  private minimizable?:boolean
+  @Prop({ type:Boolean, default:true })
+  private closeable?:boolean
+
+  private min:boolean = false
 
 }
 </script>
@@ -23,10 +42,8 @@ export default class WorkspaceItem extends Vue {
 <style lang="scss" scoped>
 .workspace-item {
   width: 100vw;
-  overflow: {
-    x: hidden;
-    y: scroll;
-  }
+  background: #ccc;
+  overflow-x: hidden;
   padding-top: 2vw;
   .workspace-item-title {
     @extend .flexCenter;
@@ -37,16 +54,16 @@ export default class WorkspaceItem extends Vue {
     color: #333;
     border: $typescript-color;
     transform: scaleX(1.05);
+    overflow: hidden;
     border: {
       top-left-radius: 13vw;
       top-right-radius: 13vw;
     }
-    overflow: hidden;
     &::before {
       content: '';
       width: 5.5vw;
       height: 9.5vw;
-      background: #dedede;
+      background: #ccc;
       position: absolute;
       top: 0;
       left: 0;
@@ -59,7 +76,7 @@ export default class WorkspaceItem extends Vue {
       content: '';
       width: 5.5vw;
       height: 9.5vw;
-      background: #dedede;
+      background: #ccc;
       position: absolute;
       top: 0;
       left: 94.5vw;
@@ -68,15 +85,42 @@ export default class WorkspaceItem extends Vue {
       }
       transform: skewX(2deg);
     }
+    .icon-angle-right {
+      font: {
+        size: 4vw;
+      }
+      transition: all .3s;
+      transform: rotate(450deg);
+      position: absolute;
+      top: 2.5vw;
+      left: 75vw;
+      color: #333;
+      &.hide {
+        transform: rotate(-90deg);
+      }
+    }
     .icon-guanbi {
       font: {
-        size: 3vw;
+        size: 4vw;
         weight: bold;
       }
       position: absolute;
-      top: 4vw;
-      left: 88vw;
+      top: 2.5vw;
+      left: 86vw;
       color: #333;
+    }
+  }
+  .workspace-item-section {
+    width: 100vw;
+    height: 100vw;
+    overflow: {
+      x: hidden;
+      y: scroll;
+    }
+    background: #eee;
+    transition: all .3s;
+    &.minimize {
+      height: 0;
     }
   }
 }

@@ -13,8 +13,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class Header extends Vue {
 
-  @Prop(String) title?:string
-  @Prop(Boolean) back?:boolean
+  @Prop(String)
+  private title?:string
+  @Prop(Boolean)
+  private back?:boolean
 
   // 颜色主题
   private get theme():string {

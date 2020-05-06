@@ -20,11 +20,13 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { NavBarItem } from '../util/types'
 
 @Component
 export default class NavBar extends Vue {
 
-  @Prop(Array) navBarList?:Array<any>
+  @Prop(Array)
+  navBarList?:Array<NavBarItem>
 
   // 获取页面高度
   private get getHeight():string {

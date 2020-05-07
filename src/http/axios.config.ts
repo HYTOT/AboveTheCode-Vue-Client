@@ -29,7 +29,7 @@ axios.interceptors.response
   }, 300)
   return {
     // 响应信息错误则返回假数据
-    data: mockMapper[err.config.url]
+    data: mockMapper[err.config.url.split('?')[0]]
   }
 })
 

@@ -20,7 +20,13 @@
         <i class="iconfont icon-delete"></i>
       </div>
     </form>
-    <ve-line :data="chartData" width="100vw"/>
+    <SectionItem title="保存此文档" v-if="fileBuffer"
+      iconUrl="icon-save" :iconColor="theme || '#294E80'"/>
+    <GapLine/>
+    <SectionItem title="我的文档"
+      iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"/>
+    <!-- 图表 -->
+    <!-- <ve-line :data="chartData" width="100vw"/> -->
   </div>
 </template>
 
@@ -31,7 +37,9 @@ import { HTMLInputEvent } from '../../util/types'
 
 @Component({
   components: {
-    've-line': () => import('v-charts/lib/line.common')
+    GapLine: () => import('../../components/GapLine.vue'),
+    SectionItem: () => import('../../components/SectionItem.vue'),
+    've-line': () => import('v-charts/lib/line.common'),
   }
 })
 export default class Document extends Vue {
@@ -129,7 +137,7 @@ export default class Document extends Vue {
   background: #dedede;
   .upload-form {
     width: 100vw;
-    height: 50vw;
+    height: 40vw;
     @extend .flexCenter;
     .upload-btn {
       width: 30vw;

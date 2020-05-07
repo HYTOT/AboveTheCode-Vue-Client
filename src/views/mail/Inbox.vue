@@ -48,20 +48,36 @@ export default class Inbox extends Vue {
 
   // 未读邮件
   private mailsUnread:Array<any> = []
+  // 未读邮件页码
+  private mailsUnreadPage:number = 1
   // 已读邮件
   private mailsIsread:Array<any> = []
+  // 已读邮件页码
+  private mailsIsreadPage:number = 1
 
   // 请求更多未读邮件
   private async getMoreUnread():Promise<void> {
-    let res = await axios.get('/mock/inboxList')
+    // let res = await axios.get('/mock/inboxList')
     // console.log(res.data)
-    this.mailsUnread.push(...Object.freeze(res.data))
+    // this.mailsUnread.push(...Object.freeze(res.data.notReadEmails))
   }
   // 请求更多已读邮件
   private async getMoreIsread():Promise<void> {
-    let res = await axios.get('/mock/inboxList')
+    // let res = await axios.get('/mock/inboxList')
     // console.log(res.data)
-    this.mailsIsread.push(...Object.freeze(res.data))
+    // this.mailsIsread.push(...Object.freeze(res.data))
+  }
+  // 重加载数据
+  private async reloadDatas():Promise<void> {
+    this.mailsUnread.splice(0, this.mailsUnread.length)
+    this.mailsIsread.splice(0, this.mailsIsread.length)
+    this.mailsUnreadPage = this.mailsIsreadPage = 1
+    const res = await axios.get('/api/email/selectNotReadCount')
+    const result = (await axios.get(`/api/email/queryReceiveEmail?pageIndex=1&pageSize=10`)).data
+    this.mailsUnread.push(...Object.freeze(result.data.notReadEmails))
+    this.mailsIsread.push(...Object.freeze(result.data.ReadEmails))
+    this.$store.dispatch('setMailCount', res.data)
+    this.$store.dispatch('setPageLoadState', false)
   }
 
   // 未读邮件数量
@@ -73,12 +89,8 @@ export default class Inbox extends Vue {
     return localStorage.getItem('code-theme') || '#294E80'
   }
 
-  private async created():Promise<void> {
-    this.getMoreUnread()
-    this.getMoreIsread()
-    let res = await axios.get('/mock/mailCount')
-    this.$store.dispatch('setMailCount', res.data)
-    this.$store.dispatch('setPageLoadState', false)
+  private created():void {
+    this.reloadDatas()
   }
 
 }

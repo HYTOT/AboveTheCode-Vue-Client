@@ -36,7 +36,8 @@ export default class Index extends Vue {
   private async initApplication():Promise<void> {
     // 程序首次加载才执行后面查询，否则直接结束方法
     if (!this.$store.getters.isPageFirstLoad) return
-    let res = await axios.get('/mock/mailCount')
+    // let res = await axios.get('/mock/mailCount')
+    let res = await axios.get('/api/email/selectNotReadCount')
     this.$store.dispatch('setMailCount', res.data)
     this.$store.dispatch('setPageLoadState', false)
   }

@@ -17,6 +17,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { MessageBox } from 'mint-ui'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -29,14 +30,18 @@ export default class Config extends Vue {
 
   private logout():void {
     MessageBox.confirm('您确定要退出登录吗？')
-    .then((action:any) => {
-      // 退登重新初始化 vuex，清除登录 storage 值
-      this.$store.dispatch('setMailCount', 0)
-      this.$store.dispatch('setPageLoadState', true)
-      this.$store.dispatch('setFileBuffer', [{}, '', ''])
-      localStorage.removeItem('code-theme')
-      localStorage.removeItem('code-login')
-      this.$router.push('/login')
+    .then(async (action:any) => {
+      let res = (await axios.post('/api/user/logout')).data
+      console.log(res)
+      if (res.code === 200) {
+        // 退登重新初始化 vuex，清除登录 storage 值
+        this.$store.dispatch('setMailCount', 0)
+        this.$store.dispatch('setPageLoadState', true)
+        this.$store.dispatch('setFileBuffer', [{}, '', ''])
+        localStorage.removeItem('code-theme')
+        localStorage.removeItem('code-login')
+        this.$router.push('/login')
+      }
     }).catch(() => {})
   }
 

@@ -26,6 +26,7 @@ import { LoginForm } from '../util/types'
 import { Route } from 'vue-router'
 import Util from '../util/util'
 import SlideVerify from 'vue-monoplasty-slide-verify'
+import axios from '../http/axios.config'
 
 Vue.use(SlideVerify)
 
@@ -70,22 +71,28 @@ export default class Login extends Vue {
       }
       return
     }
-    Indicator.open()
-    setTimeout(() => {
-      this.checkLogin(
+    this.checkLogin(
       this.model.username.trim(),
-      this.model.password.trim())
-    }, 1000)
+      this.model.password.trim()
+    )
   }
   // 发送请求检验登录
-  private checkLogin(username:string, password:string):void {
-    Indicator.close()
-    if (username === 'sam' && password === '123456') {
-      const user = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
-      localStorage.setItem('code-login', user.token)
-      this.$store.dispatch('saveUserLoginState', user)
+  private async checkLogin(username:string, password:string):Promise<void> {
+    let params = new URLSearchParams()
+    params.append('username', username)
+    params.append('password', password)
+    const res = (await axios.post('/api/user/login', params)).data
+    const res_mock = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
+    if (res && res.code === 200) {
+      localStorage.setItem('code-login', res.data.token)
+      this.$store.dispatch('saveUserLoginState', res.data)
       this.$router.push('/schedule')
       Toast(`欢迎回来，${this.$store.getters.getLoginState.user.name}`)
+    } else if (!res && res_mock) {
+      localStorage.setItem('code-login', res_mock.token)
+      this.$store.dispatch('saveUserLoginState', res_mock)
+      this.$router.push('/schedule')
+      Toast(`模拟登录成功，${this.$store.getters.getLoginState.user.name}`)
     } else {
       Toast({
         message: '用户名或密码错误',

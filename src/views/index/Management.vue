@@ -1,5 +1,8 @@
 <template>
   <div class="management">
+    <Header title="后台管理"/>
+    <i class="iconfont icon-guanbi close-all-btn"
+      @click="closeAllItems" v-if="workspace.length"></i>
     <div v-for="(item, i) in MANAGE_LIST" :key="i">
       <GapLine/>
       <SectionItem :title="`${item.type}管理`"
@@ -13,9 +16,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { ManagementItem } from '../../util/types'
+import { MessageBox } from 'mint-ui'
 
 @Component({
   components: {
+    Header: () => import('../../components/Header.vue'),
     GapLine: () => import('../../components/GapLine.vue'),
     SectionItem: () => import('../../components/SectionItem.vue'),
   }
@@ -34,6 +39,12 @@ export default class Management extends Vue {
     // 添加选项卡到 vuex 的工作空间数组
     this.$store.dispatch('setItemToWorkspace', [item, true])
     this.$router.push('/management/workspace')
+  }
+  private closeAllItems():void {
+    MessageBox.confirm('您确定要关闭所有已打开的选项卡吗？', '请注意保存！')
+    .then((action:any) => {
+      this.$store.dispatch('clearWorkspace')
+    }).catch(() => {})
   }
 
   // 当前工作空间包含的选项卡
@@ -55,6 +66,20 @@ export default class Management extends Vue {
   overflow: {
     x: hidden;
     y: scroll;
+  }
+  .close-all-btn {
+    @extend .flexCenter;
+    position: fixed;
+    top: 0;
+    left: 80vw;
+    width: 20vw;
+    height: 13vw;
+    z-index: 5;
+    color: white;
+    font: {
+      size: 4vw;
+      weight: bold;
+    }
   }
 }
 </style>

@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
+import axios from './http/axios.config'
 
 @Component
 export default class App extends Vue {
@@ -26,10 +27,21 @@ export default class App extends Vue {
     }
   }
 
-  private created():void {
+  private async created():Promise<void> {
     // 初始化，根据 token 判断登录状态，未失效则存到 vuex
-    const user = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
-    this.$store.dispatch('saveUserLoginState', user)
+    const res = (await axios.post('/api/user/init')).data
+    const res_mock = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
+    if (res && res.code === 200 ) {
+      this.$store.dispatch('saveUserLoginState', res.data)
+    } else if (!res && res_mock) {
+      this.$store.dispatch('saveUserLoginState', res_mock)
+    } else {
+      this.$store.dispatch('setMailCount', 0)
+      this.$store.dispatch('setPageLoadState', true)
+      this.$store.dispatch('setFileBuffer', [{}, '', ''])
+      localStorage.removeItem('code-theme')
+      localStorage.removeItem('code-login')
+    }
   }
 
 }

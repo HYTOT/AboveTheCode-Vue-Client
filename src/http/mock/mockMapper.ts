@@ -1,5 +1,9 @@
 import Mock from 'mockjs'
 
+const logout:Function = ():any => {
+  return { code: 200 }
+}
+
 const officialList:Function = ():Array<any> => {
   return Mock.mock({
     "list|10": [{
@@ -19,8 +23,8 @@ const officialList:Function = ():Array<any> => {
   }).list
 }
 
-const inboxList:Function = ():Array<any> => {
-  return Mock.mock({
+const inboxList:Function = ():any => {
+  const list = Mock.mock({
     "list|10": [{
       "messageid": "@guid",
       "title": "@csentence",
@@ -34,7 +38,7 @@ const inboxList:Function = ():Array<any> => {
         "email": "@email",
         "worktime": "@datetime",
         "depart": {
-          "departName|1": ["人力资源部", "IT部", "财务部"],
+          "departname|1": ["人力资源部", "IT部", "财务部"],
         }
       },
       "touser": {
@@ -51,6 +55,12 @@ const inboxList:Function = ():Array<any> => {
       "toifdelete|1": [1, 2]
     }]
   }).list
+  return {
+    data: {
+      notReadEmails: list,
+      ReadEmails: list,
+    }
+  }
 }
 
 const mailCount:Function = ():number => {
@@ -59,8 +69,14 @@ const mailCount:Function = ():number => {
   }).count
 }
 
+const deleteEmail:Function = ():any => {
+  return { code: 200 }
+}
+
 export const mockMapper:{ [index: string]:any } = {
+  '/api/user/logout': logout(),
   '/mock/officialList': officialList(),
-  '/mock/inboxList': inboxList(),
-  '/mock/mailCount': mailCount(),
+  '/api/email/queryReceiveEmail': inboxList(),
+  '/api/email/selectNotReadCount': mailCount(),
+  '/api/email/deleteEmail': deleteEmail(),
 }

@@ -10,6 +10,7 @@
     <section class="workspace-item-section"
       :class="{'minimize': min}">
       <BScroll ref="bscroll">
+        <!-- 遍历管理数据 -->
         <h1 v-for="i in 30" :key="i"
           style="text-align: center; line-height: 15vw;">{{ i }}</h1>
       </BScroll>
@@ -34,6 +35,7 @@ export default class WorkspaceItem extends Vue {
   @Prop({ type:Boolean, default:true })
   private closeable?:boolean
 
+  // true 为折叠选项卡
   private min:boolean = false
 
 }
@@ -52,7 +54,6 @@ export default class WorkspaceItem extends Vue {
     font-size: 4.5vw;
     background: #eee;
     color: #333;
-    border: $typescript-color;
     transform: scaleX(1.05);
     overflow: hidden;
     border: {

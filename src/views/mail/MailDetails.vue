@@ -31,6 +31,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
 import { Route } from 'vue-router'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -48,17 +49,23 @@ export default class MailDetails extends Vue {
   // 删除此邮件
   private deleteMail():void {
     MessageBox.confirm('您确定要删除该邮件吗？')
-    .then((action:any) => {
+    .then(async (action:any) => {
       this.showOperations = false
-      Indicator.open()
-      setTimeout(() => {
-        Indicator.close()
+      let params = new URLSearchParams()
+      params.append('messageid', this.mail.messageid)
+      let res = (await axios.post('/api/email/deleteEmail', params)).data
+      if (res.code === 200) {
         Toast({
           message: '邮件已删除',
           duration: 1000,
         })
         this.$router.go(-1)
-      }, 500)
+      } else {
+        Toast({
+          message: '邮件删除失败',
+          duration: 1000,
+        })
+      }
     }).catch(() => {})
   }
 
@@ -68,7 +75,7 @@ export default class MailDetails extends Vue {
   }
   // 格式化邮件发件人署名
   private get fromUser():string {
-    return `${this.mail.fromuser.depart.departName}
+    return `${this.mail.fromuser.depart.departname}
       ${this.mail.fromuser.name}`
   }
   // 颜色主题
@@ -84,6 +91,8 @@ export default class MailDetails extends Vue {
         return
       }
       vm.mail = vm.$route.params.mail
+      // 进入页面将邮件设为已读
+      axios.get(`/api/email/queryByEmail?messageid=${vm.mail.messageid}`)
     })
   }
 

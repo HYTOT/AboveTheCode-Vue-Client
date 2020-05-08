@@ -68,6 +68,8 @@ export default class SectionItem extends Vue {
     color: #333;
     display: flex;
     align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .title2 {
     flex: 1;

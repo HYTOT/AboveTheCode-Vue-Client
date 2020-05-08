@@ -33,9 +33,9 @@
       <div class="future-title">
         <h1 :style="{ color: theme }">未来一周日程</h1>
       </div>
-      <SectionItem v-for="i in 31" :key="i"
-        title="敲代码"
-        :title2="`2020/5/${i}`"/>
+      <SectionItem v-for="(item, i) in futureSchedules" :key="i"
+        :title="item.title"
+        :title2="item.begintime"/>
     </section>
   </div>
 </template>
@@ -43,6 +43,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Greet } from '../../util/types'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -60,6 +61,7 @@ export default class Schedule extends Vue {
     'brown': '#b33939',
     'black': '#1e272e',
   }
+  private futureSchedules:Array<any> = []
 
   // 日历组件点击某天
   private choseDay(day:string):void {
@@ -71,6 +73,13 @@ export default class Schedule extends Vue {
     setTimeout(() => {
       this.$router.push(`/schedule/day/${afterFormat}`)
     }, 300)
+  }
+  // 未来一周日程
+  private async getFuture():Promise<void> {
+    const res = (await axios.get(
+      `/api/schedule/querySchedules`
+    )).data
+    this.futureSchedules = res.data
   }
 
   // 根据时间，决定问候语
@@ -87,6 +96,10 @@ export default class Schedule extends Vue {
   // 颜色主题
   private get theme():string {
     return localStorage.getItem('code-theme') || ''
+  }
+
+  private created() {
+    this.getFuture()
   }
 
 }

@@ -4,6 +4,7 @@ const CompressionPlugin = require("compression-webpack-plugin")
 const OptimizeCss = require('optimize-css-assets-webpack-plugin')
 
 const isProduction = !true
+const openProxy = !true
 
 module.exports = {
   chainWebpack: config => {
@@ -22,17 +23,17 @@ module.exports = {
       host: '0.0.0.0',
       hot: true,
       compress: true,
-      proxy: {
+      proxy: openProxy ? {
         '/api': {
-          target: 'http://127.0.0.1:8080/',
-          // target: 'http://192.168.13.9:8080/',
+          // target: 'http://127.0.0.1:8080/',
+          target: 'http://192.168.13.9:8080/',
           changeOrigin: true,
           ws: true,
           pathRewrite: {
             '^/api': ''
           }
         }
-      }
+      } : null
     },
     performance: {
       maxEntrypointSize: 50000000,

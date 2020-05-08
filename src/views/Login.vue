@@ -9,9 +9,9 @@
       :w="getWidth * 0.7" :h="getWidth * 0.35"
       slider-text="向右滑动" @success="validateSuccess"/>
     <button v-else @click="loginHandler" class="login-btn">登录</button>
-    <button @click="$router.push('/register')" class="register-btn">
+    <!-- <button @click="$router.push('/register')" class="register-btn">
       <i class="iconfont icon-zhuce"></i>
-    </button>
+    </button> -->
     <div class="copyright">
       <p>Developed By HeY, QiuJP, LiQX</p>
       <p>AboveTheCode©2020</p>
@@ -56,25 +56,16 @@ export default class Login extends Vue {
       message: '验证通过',
       duration: 1000,
     })
-    setTimeout(() => {
-      this.validated = true
-    }, 1000)
+    setTimeout(() => this.validated = true, 1000)
   }
   // 登录表单校验
   private loginHandler():void {
     if (!this.model.username || !this.model.password) {
-      if (!this.model.username.trim()) {
-        this.error.username = '请填写账号'
-      }
-      if (!this.model.password.trim()) {
-        this.error.password = '请填写密码'
-      }
+      if (!this.model.username.trim()) this.error.username = '请填写账号'
+      if (!this.model.password.trim()) this.error.password = '请填写密码'
       return
     }
-    this.checkLogin(
-      this.model.username.trim(),
-      this.model.password.trim()
-    )
+    this.checkLogin(this.model.username.trim(), this.model.password.trim())
   }
   // 发送请求检验登录
   private async checkLogin(username:string, password:string):Promise<void> {
@@ -82,7 +73,7 @@ export default class Login extends Vue {
     params.append('username', username)
     params.append('password', password)
     const res = (await axios.post('/api/user/login', params)).data
-    const res_mock = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
+    const res_mock = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"模拟张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
     if (res && res.code === 200) {
       localStorage.setItem('code-login', res.data.token)
       this.$store.dispatch('saveUserLoginState', res.data)

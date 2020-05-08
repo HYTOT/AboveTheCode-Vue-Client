@@ -32,7 +32,6 @@ export default class Config extends Vue {
     MessageBox.confirm('您确定要退出登录吗？')
     .then(async (action:any) => {
       let res = (await axios.post('/api/user/logout')).data
-      console.log(res)
       if (res.code === 200) {
         // 退登重新初始化 vuex，清除登录 storage 值
         this.$store.dispatch('setMailCount', 0)

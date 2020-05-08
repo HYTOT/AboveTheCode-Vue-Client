@@ -27,13 +27,17 @@ import axios from '../../http/axios.config'
 })
 export default class SentOut extends Vue {
 
+  // 每次请求条数
+  private pageSize:number = 10
   // 已读邮件
   private mailsSentOut:Array<any> = []
+  private mailsSentOutPage:number = 0
 
   // 请求更多未读邮件
   private async getMoreSentOut():Promise<void> {
-    let res = await axios.get('/mock/inboxList')
-    // console.log(res.data)
+    const res = (await axios.get(
+      `/api/email/querySendEmail?pageIndex=${++this.mailsSentOutPage}&pageSize=${this.pageSize}`
+    )).data
     this.mailsSentOut.push(...Object.freeze(res.data))
   }
 

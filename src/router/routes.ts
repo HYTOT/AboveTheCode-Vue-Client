@@ -149,6 +149,15 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/document/mydocs',
+    name: 'MyDocs',
+    component: () => import(/* webpackChunkName: "mydocs" */ '../views/document/MyDocs.vue'),
+    meta: {
+      index: 11.2,
+      title: '码上OA-我的文档',
+    }
+  },
+  {
     path: '/official/list',
     name: 'OfficialList',
     component: () => import(/* webpackChunkName: "list" */ '../views/official/OfficialList.vue'),

@@ -1,6 +1,7 @@
 <template>
   <div class="pdf-preview">
     <Header :title="fileName" :back="true"/>
+    <i class="iconfont icon-delete delete-file-btn" @click="deleteFile"></i>
     <pdf :src="pdf.src" :page="pdf.page"
       @num-pages="getTotalPages($event)"
       @loaded="loaded($event)"/>
@@ -21,6 +22,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast } from 'mint-ui'
 import { Route } from 'vue-router'
 import { PDF_File } from '../../util/types'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -54,6 +56,10 @@ export default class PDF extends Vue {
   }
   private nextPage():void {
     this.pdf.page < this.pdf.total && this.pdf.page++
+  }
+  // 删除服务端文件
+  private async deleteFile():Promise<void> {
+    const res = (await axios.post('/api/')).data
   }
   
   // 截取文件名
@@ -108,6 +114,19 @@ export default class PDF extends Vue {
     }
     .flex-box {
       flex: 1;
+    }
+  }
+  .delete-file-btn {
+    @extend .flexCenter;
+    position: fixed;
+    top: 0;
+    left: 80vw;
+    width: 20vw;
+    height: 13vw;
+    z-index: 5;
+    color: white;
+    font: {
+      size: 4.5vw;
     }
   }
 }

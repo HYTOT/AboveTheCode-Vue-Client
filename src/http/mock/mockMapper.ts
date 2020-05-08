@@ -4,6 +4,26 @@ const logout:Function = ():any => {
   return { code: 200 }
 }
 
+const futureSchedules:Function = ():any => {
+  return {
+    data: Mock.mock({
+      "list|10": [{
+        "createtime": "@date",
+        "address": "腾讯大厦",
+        "schcontent": "开会",
+        "endtime": "@date",
+        "begintime": "@date",
+        "id|+1": 1,
+        "createuser": {
+          "uid": "@guid",
+          "name": "大管理员",
+        },
+        "title": "@ctitle",
+      }]
+    }).list
+  }
+}
+
 const officialList:Function = ():Array<any> => {
   return Mock.mock({
     "list|10": [{
@@ -44,7 +64,8 @@ const inboxList:Function = ():any => {
       "touser": {
         "uid": "8363BCB85F064430A1A41D05CD1B5342",
         "sex": 1,
-        "name": "张三",
+        "name": "模拟张三",
+        "phone": "",
         "email": "3123321@163.com",
         "worktime": "2017-08-22 00:00:00",
         "depart": {
@@ -75,6 +96,7 @@ const deleteEmail:Function = ():any => {
 
 export const mockMapper:{ [index: string]:any } = {
   '/api/user/logout': logout(),
+  '/api/schedule/querySchedules': futureSchedules(),
   '/mock/officialList': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),
   '/api/email/selectNotReadCount': mailCount(),

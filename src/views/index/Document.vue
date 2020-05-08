@@ -21,10 +21,12 @@
       </div>
     </form>
     <SectionItem title="保存此文档" v-if="fileBuffer"
-      iconUrl="icon-save" :iconColor="theme || '#294E80'"/>
+      iconUrl="icon-save" :iconColor="theme || '#294E80'"
+      @tapItem="saveFile"/>
     <GapLine/>
     <SectionItem title="我的文档"
-      iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"/>
+      iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"
+      @tapItem="$router.push('/document/mydocs')"/>
     <!-- 图表 -->
     <!-- <ve-line :data="chartData" width="100vw"/> -->
   </div>
@@ -34,6 +36,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
 import { HTMLInputEvent } from '../../util/types'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -79,6 +82,8 @@ export default class Document extends Vue {
           message: '文件上传成功',
           duration: 1000,
         })
+        console.log(file);
+        
       }, 500)
     }
   }
@@ -99,6 +104,28 @@ export default class Document extends Vue {
         })
       }, 500)
     }).catch(() => {})
+  }
+  // 保存文件到服务端
+  private async saveFile():Promise<void> {
+    let config = {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    const formData:FormData = new FormData()
+    formData.append('file', this.$store.getters.getFile)
+    const res = (await axios.post('/api/file/uploadFile', formData, config)).data
+    if (res.code === 200) {
+      Toast({
+        message: '已保存到我的文档',
+        duration: 1000,
+      })
+      this.$store.dispatch('setFileBuffer', [{}, '', ''])
+      this.renderInput = true
+    } else {
+      Toast({
+        message: '保存失败',
+        duration: 1000,
+      })
+    }
   }
 
   private get fileBuffer():string {

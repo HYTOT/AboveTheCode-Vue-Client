@@ -90,13 +90,13 @@ export default class QR extends Vue {
         display: flex;
         align-items: center;
         margin: 0 8vw;
-        font-size: 4.5vw;
+        font-size: 4vw;
         border-bottom: .5vw solid #333;
         color: $typescript-color;
         span {
           margin: 2vw;
           &:nth-child(2) {
-            font-size: 6.5vw;
+            font-size: 5vw;
           }
         }
         i {

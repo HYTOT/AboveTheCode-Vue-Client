@@ -2,12 +2,12 @@
   <div class="mine">
     <Header title="我的信息" :back="true"/>
     <GapLine/>
-    <SectionItem title="姓名" title2="张三"/>
-    <SectionItem title="性别" title2="女"/>
-    <SectionItem title="电话" title2="13666666666"/>
-    <SectionItem title="邮箱" title2="3123321@163.com"/>
-    <SectionItem title="部门" title2="IT部"/>
-    <SectionItem title="入职时间" title2="2017/08/22"/>
+    <SectionItem title="姓名" :title2="user.name"/>
+    <SectionItem title="性别" :title2="gender"/>
+    <SectionItem title="电话" :title2="user.phone || UN_WRITTEN"/>
+    <SectionItem title="邮箱" :title2="user.email || UN_WRITTEN"/>
+    <SectionItem title="部门" :title2="user.depart.departname"/>
+    <SectionItem title="入职时间" :title2="user.worktime"/>
     <GapLine/>
     <SectionItem title="二维码名片" @tapItem="$router.push('/schedule/config/mine/qrcode')"/>
   </div>
@@ -24,6 +24,13 @@ import { Vue, Component } from 'vue-property-decorator'
   }
 })
 export default class Mine extends Vue {
+
+  private user:any = this.$store.getters.getLoginState.user
+  private readonly UN_WRITTEN = '未填写'
+
+  private get gender():string {
+    return this.user.sex === 0 ? '男' : '女'
+  }
 
 }
 </script>

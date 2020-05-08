@@ -82,8 +82,7 @@ export default class Document extends Vue {
           message: '文件上传成功',
           duration: 1000,
         })
-        console.log(file);
-        
+        console.log(file)
       }, 500)
     }
   }

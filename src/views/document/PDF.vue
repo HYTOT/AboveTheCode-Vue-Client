@@ -5,7 +5,7 @@
     <pdf :src="pdf.src" :page="pdf.page"
       @num-pages="getTotalPages($event)"
       @loaded="loaded($event)"/>
-    <div class="page-btn" v-if="loaded">
+    <div class="page-btn" v-if="pdf.loaded">
       <button @click="prePage"
         :style="{ background: theme }"
         v-show="this.pdf.page > 1">&lt;</button>
@@ -46,9 +46,7 @@ export default class PDF extends Vue {
   }
   private loaded():void {
     this.pdf.loaded = true
-    setTimeout(() => {
-      Indicator.close()
-    }, 500)
+    setTimeout(() => Indicator.close(), 500)
   }
   // 翻页操作
   private prePage():void {
@@ -90,8 +88,11 @@ export default class PDF extends Vue {
 
 <style lang="scss" scoped>
 .pdf-preview {
-  width: 100vw;
-  min-height: 100vh;
+  @extend .fullScreen;
+  overflow: {
+    x: hidden;
+    y: scroll;
+  }
   background: white;
   .page-btn {
     width: 100vw;
@@ -111,6 +112,7 @@ export default class PDF extends Vue {
       color: white;
       font-size: 5vw;
       border-radius: 50%;
+      transform: scaleY(1.2);
     }
     .flex-box {
       flex: 1;

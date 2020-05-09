@@ -3,15 +3,14 @@
     <header class="logo">
       <h1>码上</h1><h2>大型办公自动化系统</h2>
     </header>
-    <InputGroup v-model="model.username" placeholder="登录账号" :error="error.username"/>
-    <InputGroup v-model="model.password" placeholder="登录密码" :error="error.password" type="password"/>
+    <InputGroup v-model="model.username" placeholder="登录账号"
+      :error="error.username"/>
+    <InputGroup v-model="model.password" placeholder="登录密码"
+      :error="error.password" type="password"/>
     <slide-verify v-if="!validated" :l="40" :r="10"
       :w="getWidth * 0.7" :h="getWidth * 0.35"
       slider-text="向右滑动" @success="validateSuccess"/>
     <button v-else @click="loginHandler" class="login-btn">登录</button>
-    <!-- <button @click="$router.push('/register')" class="register-btn">
-      <i class="iconfont icon-zhuce"></i>
-    </button> -->
     <div class="copyright">
       <p>Developed By HeY, QiuJP, LiQX</p>
       <p>AboveTheCode©2020</p>
@@ -73,17 +72,11 @@ export default class Login extends Vue {
     params.append('username', username)
     params.append('password', password)
     const res = (await axios.post('/api/user/login', params)).data
-    const res_mock = JSON.parse('{"permissions":["addEmailOrDraft","deleteEmail","uploadFile","queryReceiveEmail","updateEmail","queryDraft","queryDocument","querySendEmail","queryByEmail"],"roles":["员工"],"token":"33F2C8B757644402ABA0E54BD716A4DB","user":{"depart":{"departid":2,"departname":"IT部","fax":"83123299","phone":"","telephone":"83123233"},"email":"3123321@163.com","name":"模拟张三","phone":"","sex":1,"status":1,"uid":"8363BCB85F064430A1A41D05CD1B5342","username":"sam","worktime":"2017/08/22"}}')
     if (res && res.code === 200) {
       localStorage.setItem('code-login', res.data.token)
       this.$store.dispatch('saveUserLoginState', res.data)
       this.$router.push('/schedule')
       Toast(`欢迎回来，${this.$store.getters.getLoginState.user.name}`)
-    } else if (!res && res_mock) {
-      localStorage.setItem('code-login', res_mock.token)
-      this.$store.dispatch('saveUserLoginState', res_mock)
-      this.$router.push('/schedule')
-      Toast(`模拟登录成功，${this.$store.getters.getLoginState.user.name}`)
     } else {
       Toast({
         message: '用户名或密码错误',
@@ -179,19 +172,6 @@ export default class Login extends Vue {
     }
     &:disabled {
       opacity: .5;
-    }
-  }
-  .register-btn {
-    width: 6vw;
-    height: 6vw;
-    color: royalblue;
-    border: none;
-    outline: none;
-    position: fixed;
-    top: 3vh;
-    left: 88vw;
-    .icon-zhuce {
-      font-size: 6vw;
     }
   }
   .copyright {

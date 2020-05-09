@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { Route } from 'vue-router'
 import { routes } from './routes'
 import $store from '../store/index'
 
@@ -12,10 +12,10 @@ const router:VueRouter = new VueRouter({
 })
 
 // 路由守卫
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to:Route, _from:Route, next:Function) => {
   const isLogin = !!$store.getters.getLoginState || !!localStorage.getItem('code-login')
   document.title = to.meta.title
-  if (to.path === '/login' || to.path === '/register') {
+  if (to.path === '/login') {
     next()
   } else {
     isLogin ? next() : next('/login')

@@ -1,17 +1,24 @@
+import {
+  ManagementItem,
+  Schedule_VO,
+  User_VO,
+  File_Object,
+} from './../util/types'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import state from './state'
+import { state } from './state'
 import { Types } from './mutationTypes'
-import { ManagementItem } from '../util/types'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state,
   getters: {
-    getLoginState: (state):any => state.userLoginInfo,
+    getLoginState: (state):User_VO => state.userLoginInfo,
+    managable: (state):boolean => state.userLoginInfo?.roles.includes('管理员'),
     isPageFirstLoad: (state):boolean => state.pageFirstLoad,
-    getFile: (state):File | Object => state.file,
+    getFutureSchedules: (state):Array<Schedule_VO> => state.futureSchedules,
+    getFile: (state):File_Object => state.file,
     getFileBuffer: (state):string => state.fileBuffer,
     getFileName: (state):string => state.fileName,
     isAllowMailCount: (state):boolean => state.mailCount_show,
@@ -23,19 +30,22 @@ export default new Vuex.Store({
     getWorkspace: (state):Array<ManagementItem> => state.workspace,
   },
   mutations: {
-    [Types.SAVE_USER_LOGIN_STATE]: (state, user:any):void => {
-      state.userLoginInfo = user || null
+    [Types.SAVE_USER_LOGIN_STATE]: (state, user:User_VO = null):void => {
+      state.userLoginInfo = user
     },
     [Types.SET_PAGE_LOAD_STATE]: (state, flag:boolean):void => {
       state.pageFirstLoad = flag
+    },
+    [Types.SET_FUTURE_SCHEDULES]: (state, futures:Array<Schedule_VO>):void => {
+      state.futureSchedules = futures
     },
     [Types.SET_FILE_BUFFER]: (state, [file, fileBuffer, fileName]):void => {
       state.file = file || {}
       state.fileBuffer = fileBuffer || ''
       state.fileName = fileName || ''
     },
-    [Types.SET_MAIL_COUNT]: (state, count:number):void => {
-      state.mailCount = count || 0
+    [Types.SET_MAIL_COUNT]: (state, count:number = 0):void => {
+      state.mailCount = count
     },
     [Types.ALLOW_MAIL_COUNT]: (state, flag:boolean):void => {
       state.mailCount_show = flag
@@ -51,11 +61,14 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    saveUserLoginState: ({ commit }, user:any):void => {
+    saveUserLoginState: ({ commit }, user:User_VO):void => {
       commit(Types.SAVE_USER_LOGIN_STATE, user)
     },
     setPageLoadState: ({ commit }, flag:boolean):void => {
       commit(Types.SET_PAGE_LOAD_STATE, flag)
+    },
+    setFutureSchedules: ({ commit }, futures:Array<Schedule_VO>):void => {
+      commit(Types.SET_FUTURE_SCHEDULES, futures)
     },
     setFileBuffer: ({ commit }, [file, fileBuffer, fileName]):void => {
       commit(Types.SET_FILE_BUFFER, [file, fileBuffer, fileName])

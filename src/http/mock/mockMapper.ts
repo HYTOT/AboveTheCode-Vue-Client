@@ -1,28 +1,55 @@
 import Mock from 'mockjs'
+import { Roles } from './../../util/types'
 
-const logout:Function = ():any => {
-  return { code: 200 }
-}
-
-const futureSchedules:Function = ():any => {
+const login:Function = ():any => {
   return {
+    code: 200,
     data: Mock.mock({
-      "list|10": [{
-        "createtime": "@date",
-        "address": "腾讯大厦",
-        "schcontent": "开会",
-        "endtime": "@date",
-        "begintime": "@date",
-        "id|+1": 1,
-        "createuser": {
-          "uid": "@guid",
-          "name": "大管理员",
+      "permissions": ["addEmailOrDraft", "deleteEmail", "uploadFile", "queryReceiveEmail", "updateEmail", "queryDraft", "queryDocument", "querySendEmail", "queryByEmail"],
+      "email": "3123321@163.com",
+      "roles": Roles.STAFF,
+      "token": "33F2C8B757644402ABA0E54BD716A4DB",
+      "user": {
+        "depart": {
+          "departid": 2,
+          "departname": "IT部",
+          "fax": "83123299",
+          "telephone": "83123233",
         },
-        "title": "@ctitle",
-      }]
-    }).list
+        "email": "3123321@163.com",
+        "name": "模拟张三",
+        "phone": "",
+        "sex": 1,
+        "status": 1,
+        "uid": "8363BCB85F064430A1A41D05CD1B5342",
+        "username": "sam",
+        "worktime": "2017/08/22",
+      }
+    })
   }
 }
+
+const logout:Function = ():any => ({ code: 200 })
+
+const futureSchedules:Function = ():any => ({
+  data: Mock.mock({
+    "list|15": [{
+      "createtime": "@datetime",
+      "address": "腾讯大厦",
+      "schcontent": "开会",
+      "endtime": "@datetime",
+      "begintime": "@datetime",
+      "id|+1": 1,
+      "createuser": {
+        "uid": "@guid",
+        "name": "大管理员",
+      },
+      "title": "会议xxx",
+    }]
+  }).list
+})
+
+const uploadFile:Function = ():any => ({ code: 200 })
 
 const officialList:Function = ():Array<any> => {
   return Mock.mock({
@@ -90,13 +117,14 @@ const mailCount:Function = ():number => {
   }).count
 }
 
-const deleteEmail:Function = ():any => {
-  return { code: 200 }
-}
+const deleteEmail:Function = ():any => ({ code: 200 })
 
 export const mockMapper:{ [index: string]:any } = {
+  '/api/user/login': login(),
+  '/api/user/init': login(),
   '/api/user/logout': logout(),
   '/api/schedule/querySchedules': futureSchedules(),
+  '/api/file/uploadFile': uploadFile(),
   '/mock/officialList': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),
   '/api/email/selectNotReadCount': mailCount(),

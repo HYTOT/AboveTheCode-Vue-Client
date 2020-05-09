@@ -1,5 +1,5 @@
 <template>
-  <div class="management">
+  <div class="management" v-if="$store.getters.managable">
     <Header title="后台管理"/>
     <i class="iconfont icon-guanbi close-all-btn"
       @click="closeAllItems" v-if="workspace.length"></i>
@@ -17,6 +17,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { ManagementItem } from '../../util/types'
 import { MessageBox } from 'mint-ui'
+import { Route } from 'vue-router'
 
 @Component({
   components: {
@@ -54,6 +55,12 @@ export default class Management extends Vue {
   // 颜色主题
   private get theme():string {
     return localStorage.getItem('code-theme') || '#294E80'
+  }
+
+  private beforeRouteEnter (to:Route, from:Route, next:Function) {
+    next((vm:Management) => {
+      vm.$store.getters.managable || vm.$router.push('/schedule')
+    })
   }
 
 }

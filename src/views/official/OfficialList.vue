@@ -32,6 +32,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { InfiniteScroll } from 'mint-ui'
+import { Official_VO } from '../../util/types'
 import axios from '../../http/axios.config'
 
 Vue.use(InfiniteScroll) // 注册指令 v-infinite-scroll
@@ -50,7 +51,7 @@ export default class OfficialList extends Vue {
   private loading:boolean = false
   private ui_topValue:number = 0
   private ui_time:number = 0
-  private officialItems:Array<any> = []
+  private officialItems:Array<Official_VO> = []
   private clickedContent:string = ''
   private loadMsg:string = '上拉加载更多'
 

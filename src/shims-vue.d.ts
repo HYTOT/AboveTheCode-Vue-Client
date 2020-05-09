@@ -4,6 +4,7 @@ declare module '*.vue' {
 }
 
 declare class VConsole {}
+declare let AMap:any
 
 declare module 'mint-ui'
 declare module 'mint-ui/lib/*'

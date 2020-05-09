@@ -42,3 +42,18 @@ export enum SwiperBgColor {
   '#8D5A6E',
   '#578E7B',
 }
+
+export enum Roles {
+  STAFF = "员工",
+  SUPERVISOR = "主管",
+  ADMINISTRATOR = "管理员",
+}
+
+export type User_VO = any
+export type Schedule_VO = any
+export type File_Object = File | Object
+export type File_VO = any
+export type Official_VO = any
+export type Email_VO = any
+export type Chart = any
+export type MapConfig = any

@@ -32,6 +32,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
 import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
+import { Email_VO } from '../../util/types'
 
 @Component({
   components: {
@@ -42,7 +43,7 @@ import axios from '../../http/axios.config'
 export default class MailDetails extends Vue {
 
   // 一封邮件对象
-  private mail:any = null
+  private mail:Email_VO = null
   private showOperations:boolean = false
   private readonly ALLOW_URL:Array<string> = ['/mail/inbox', '/mail/sentout']
 

@@ -22,7 +22,7 @@
         </div>
       </div>
     </header>
-    <Calendar :textTop="weekLabels" :sundayStart="true"
+    <Calendar :textTop="WEEK_LABELS" :sundayStart="true"
       @choseDay="choseDay" :class="{
         'green': theme === THEME_MAPPER.green,
         'pink': theme === THEME_MAPPER.pink,
@@ -33,16 +33,20 @@
       <div class="future-title">
         <h1 :style="{ color: theme }">未来一周日程</h1>
       </div>
-      <SectionItem v-for="(item, i) in futureSchedules" :key="i"
-        :title="item.title"
-        :title2="item.begintime"/>
+      <SectionItem v-for="(schedule, i) in futures" :key="i"
+        :title="schedule.title"
+        :title2="schedule.begintime.split(' ')[0]"
+        @tapItem="$router.push({
+          name: 'Meeting',
+          params: { schedule },
+        })"/>
     </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Greet } from '../../util/types'
+import { Greet, Schedule_VO } from '../../util/types'
 import axios from '../../http/axios.config'
 
 @Component({
@@ -54,14 +58,13 @@ import axios from '../../http/axios.config'
 export default class Schedule extends Vue {
 
   private showOperations:boolean = false
-  private weekLabels:Array<string> = ['日','一','二','三','四','五','六']
+  private readonly WEEK_LABELS:Array<string> = ['日','一','二','三','四','五','六']
   private readonly THEME_MAPPER:Object = {
     'green': '#27ae60',
     'pink': '#fd79a8',
     'brown': '#b33939',
     'black': '#1e272e',
   }
-  private futureSchedules:Array<any> = []
 
   // 日历组件点击某天
   private choseDay(day:string):void {
@@ -76,12 +79,15 @@ export default class Schedule extends Vue {
   }
   // 未来一周日程
   private async getFuture():Promise<void> {
-    const res = (await axios.get(
-      `/api/schedule/querySchedules`
-    )).data
-    this.futureSchedules = res.data
+    if (this.futures.length) return
+    const res = (await axios.get(`/api/schedule/querySchedules`)).data
+    this.$store.dispatch('setFutureSchedules', Object.freeze(res.data))
   }
 
+  // 未来日程列表
+  private get futures():Array<Schedule_VO> {
+    return this.$store.getters.getFutureSchedules
+  }
   // 根据时间，决定问候语
   private get greet():Greet {
     const hours:number = new Date().getHours()
@@ -98,7 +104,7 @@ export default class Schedule extends Vue {
     return localStorage.getItem('code-theme') || ''
   }
 
-  private created() {
+  private created():void {
     this.getFuture()
   }
 

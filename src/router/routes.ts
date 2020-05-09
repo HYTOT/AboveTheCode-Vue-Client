@@ -67,15 +67,6 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue'),
-    meta: {
-      index: 1,
-      title: '码上OA-注册',
-    }
-  },
-  {
     path: '/schedule/config',
     name: 'Config',
     component: () => import(/* webpackChunkName: "config" */ '../views/schedule/Config.vue'),
@@ -137,6 +128,15 @@ export const routes:Array<RouteConfig> = [
     meta: {
       index: 10.9,
       title: '码上OA-搜索日程',
+    }
+  },
+  {
+    path: '/schedule/meeting',
+    name: 'Meeting',
+    component: () => import(/* webpackChunkName: "meeting" */ '../views/schedule/ScheduleDetails.vue'),
+    meta: {
+      index: 10.95,
+      title: '码上OA-日程会议',
     }
   },
   {

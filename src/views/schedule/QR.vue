@@ -21,6 +21,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator } from 'mint-ui'
+import { User_VO } from '../../util/types'
 
 @Component({
   components: {
@@ -30,7 +31,7 @@ import { Indicator } from 'mint-ui'
 })
 export default class QR extends Vue {
 
-  private user:any = this.$store.getters.getLoginState.user
+  private user:User_VO = this.$store.getters.getLoginState.user
 
   // 二维码加载回调
   private qrCallback(url:string, id:string):void {

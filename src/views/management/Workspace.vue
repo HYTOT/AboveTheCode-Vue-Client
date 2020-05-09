@@ -44,6 +44,7 @@ export default class Workspace extends Vue {
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
     next((vm:Workspace) => {
+      vm.$store.getters.managable || vm.$router.push('/schedule')
       vm.workspace.length || vm.$router.push('/management')
     })
   }

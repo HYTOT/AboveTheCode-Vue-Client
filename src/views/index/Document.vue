@@ -35,7 +35,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
-import { HTMLInputEvent } from '../../util/types'
+import { HTMLInputEvent, Chart } from '../../util/types'
 import axios from '../../http/axios.config'
 
 @Component({
@@ -49,7 +49,7 @@ export default class Document extends Vue {
 
   // 用于重新渲染 文件上传表单组件
   private renderInput:boolean = true
-  private chartData:any = {
+  private chartData:Chart = {
     columns: ['日期', '访问用户', '好评用户'],
     rows: [
       { '日期': '12月', '访问用户': 1393, '好评用户': 1093 },
@@ -82,7 +82,6 @@ export default class Document extends Vue {
           message: '文件上传成功',
           duration: 1000,
         })
-        console.log(file)
       }, 500)
     }
   }
@@ -106,6 +105,7 @@ export default class Document extends Vue {
   }
   // 保存文件到服务端
   private async saveFile():Promise<void> {
+    this.renderInput = false
     let config = {
       headers: { 'Content-Type': 'multipart/form-data' }
     }
@@ -118,13 +118,13 @@ export default class Document extends Vue {
         duration: 1000,
       })
       this.$store.dispatch('setFileBuffer', [{}, '', ''])
-      this.renderInput = true
     } else {
       Toast({
         message: '保存失败',
         duration: 1000,
       })
     }
+    this.renderInput = true
   }
 
   private get fileBuffer():string {

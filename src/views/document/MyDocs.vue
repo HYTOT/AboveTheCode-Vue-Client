@@ -12,6 +12,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import axios from '../../http/axios.config'
+import { File_VO } from '../../util/types'
 
 @Component({
   components: {
@@ -22,9 +23,9 @@ import axios from '../../http/axios.config'
 })
 export default class MyDocs extends Vue {
 
-  private fileList:Array<any> = []
+  private fileList:Array<File_VO> = []
 
-  private async downLoad():Promise<void> {
+  private async download():Promise<void> {
     const res = (await axios.get(`/api/file/download?fileName=${this.fileList[0].filename}`)).data
     console.log(res);
   }

@@ -18,6 +18,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import axios from '../../http/axios.config'
+import { Email_VO } from '../../util/types'
 
 @Component({
   components: {
@@ -30,7 +31,7 @@ export default class SentOut extends Vue {
   // 每次请求条数
   private pageSize:number = 10
   // 已读邮件
-  private mailsSentOut:Array<any> = []
+  private mailsSentOut:Array<Email_VO> = []
   private mailsSentOutPage:number = 0
 
   // 请求更多未读邮件

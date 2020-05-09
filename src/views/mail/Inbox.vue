@@ -38,6 +38,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import axios from '../../http/axios.config'
+import { Email_VO } from '../../util/types'
 
 @Component({
   components: {
@@ -50,11 +51,11 @@ export default class Inbox extends Vue {
   // 每次请求条数
   private pageSize:number = 10
   // 未读邮件
-  private mailsUnread:Array<any> = []
+  private mailsUnread:Array<Email_VO> = []
   // 未读邮件页码
   private mailsUnreadPage:number = 1
   // 已读邮件
-  private mailsIsread:Array<any> = []
+  private mailsIsread:Array<Email_VO> = []
   // 已读邮件页码
   private mailsIsreadPage:number = 1
 

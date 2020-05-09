@@ -5,7 +5,7 @@
         <router-view class="view"/>
       </keep-alive>
     </transition>
-    <NavBar :navBarList="NAV_BAR_LIST"/>
+    <NavBar :navBarList="navBarFilter"/>
   </div>
 </template>
 
@@ -36,15 +36,23 @@ export default class Index extends Vue {
   private async initApplication():Promise<void> {
     // 程序首次加载才执行后面查询，否则直接结束方法
     if (!this.$store.getters.isPageFirstLoad) return
-    // let res = await axios.get('/mock/mailCount')
-    let res = await axios.get('/api/email/selectNotReadCount')
-    this.$store.dispatch('setMailCount', res.data)
+    const count = (await axios.get('/api/email/selectNotReadCount')).data
+    this.$store.dispatch('setMailCount', count)
     this.$store.dispatch('setPageLoadState', false)
+  }
+
+  // 根据登录用户权限过滤导航栏
+  private get navBarFilter():Array<NavBarItem> {
+    const list = this.NAV_BAR_LIST
+    let index = this.$store.getters.managable
+      ? list.length
+      : list.length - 1
+    return list.slice(0, index)
   }
 
   // 判断路由组件 index 值，动态改变过渡动画方向
   @Watch('$route')
-  watchRoute(to:Route, from:Route) {
+  private watchRoute(to:Route, from:Route) {
     this.transitionName = (
       to.meta.index > from.meta.index
       ? 'slide-left'

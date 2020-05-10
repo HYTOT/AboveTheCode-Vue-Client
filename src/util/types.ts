@@ -46,6 +46,7 @@ export enum SwiperBgColor {
 export enum Roles {
   STAFF = "员工",
   SUPERVISOR = "主管",
+  MANAGER = "经理",
   ADMINISTRATOR = "管理员",
 }
 

@@ -10,6 +10,8 @@ export const state:StateInterface = {
   file: {},
   fileBuffer: '',
   fileName: '',
+  fileBuffer2: '',
+  fileName2: '',
   // 邮件红色气泡数量显示
   mailCount: 0,
   mailCount_show: true,

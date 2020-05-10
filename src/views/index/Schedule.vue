@@ -33,13 +33,16 @@
       <div class="future-title">
         <h1 :style="{ color: theme }">未来一周日程</h1>
       </div>
-      <SectionItem v-for="(schedule, i) in futures" :key="i"
-        :title="schedule.title"
-        :title2="schedule.begintime.split(' ')[0]"
-        @tapItem="$router.push({
-          name: 'Meeting',
-          params: { schedule },
-        })"/>
+      <div v-if="futures && futures.length">
+        <SectionItem v-for="(schedule, i) in futures" :key="i"
+          :title="schedule.title"
+          :title2="schedule.begintime.split(' ')[0]"
+          @tapItem="$router.push({
+            name: 'Meeting',
+            params: { schedule },
+          })"/>
+      </div>
+      <SectionItem v-else title="暂无数据"/>
     </section>
   </div>
 </template>
@@ -79,7 +82,7 @@ export default class Schedule extends Vue {
   }
   // 未来一周日程
   private async getFuture():Promise<void> {
-    if (this.futures.length) return
+    if (this.futures?.length) return
     const res = (await axios.get(`/api/schedule/querySchedules`)).data
     this.$store.dispatch('setFutureSchedules', Object.freeze(res.data))
   }

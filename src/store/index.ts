@@ -21,6 +21,8 @@ export default new Vuex.Store({
     getFile: (state):File_Object => state.file,
     getFileBuffer: (state):string => state.fileBuffer,
     getFileName: (state):string => state.fileName,
+    getFileBuffer2: (state):string => state.fileBuffer2,
+    getFileName2: (state):string => state.fileName2,
     isAllowMailCount: (state):boolean => state.mailCount_show,
     getMailCount: (state):string => {
       if (!state.mailCount_show) return '0'
@@ -43,6 +45,10 @@ export default new Vuex.Store({
       state.file = file || {}
       state.fileBuffer = fileBuffer || ''
       state.fileName = fileName || ''
+    },
+    [Types.SET_FILE_BUFFER_2]: (state, [fileBuffer, fileName]):void => {
+      state.fileBuffer2 = fileBuffer || ''
+      state.fileName2 = fileName || ''
     },
     [Types.SET_MAIL_COUNT]: (state, count:number = 0):void => {
       state.mailCount = count
@@ -72,6 +78,9 @@ export default new Vuex.Store({
     },
     setFileBuffer: ({ commit }, [file, fileBuffer, fileName]):void => {
       commit(Types.SET_FILE_BUFFER, [file, fileBuffer, fileName])
+    },
+    setFileBuffer2: ({ commit }, [fileBuffer, fileName]):void => {
+      commit(Types.SET_FILE_BUFFER_2, [fileBuffer, fileName])
     },
     setMailCount: ({ commit }, count:number):void => {
       commit(Types.SET_MAIL_COUNT, count)

@@ -1,7 +1,13 @@
 import Mock from 'mockjs'
-import { Roles } from './../../util/types'
+import {
+  Roles,
+  User_VO,
+  Schedule_VO,
+  Official_VO,
+  Email_VO,
+} from './../../util/types'
 
-const login:Function = ():any => {
+const login:Function = ():User_VO => {
   return {
     code: 200,
     data: Mock.mock({
@@ -31,7 +37,26 @@ const login:Function = ():any => {
 
 const logout:Function = ():any => ({ code: 200 })
 
-const futureSchedules:Function = ():any => ({
+const futureSchedules:Function = ():Schedule_VO => ({
+  code: 200,
+  data: Mock.mock({
+    "list|15": [{
+      "createtime": "@datetime",
+      "address": "腾讯大厦",
+      "schcontent": "开会",
+      "endtime": "@datetime",
+      "begintime": "@datetime",
+      "id|+1": 1,
+      "createuser": {
+        "uid": "@guid",
+        "name": "大管理员",
+      },
+      "title": "会议xxx",
+    }]
+  }).list
+})
+
+const todaySchedules:Function = ():Schedule_VO => ({
   data: Mock.mock({
     "list|15": [{
       "createtime": "@datetime",
@@ -51,7 +76,7 @@ const futureSchedules:Function = ():any => ({
 
 const uploadFile:Function = ():any => ({ code: 200 })
 
-const officialList:Function = ():Array<any> => {
+const officialList:Function = ():Array<Official_VO> => {
   return Mock.mock({
     "list|10": [{
       "id": "@guid",
@@ -70,7 +95,7 @@ const officialList:Function = ():Array<any> => {
   }).list
 }
 
-const inboxList:Function = ():any => {
+const inboxList:Function = ():Email_VO => {
   const list = Mock.mock({
     "list|10": [{
       "messageid": "@guid",
@@ -124,6 +149,8 @@ export const mockMapper:{ [index: string]:any } = {
   '/api/user/init': login(),
   '/api/user/logout': logout(),
   '/api/schedule/querySchedules': futureSchedules(),
+  '/api/schedule/queryTodaySchedules': todaySchedules(),
+  '/api/schedule/searchSchedules': futureSchedules(),
   '/api/file/uploadFile': uploadFile(),
   '/mock/officialList': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),

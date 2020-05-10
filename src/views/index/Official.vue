@@ -15,9 +15,13 @@
       </mt-swipe>
     </section>
     <GapLine/>
-    <SectionItem title="公文列表" @tapItem="$router.push('/official/list')"/>
+    <SectionItem title="公文列表"
+      iconUrl="icon-news" :iconColor="theme"
+      @tapItem="$router.push('/official/list')"/>
     <GapLine/>
-    <SectionItem title="我的公文" @tapItem="$router.push('/official/self')"/>
+    <SectionItem title="我的公文"
+      iconUrl="icon-news" :iconColor="theme"
+      @tapItem="$router.push('/official/self')"/>
   </div>
 </template>
 
@@ -45,6 +49,10 @@ export default class Official extends Vue {
   // 轮播图从随机下标的一张图开始
   private get randomIndex():number {
     return Math.random() * 3 >> 0
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
 }

@@ -7,7 +7,8 @@
       @tapItem="$router.push('/mail/inbox')"/>
     <GapLine/>
     <SectionItem title="发邮件"
-      iconUrl="icon-icon_compile" :iconColor="theme"/>
+      iconUrl="icon-icon_compile" :iconColor="theme"
+      @tapItem="$router.push('/mail/send')"/>
     <SectionItem title="草稿箱"
       iconUrl="icon-icon_invite" :iconColor="theme"
       @tapItem="$router.push('/mail/draft')"/>

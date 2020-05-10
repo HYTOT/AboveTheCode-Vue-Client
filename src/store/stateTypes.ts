@@ -11,7 +11,9 @@ export interface StateInterface {
   futureSchedules: Array<Schedule_VO>
   file: File_Object
   fileBuffer: string
-  fileName: string
+  fileName: string,
+  fileBuffer2: string,
+  fileName2: string,
   mailCount: number
   mailCount_show: boolean
   workspace: Array<ManagementItem>

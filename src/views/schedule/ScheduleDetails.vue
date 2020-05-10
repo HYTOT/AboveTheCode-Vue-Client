@@ -36,7 +36,7 @@ export default class ScheduleDetails extends Vue {
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
     next((vm:ScheduleDetails) => {
-      if (from.path !== '/schedule') {
+      if (!/^\/schedule/.test(from.path)) {
         vm.$router.push('/schedule')
         return
       }
@@ -59,8 +59,6 @@ export default class ScheduleDetails extends Vue {
     border: {
       top-left-radius: 10vw;
       bottom-right-radius: 10vw;
-      top: none;
-      bottom: none;
     }
     .schedule-createuser {
       color: #333;

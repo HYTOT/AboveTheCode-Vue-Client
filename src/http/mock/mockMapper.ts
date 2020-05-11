@@ -13,7 +13,7 @@ const login:Function = ():User_VO => {
     data: Mock.mock({
       "permissions": ["addEmailOrDraft", "deleteEmail", "uploadFile", "queryReceiveEmail", "updateEmail", "queryDraft", "queryDocument", "querySendEmail", "queryByEmail"],
       "email": "3123321@163.com",
-      "roles": Roles.STAFF,
+      "roles": Roles.MANAGER,
       "token": "33F2C8B757644402ABA0E54BD716A4DB",
       "user": {
         "depart": {
@@ -50,6 +50,9 @@ const futureSchedules:Function = ():Schedule_VO => ({
       "createuser": {
         "uid": "@guid",
         "name": "大管理员",
+        "depart": {
+          "departname|1": ["人力资源部", "IT部", "财务部"],
+        },
       },
       "title": "会议xxx",
     }]
@@ -68,6 +71,9 @@ const todaySchedules:Function = ():Schedule_VO => ({
       "createuser": {
         "uid": "@guid",
         "name": "大管理员",
+        "depart": {
+          "departname|1": ["人力资源部", "IT部", "财务部"],
+        },
       },
       "title": "会议xxx",
     }]
@@ -76,23 +82,26 @@ const todaySchedules:Function = ():Schedule_VO => ({
 
 const uploadFile:Function = ():any => ({ code: 200 })
 
-const officialList:Function = ():Array<Official_VO> => {
-  return Mock.mock({
-    "list|10": [{
-      "id": "@guid",
-      "title": "@ctitle",
-      "content": "@cparagraph",
-      "documentTime": "@datetime",
-      "createUser": {
+const officialList:Function = ():Official_VO => {
+  return {
+    code: 200,
+    data: Mock.mock({
+      "list|5": [{
         "id": "@guid",
-        "sex|1": [0, 1],
-        "name": "@cname",
-        "depart": {
-          "departName|1": ["人力资源部", "IT部", "财务部"],
+        "title": "@ctitle",
+        "content": "@cparagraph",
+        "documentTime": "@datetime",
+        "createUser": {
+          "id": "@guid",
+          "sex|1": [0, 1],
+          "name": "@cname",
+          "depart": {
+            "departname|1": ["人力资源部", "IT部", "财务部"],
+          }
         }
-      }
-    }]
-  }).list
+      }]
+    }).list
+  }
 }
 
 const inboxList:Function = ():Email_VO => {
@@ -144,7 +153,7 @@ const mailCount:Function = ():number => {
 
 const deleteEmail:Function = ():any => ({ code: 200 })
 
-export const mockMapper:{ [index: string]:any } = {
+export const mockMapper:{ [index:string]:any } = {
   '/api/user/login': login(),
   '/api/user/init': login(),
   '/api/user/logout': logout(),
@@ -152,7 +161,7 @@ export const mockMapper:{ [index: string]:any } = {
   '/api/schedule/queryTodaySchedules': todaySchedules(),
   '/api/schedule/searchSchedules': futureSchedules(),
   '/api/file/uploadFile': uploadFile(),
-  '/mock/officialList': officialList(),
+  '/api/documentinfo/queryDocument': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),
   '/api/email/selectNotReadCount': mailCount(),
   '/api/email/deleteEmail': deleteEmail(),

@@ -1,7 +1,8 @@
 <template>
   <div class="pdf-preview">
     <Header :title="fileName" :back="true"/>
-    <i class="iconfont icon-delete delete-file-btn" @click="deleteFile"></i>
+    <i class="iconfont icon-delete delete-file-btn" @click="deleteFile"
+      v-if="canDelete"></i>
     <div class="front-end-preview">
       <pdf :src="pdf.src" :page="pdf.page"
         @num-pages="getTotalPages($event)"
@@ -42,6 +43,8 @@ export default class PDF extends Vue {
     total: 1,
     loaded: false,
   }
+  private fileId:string = ''
+  private canDelete:boolean = false
 
   // 读取 pdf 总页数
   private getTotalPages(totalPages:number):void {
@@ -72,13 +75,29 @@ export default class PDF extends Vue {
   }
   // 删除服务端文件
   private async deleteFile():Promise<void> {
-    const res = (await axios.post('/api/')).data
+    const params = new URLSearchParams()
+    params.append('fileInfoId', this.fileId)
+    const res = (await axios.post('/api/file/deleteFile', params)).data
+    if (res.code === 200) {
+      Toast({
+        message: '已删除该文档',
+        duration: 1000,
+      })
+      this.$router.go(-1)
+    } else {
+      Toast({
+        message: '删除失败',
+        duration: 1000,
+      })
+    }
   }
   
   // 截取文件名
   private get fileName():string {
     const limit:number = 8
-    let name = this.$store.getters.getFileName.split('.')[0]
+    let name = this.$store.getters.getFileBuffer2
+      ? this.$store.getters.getFileName2.split('.')[0]
+      : this.$store.getters.getFileName.split('.')[0]
     return name.length > limit
       ? name.slice(0, limit).concat('....pdf')
       : name.concat('.pdf')
@@ -91,12 +110,19 @@ export default class PDF extends Vue {
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
     Indicator.open()
     next((vm:PDF) => {
-      if (from.path !== '/document' && from.path !== '/document/mydocs') {
+      if (!/^\/document/.test(from.path)) {
         Indicator.close()
         vm.$router.push('/document')
         return
       }
+      if (from.path === '/document/mydocs') vm.canDelete = true
+      vm.$route.params.fileId && (vm.fileId = vm.$route.params.fileId)
     })
+  }
+
+  private beforeRouteLeave(to:Route, from:Route, next:Function):void {
+    this.$store.dispatch('setFileBuffer2', ['', ''])
+    next()
   }
 
 }

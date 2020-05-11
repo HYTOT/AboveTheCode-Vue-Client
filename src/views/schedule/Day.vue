@@ -1,7 +1,8 @@
 <template>
   <div class="day" v-if="day">
     <Header :title="chinessDay" :back="true"/>
-    <i class="iconfont icon-icon_addmessage"></i>
+    <i class="iconfont icon-icon_addmessage"
+      v-if="addable" @click="$router.push('/schedule/add')"></i>
     <div v-if="list && list.length">
       <SectionItem v-for="(schedule, i) in list" :key="i"
         :title="schedule.title"
@@ -38,6 +39,10 @@ export default class Day extends Vue {
     arr.splice(7, 0, '月')
     arr.splice(10, 0, '日')
     return arr.join('')
+  }
+  // 创建日程权限
+  private get addable():boolean {
+    return this.$store.getters.getLoginState?.roles.includes('经理')
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

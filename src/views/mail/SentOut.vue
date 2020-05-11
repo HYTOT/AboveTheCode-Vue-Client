@@ -8,8 +8,8 @@
           name: 'Details',
           params: { mail },
         })"/>
-      <SectionItem title2="查看更多您已发送的邮件"
-        iconUrl="icon-gengduo" iconColor="#294E80"
+      <SectionItem title2="查看更多" v-if="haveMore"
+        iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreSentOut"/>
     </section>
   </div>
@@ -33,6 +33,7 @@ export default class SentOut extends Vue {
   // 已读邮件
   private mailsSentOut:Array<Email_VO> = []
   private mailsSentOutPage:number = 0
+  private haveMore:boolean = true
 
   // 请求更多未读邮件
   private async getMoreSentOut():Promise<void> {
@@ -40,6 +41,12 @@ export default class SentOut extends Vue {
       `/api/email/querySendEmail?pageIndex=${++this.mailsSentOutPage}&pageSize=${this.pageSize}`
     )).data
     this.mailsSentOut.push(...Object.freeze(res.data))
+    res.data.length < this.pageSize && (this.haveMore = false)
+  }
+
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
   private created():void {

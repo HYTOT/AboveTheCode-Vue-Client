@@ -18,7 +18,7 @@
         <OfficialItem @readContent="readContent" :item="item"/>
       </li>
     </ul>
-    <div class="loading" v-if="officialItems.length">
+    <div class="loading" v-if="officialItems.length && !searchValue.trim()">
       <span>{{ loadMsg }}</span>
     </div>
     <div class="showContentBox"
@@ -53,7 +53,12 @@ export default class OfficialList extends Vue {
   private ui_time:number = 0
   private officialItems:Array<Official_VO> = []
   private clickedContent:string = ''
+  private pageIndex:number = 0
+  private pageSize:number = 5
+  private haveMore:boolean = true
   private loadMsg:string = '上拉加载更多'
+  // 定时器，用于搜索框防抖操作
+  private timer:number = null
 
   // 火箭式返回顶部
   private toTop():void {
@@ -75,11 +80,13 @@ export default class OfficialList extends Vue {
   }
   // 请求公文列表数据，瀑布流分页
   private async getMore():Promise<void> {
-    if (this.officialItems.length < 50) {
+    if (this.haveMore && !this.searchValue.trim()) {
       this.loadMsg = '拼命加载中...'
-      let res = await axios.get('/mock/officialList')
-      // console.log(res.data)
+      const res = (await axios.get(
+        `/api/documentinfo/queryDocument?pageIndex=${++this.pageIndex}&pageSize=${this.pageSize}`
+      )).data
       this.officialItems.push(...Object.freeze(res.data))
+      res.data.length < this.pageSize && (this.haveMore = false)
       this.loading = false
       this.loadMsg = '上拉加载更多'
     } else {
@@ -103,7 +110,21 @@ export default class OfficialList extends Vue {
 
   @Watch('searchValue')
   private searchValueChanged(value:string):void {
-    console.log(value)
+    // 防抖，优化请求频率
+    clearTimeout(this.timer)
+    this.timer = setTimeout(async () => {
+      this.pageIndex = 0
+      this.haveMore = true
+      this.officialItems = []
+      if (value.trim()) {
+        const res = (await axios.get(
+          `/api/documentinfo/searchDocument?keyword=${value}`
+        )).data
+        this.officialItems = res.data
+      } else {
+        this.getMore()
+      }
+    }, 300)
   }
 
   private mounted():void {

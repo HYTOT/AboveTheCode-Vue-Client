@@ -3,6 +3,20 @@ export interface LoginForm {
   password:string
 }
 
+export interface AddScheduleForm {
+  title:string
+  address:string
+  beginTime:string | Date
+  endTime:string | Date
+  schContent:string
+}
+
+export interface EmailForm {
+  title:string
+  content:string
+  toUser:any
+}
+
 export interface NavBarItem {
   id:number
   title:string

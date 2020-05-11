@@ -14,7 +14,7 @@
           name: 'Details',
           params: { mail },
         })"/>
-      <SectionItem title2="查看更多未读邮件"
+      <SectionItem title2="查看更多未读邮件" v-if="haveMoreUnread"
         iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreUnread"/>
     </section>
@@ -28,7 +28,7 @@
           name: 'Details',
           params: { mail },
         })"/>
-      <SectionItem title2="查看更多已读邮件"
+      <SectionItem title2="查看更多已读邮件" v-if="haveMoreIsRead"
         iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreIsread"/>
     </section>
@@ -54,10 +54,12 @@ export default class Inbox extends Vue {
   private mailsUnread:Array<Email_VO> = []
   // 未读邮件页码
   private mailsUnreadPage:number = 1
+  private haveMoreUnread:boolean = true
   // 已读邮件
   private mailsIsread:Array<Email_VO> = []
   // 已读邮件页码
   private mailsIsreadPage:number = 1
+  private haveMoreIsRead:boolean = true
 
   // 请求更多未读邮件
   private async getMoreUnread():Promise<void> {
@@ -65,6 +67,7 @@ export default class Inbox extends Vue {
       `/api/email/queryReceiveEmail?pageIndex=${++this.mailsUnreadPage}&pageSize=${this.pageSize}&ifread=2`)
     ).data
     this.mailsUnread.push(...Object.freeze(res.data))
+    res.data.length < this.pageSize && (this.haveMoreUnread = false)
   }
   // 请求更多已读邮件
   private async getMoreIsread():Promise<void> {
@@ -72,6 +75,7 @@ export default class Inbox extends Vue {
       `/api/email/queryReceiveEmail?pageIndex=${++this.mailsIsreadPage}&pageSize=${this.pageSize}&ifread=1`)
     ).data
     this.mailsIsread.push(...Object.freeze(res.data))
+    res.data.length < this.pageSize && (this.haveMoreIsRead = false)
   }
   // 全部设为已读
   private readAll():void {
@@ -89,6 +93,8 @@ export default class Inbox extends Vue {
     const res = (await axios.get(`/api/email/queryReceiveEmail?pageIndex=1&pageSize=10`)).data
     this.mailsUnread.push(...Object.freeze(res.data.notReadEmails))
     this.mailsIsread.push(...Object.freeze(res.data.ReadEmails))
+    res.data.notReadEmails.length < this.pageSize && (this.haveMoreUnread = false)
+    res.data.ReadEmails.length < this.pageSize && (this.haveMoreIsRead = false)
     this.$store.dispatch('setMailCount', count)
     this.$store.dispatch('setPageLoadState', false)
   }

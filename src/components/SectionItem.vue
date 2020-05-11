@@ -32,9 +32,9 @@ export default class SectionItem extends Vue {
     return this.hotText && this.$store.getters.getMailCount !== '0'
   }
   private get titleSlice():string {
-    return (this.title2 && this.title2.length <= 12)
+    return (this.title2 && this.title2.length <= 10)
       ? this.title2
-      : this.title2.slice(0, 12).concat('...')
+      : this.title2.slice(0, 10).concat('...')
   }
 
 }

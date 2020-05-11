@@ -1,6 +1,6 @@
 <template>
-  <div class="my-docs">
-    <Header title="我的文档" :back="true"/>
+  <div class="all-docs">
+    <Header title="所有文档" :back="true"/>
     <GapLine/>
     <div v-if="fileList && fileList.length">
       <SectionItem v-for="(file, i) in fileList" :key="i"
@@ -9,6 +9,10 @@
         @tapItem="filePreview(file)"/>
     </div>
     <SectionItem title="暂无文档" v-else/>
+    <SectionItem title2="查看更多文档"
+      v-if="fileList && fileList.length && haveMore"
+      iconUrl="icon-gengduo" :iconColor="theme"
+      @tapItem="getMoreDocs"/>
     <GapLine/>
   </div>
 </template>
@@ -25,9 +29,12 @@ import { File_VO } from '../../util/types'
     SectionItem: () => import('../../components/SectionItem.vue'),
   }
 })
-export default class MyDocs extends Vue {
+export default class AllDocs extends Vue {
 
   private fileList:Array<File_VO> = []
+  private page:number = 0
+  private pageSize:number = 10
+  private haveMore:boolean = true
 
   // 文件预览
   private async filePreview(file:File_VO):Promise<void> {
@@ -38,17 +45,28 @@ export default class MyDocs extends Vue {
       params: { fileId: file.id }
     })
   }
+  private async getMoreDocs():Promise<void> {
+    const res = (await axios.get(
+      `/api/file/queryFilesByPage?pageIndex=${++this.page}&pageSize=${this.pageSize}`
+    )).data
+    res.data && this.fileList.push(...Object.freeze(res.data))
+    res.data.length < this.pageSize && (this.haveMore = false)
+  }
+
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
+  }
 
   private async created():Promise<void> {
-    const res = (await axios.get('/api/file/queryMyFile')).data
-    this.fileList = Object.freeze(res.data)
+    this.getMoreDocs()
   }
 
 }
 </script>
 
 <style lang="scss" scoped>
-.my-docs {
+.all-docs {
   width: 100vw;
 }
 </style>

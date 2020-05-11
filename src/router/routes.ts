@@ -122,6 +122,15 @@ export const routes:Array<RouteConfig> = [
     props: true
   },
   {
+    path: '/schedule/add',
+    name: 'AddSchedule',
+    component: () => import(/* webpackChunkName: "addSchedule" */ '../views/schedule/AddSchedule.vue'),
+    meta: {
+      index: 10.85,
+      title: '码上OA-创建日程',
+    }
+  },
+  {
     path: '/schedule/search',
     name: 'Search',
     component: () => import(/* webpackChunkName: "search" */ '../views/schedule/Search.vue'),
@@ -140,21 +149,30 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
-    path: '/document/pdf',
-    name: 'PDF',
-    component: () => import(/* webpackChunkName: "pdf" */ '../views/document/PDF.vue'),
-    meta: {
-      index: 11,
-      title: '码上OA-PDF预览',
-    }
-  },
-  {
     path: '/document/mydocs',
     name: 'MyDocs',
     component: () => import(/* webpackChunkName: "mydocs" */ '../views/document/MyDocs.vue'),
     meta: {
       index: 11.2,
       title: '码上OA-我的文档',
+    }
+  },
+  {
+    path: '/document/alldocs',
+    name: 'AllDocs',
+    component: () => import(/* webpackChunkName: "alldocs" */ '../views/document/AllDocs.vue'),
+    meta: {
+      index: 11.4,
+      title: '码上OA-所有文档',
+    }
+  },
+  {
+    path: '/document/pdf',
+    name: 'PDF',
+    component: () => import(/* webpackChunkName: "pdf" */ '../views/document/PDF.vue'),
+    meta: {
+      index: 11.6,
+      title: '码上OA-PDF预览',
     }
   },
   {

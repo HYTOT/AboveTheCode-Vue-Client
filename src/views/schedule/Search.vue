@@ -28,10 +28,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { Route } from 'vue-router'
-import { MessageBox } from 'mint-ui'
-import axios from '../../http/axios.config'
 import { Schedule_VO } from '../../util/types'
+import { MessageBox } from 'mint-ui'
+import { Route } from 'vue-router'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -43,8 +43,10 @@ import { Schedule_VO } from '../../util/types'
 export default class Search extends Vue {
 
   private searchValue:string = ''
+  // 定时器，用于搜索框防抖操作
   private timer:number = null
   private list:Schedule_VO = []
+  // 搜索历史
   private histories:Array<string> = localStorage.getItem('code-search-history')?.split(',') || []
 
   // 点击日程对象
@@ -77,7 +79,7 @@ export default class Search extends Vue {
 
   @Watch('searchValue')
   private searchValueChanged(value:string):void {
-    // 节流，优化请求频率
+    // 防抖，优化请求频率
     clearTimeout(this.timer)
     this.timer = setTimeout(async () => {
       if (!value.trim()) {
@@ -85,9 +87,8 @@ export default class Search extends Vue {
         return
       }
       const res = (await axios.get(`/api/schedule/searchSchedules?data=${value}`)).data
-      console.log(res);
       if (res.code === 200) this.list = Object.freeze(res.data)
-    }, 1000)
+    }, 300)
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

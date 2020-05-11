@@ -27,8 +27,10 @@ export default class App extends Vue {
       this.$store.dispatch('setMailCount', 0)
       this.$store.dispatch('setPageLoadState', true)
       this.$store.dispatch('setFileBuffer', [{}, '', ''])
+      this.$store.dispatch('setFileBuffer2', ['', ''])
       localStorage.removeItem('code-theme')
       localStorage.removeItem('code-login')
+      localStorage.removeItem('code-search-history')
     }
   }
 

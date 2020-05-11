@@ -1,7 +1,7 @@
 <template>
   <article class="official-item" v-if="item">
     <h3 class="item-user" :style="{ color: theme }">
-      <span>{{ item.createUser.depart.departName }}主管</span>
+      <span>{{ item.createUser.depart.departname }}主管</span>
       <span>{{ item.createUser.name }}</span>
       <i class="iconfont" :class="gender" :style="{
         color: male ? '#6698cb' : '#fa5a5a'

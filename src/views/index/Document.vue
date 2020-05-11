@@ -27,6 +27,10 @@
     <SectionItem title="我的文档"
       iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"
       @tapItem="$router.push('/document/mydocs')"/>
+    <GapLine/>
+    <SectionItem title="所有文档"
+      iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"
+      @tapItem="$router.push('/document/alldocs')"/>
     <!-- 图表 -->
     <!-- <ve-line :data="chartData" width="100vw"/> -->
   </div>

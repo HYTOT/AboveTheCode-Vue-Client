@@ -6,14 +6,23 @@
     <GapLine/>
     <mt-field label="内容" type="textarea" rows="4" v-model="form.content"></mt-field>
     <GapLine/>
-    <SectionItem title="收件人" :title2="form.toUser.name || '点击选择'"/>
+    <SectionItem title="收件人"
+      :title2="(form.toUser && form.toUser.name) || '点击选择'"/>
     <GapLine/>
+    <SectionItem title="存为草稿"
+      iconUrl="icon-save" :iconColor="theme"/>
+    <GapLine/>
+    <SectionItem title="发送邮件"
+      iconUrl="icon-paper-plane" :iconColor="theme"
+      @tapItem="sendOut"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { EmailForm } from '../../util/types'
+import { Toast } from 'mint-ui'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -28,7 +37,23 @@ export default class Send extends Vue {
   private form:EmailForm = {
     title: '',
     content: '',
-    toUser: {}
+    toUser: null
+  }
+
+  // 发出邮件
+  private async sendOut():Promise<void> {
+    const params = new URLSearchParams()
+    const res = (await axios.post('/api/', params)).data
+    Toast({
+      message: '邮件已发送',
+      duration: 1000,
+    })
+    this.$router.push('/mail/sentout')
+  }
+
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
 }

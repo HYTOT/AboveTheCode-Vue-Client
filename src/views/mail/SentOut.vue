@@ -8,7 +8,7 @@
           name: 'Details',
           params: { mail },
         })"/>
-      <SectionItem title2="查看更多" v-if="haveMore"
+      <SectionItem title2="查看更多已发送邮件" v-if="haveMore"
         iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMoreSentOut"/>
     </section>
@@ -35,7 +35,7 @@ export default class SentOut extends Vue {
   private mailsSentOutPage:number = 0
   private haveMore:boolean = true
 
-  // 请求更多未读邮件
+  // 请求更多
   private async getMoreSentOut():Promise<void> {
     const res = (await axios.get(
       `/api/email/querySendEmail?pageIndex=${++this.mailsSentOutPage}&pageSize=${this.pageSize}`

@@ -88,7 +88,7 @@ export default class Search extends Vue {
       }
       const res = (await axios.get(`/api/schedule/searchSchedules?data=${value}`)).data
       if (res.code === 200) this.list = Object.freeze(res.data)
-    }, 300)
+    }, 600)
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

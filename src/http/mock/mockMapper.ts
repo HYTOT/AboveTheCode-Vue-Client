@@ -145,6 +145,44 @@ const inboxList:Function = ():Email_VO => {
   }
 }
 
+const sentOutList:Function = ():Email_VO => {
+  return {
+    code: 200,
+    data: Mock.mock({
+      "list|10": [{
+        "messageid": "@guid",
+        "title": "@csentence",
+        "content": "@cparagraph",
+        "createtime": "@datetime",
+        "sendtime": "@datetime",
+        "fromuser": {
+          "uid": "@guid",
+          "sex|1": [0, 1],
+          "name": "@cname",
+          "email": "@email",
+          "worktime": "@datetime",
+          "depart": {
+            "departname|1": ["人力资源部", "IT部", "财务部"],
+          }
+        },
+        "touser": {
+          "uid": "8363BCB85F064430A1A41D05CD1B5342",
+          "sex": 1,
+          "name": "模拟张三",
+          "phone": "",
+          "email": "3123321@163.com",
+          "worktime": "2017-08-22 00:00:00",
+          "depart": {
+            "departName": "IT部",
+          }
+        },
+        "ifread|1": [1, 2],
+        "toifdelete|1": [1, 2]
+      }]
+    }).list
+  }
+}
+
 const mailCount:Function = ():number => {
   return Mock.mock({
     "count|0-150": 1
@@ -160,9 +198,13 @@ export const mockMapper:{ [index:string]:any } = {
   '/api/schedule/querySchedules': futureSchedules(),
   '/api/schedule/queryTodaySchedules': todaySchedules(),
   '/api/schedule/searchSchedules': futureSchedules(),
+  '/api/schedule/addSchedule': uploadFile(),
   '/api/file/uploadFile': uploadFile(),
   '/api/documentinfo/queryDocument': officialList(),
+  '/api/documentinfo/searchDocument': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),
+  '/api/email/queryDraft': sentOutList(),
+  '/api/email/querySendEmail': sentOutList(),
   '/api/email/selectNotReadCount': mailCount(),
   '/api/email/deleteEmail': deleteEmail(),
 }

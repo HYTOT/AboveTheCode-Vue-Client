@@ -120,11 +120,11 @@ export default class OfficialList extends Vue {
         const res = (await axios.get(
           `/api/documentinfo/searchDocument?keyword=${value}`
         )).data
-        this.officialItems = res.data
+        this.officialItems = Object.freeze(res.data)
       } else {
         this.getMore()
       }
-    }, 300)
+    }, 600)
   }
 
   private mounted():void {

@@ -4,7 +4,7 @@
     <section class="draft-list" v-if="mailsFromDraft.length">
       <SectionItem v-for="(mail, i) in mailsFromDraft" :key="i"
         :title="mail.fromuser.name" :title2="mail.title"/>
-      <SectionItem title2="查看更多" v-if="haveMore"
+      <SectionItem title2="查看更多草稿" v-if="haveMore"
         iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMore"/>
     </section>

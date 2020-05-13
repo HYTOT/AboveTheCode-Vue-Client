@@ -203,21 +203,21 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
-    path: '/mail/send',
-    name: 'Send',
-    component: () => import(/* webpackChunkName: "semd" */ '../views/mail/Send.vue'),
-    meta: {
-      index: 13.3,
-      title: '码上OA-发邮件',
-    }
-  },
-  {
     path: '/mail/draft',
     name: 'Draft',
     component: () => import(/* webpackChunkName: "draft" */ '../views/mail/Draft.vue'),
     meta: {
-      index: 13.5,
+      index: 13.3,
       title: '码上OA-草稿箱',
+    }
+  },
+  {
+    path: '/mail/send',
+    name: 'Send',
+    component: () => import(/* webpackChunkName: "semd" */ '../views/mail/Send.vue'),
+    meta: {
+      index: 13.5,
+      title: '码上OA-发邮件',
     }
   },
   {

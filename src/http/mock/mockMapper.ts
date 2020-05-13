@@ -13,7 +13,7 @@ const login:Function = ():User_VO => {
     data: Mock.mock({
       "permissions": ["addEmailOrDraft", "deleteEmail", "uploadFile", "queryReceiveEmail", "updateEmail", "queryDraft", "queryDocument", "querySendEmail", "queryByEmail"],
       "email": "3123321@163.com",
-      "roles": Roles.MANAGER,
+      "roles": Roles.ADMINISTRATOR,
       "token": "33F2C8B757644402ABA0E54BD716A4DB",
       "user": {
         "depart": {

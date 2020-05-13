@@ -209,11 +209,12 @@ export default class MailDetails extends Vue {
     top: 0;
     left: 0;
     transform: translateY(-110vh);
-    background: rgba(black, 0);
+    background: rgba(black, .5);
     transition: all .3s;
+    opacity: 0;
     &.showOperations {
-      background: rgba(black, .5);
       transform: translateY(0);
+      opacity: 1;
     }
     .operations-block {
       width: 60vw;

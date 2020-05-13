@@ -4,17 +4,28 @@ export interface LoginForm {
 }
 
 export interface AddScheduleForm {
+  [key:string]:any // 索引签名
   title:string
   address:string
   beginTime:string | Date
   endTime:string | Date
   schContent:string
+  participants:Array<User_VO>
 }
 
 export interface EmailForm {
+  [key:string]:any // 索引签名
   title:string
   content:string
-  toUser:any
+  toUser:User_VO
+}
+
+export interface OperationItem {
+  id:number
+  title:string
+  path:string
+  icon:string
+  color:string
 }
 
 export interface NavBarItem {

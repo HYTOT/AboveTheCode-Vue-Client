@@ -7,10 +7,13 @@
           <span>{{ greet }}，</span>
           <span>{{ $store.getters.getLoginState.user.name }}</span>
         </div>
-        <SectionItem iconUrl="icon-qrcode" iconColor="green"
-          @tapItem="$router.push('/schedule/config/mine/qrcode')" title="我的名片"/>
-        <SectionItem iconUrl="icon-cog" iconColor="#666"
-          @tapItem="$router.push('/schedule/config')" title="设置"/>
+        <Draggable v-model="operations">
+          <transition-group>
+            <SectionItem v-for="item in operations" :key="item.id"
+              :iconUrl="item.icon" :iconColor="item.color"
+              @tapItem="$router.push(item.path)" :title="item.title"/>
+          </transition-group>
+        </Draggable>
       </section>
     </div>
     <header class="account-operations" :style="{ background: theme }">
@@ -49,13 +52,14 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Greet, Schedule_VO } from '../../util/types'
+import { Greet, Schedule_VO, OperationItem } from '../../util/types'
 import axios from '../../http/axios.config'
 
 @Component({
   components: {
     Calendar: () => import('vue-calendar-component'),
     SectionItem: () => import('../../components/SectionItem.vue'),
+    Draggable: () => import('vuedraggable'),
   }
 })
 export default class Schedule extends Vue {
@@ -105,6 +109,13 @@ export default class Schedule extends Vue {
   // 颜色主题
   private get theme():string {
     return localStorage.getItem('code-theme') || ''
+  }
+  // 左侧菜单 getter/setter，用作拖拽
+  private get operations():Array<OperationItem> {
+    return this.$store.getters.getMenu
+  }
+  private set operations(menu:Array<OperationItem>) {
+    this.$store.dispatch('setOperationsMenu', menu)
   }
 
   private created():void {
@@ -172,11 +183,12 @@ export default class Schedule extends Vue {
     top: 0;
     left: 0;
     transform: translate(-100vw);
-    background: rgba(black, 0);
+    background: rgba(black, .5);
     transition: all .3s;
+    opacity: 0;
     &.showOperations {
-      background: rgba(black, .5);
       transform: translate(0);
+      opacity: 1;
     }
     .operations-block {
       width: 75vw;

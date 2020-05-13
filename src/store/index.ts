@@ -3,6 +3,7 @@ import {
   Schedule_VO,
   User_VO,
   File_Object,
+  OperationItem,
 } from './../util/types'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     getLoginState: (state):User_VO => state.userLoginInfo,
     managable: (state):boolean => state.userLoginInfo?.roles.includes('管理员'),
     isPageFirstLoad: (state):boolean => state.pageFirstLoad,
+    getMenu: (state):Array<OperationItem> => state.indexOperations,
     getFutureSchedules: (state):Array<Schedule_VO> => state.futureSchedules,
     getFile: (state):File_Object => state.file,
     getFileBuffer: (state):string => state.fileBuffer,
@@ -37,6 +39,9 @@ export default new Vuex.Store({
     },
     [Types.SET_PAGE_LOAD_STATE]: (state, flag:boolean):void => {
       state.pageFirstLoad = flag
+    },
+    [Types.SET_OPERATIONS_MENU]: (state, menu:Array<OperationItem>):void => {
+      state.indexOperations = menu
     },
     [Types.SET_FUTURE_SCHEDULES]: (state, futures:Array<Schedule_VO>):void => {
       state.futureSchedules = futures
@@ -62,6 +67,9 @@ export default new Vuex.Store({
           && state.workspace.unshift(item)
         : state.workspace.splice(state.workspace.indexOf(item), 1)
     },
+    [Types.SET_WORKSPACE]: (state, array:Array<any>):void => {
+      state.workspace = array
+    },
     [Types.CLEAR_WORKSPACE]: (state):void => {
       state.workspace.splice(0, state.workspace.length)
     },
@@ -72,6 +80,9 @@ export default new Vuex.Store({
     },
     setPageLoadState: ({ commit }, flag:boolean):void => {
       commit(Types.SET_PAGE_LOAD_STATE, flag)
+    },
+    setOperationsMenu: ({ commit }, menu:Array<OperationItem>):void => {
+      commit(Types.SET_OPERATIONS_MENU, menu)
     },
     setFutureSchedules: ({ commit }, futures:Array<Schedule_VO>):void => {
       commit(Types.SET_FUTURE_SCHEDULES, futures)
@@ -90,6 +101,9 @@ export default new Vuex.Store({
     },
     setItemToWorkspace: ({ commit }, [item, isPush]):void => {
       commit(Types.SET_ITEM_TO_WORKSPACE, [item, isPush])
+    },
+    setWorkspace: ({ commit }, array:Array<any>):void => {
+      commit(Types.SET_WORKSPACE, array)
     },
     clearWorkspace: ({ commit }):void => {
       commit(Types.CLEAR_WORKSPACE)

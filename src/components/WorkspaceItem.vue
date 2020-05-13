@@ -44,7 +44,7 @@ export default class WorkspaceItem extends Vue {
 <style lang="scss" scoped>
 .workspace-item {
   width: 100vw;
-  background: #ccc;
+  background: #dedede;
   overflow-x: hidden;
   padding-top: 2vw;
   .workspace-item-title {
@@ -64,7 +64,7 @@ export default class WorkspaceItem extends Vue {
       content: '';
       width: 5.5vw;
       height: 9.5vw;
-      background: #ccc;
+      background: #dedede;
       position: absolute;
       top: 0;
       left: 0;
@@ -77,7 +77,7 @@ export default class WorkspaceItem extends Vue {
       content: '';
       width: 5.5vw;
       height: 9.5vw;
-      background: #ccc;
+      background: #dedede;
       position: absolute;
       top: 0;
       left: 94.5vw;

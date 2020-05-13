@@ -162,7 +162,7 @@ export default class Schedule extends Vue {
       .searchBox {
         width: 75vw;
         height: 9vw;
-        background: lightgray;
+        background: #dedede;
         border-radius: 7vw;
         @extend .flexCenter;
         font-size: 3.8vw;

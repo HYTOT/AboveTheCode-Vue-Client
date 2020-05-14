@@ -70,10 +70,6 @@ export default class AddSchedule extends Vue {
   }
   private async createSchedule():Promise<void> {
     const submit = Object.assign({}, this.form)
-    for (const key in submit) {
-      // 过滤标签符号
-      submit[key] = Util.htmlToEscape(submit[key])
-    }
     submit.beginTime = new Date(this.form.beginTime)
     submit.endTime = new Date(this.form.endTime)
     const params = new URLSearchParams()

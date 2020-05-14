@@ -20,8 +20,10 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
+import { wsBaseUrl } from '../util/ws.config'
 import { Indicator, Toast } from 'mint-ui'
 import { LoginForm } from '../util/types'
+import { menu } from '../util/menu.config'
 import { Route } from 'vue-router'
 import Util from '../util/util'
 import SlideVerify from 'vue-monoplasty-slide-verify'
@@ -77,6 +79,16 @@ export default class Login extends Vue {
       this.$store.dispatch('saveUserLoginState', res.data)
       this.$router.push('/schedule')
       Toast(`欢迎回来，${this.$store.getters.getLoginState.user.name}`)
+      this.$store.dispatch('setWS', `${wsBaseUrl}${this.$store.getters.getLoginState.token}`)
+      const ws:WebSocket = this.$store.getters.getWS
+      // socket 监听账号重复登录
+      ws.onmessage = (e:MessageEvent) => {
+        if (/^error/.test(e.data)) {
+          Toast(e.data.split('|')[1])
+          this.cleanAllState()
+          this.$route.path !== '/login' && this.$router.push('/login')
+        }
+      }
     } else {
       Toast({
         message: '用户名或密码错误',
@@ -84,6 +96,19 @@ export default class Login extends Vue {
       })
       this.model.password = ''
     }
+  }
+  // 清理所有状态缓存
+  private cleanAllState():void {
+    this.$store.dispatch('setWS', null)
+    this.$store.dispatch('setMailCount', 0)
+    this.$store.dispatch('setPageLoadState', true)
+    this.$store.dispatch('setFileBuffer', [{}, '', ''])
+    this.$store.dispatch('setFileBuffer2', ['', ''])
+    this.$store.dispatch('clearWorkspace')
+    this.$store.dispatch('setOperationsMenu', menu)
+    localStorage.removeItem('code-theme')
+    localStorage.removeItem('code-login')
+    localStorage.removeItem('code-search-history')
   }
 
   // 获取页面宽度

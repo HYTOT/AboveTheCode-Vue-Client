@@ -83,3 +83,4 @@ export type Official_VO = any
 export type Email_VO = any
 export type Chart = any
 export type MapConfig = any
+export type SuccessCode = { code:number }

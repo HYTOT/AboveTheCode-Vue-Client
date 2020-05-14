@@ -81,7 +81,7 @@ export default class Workspace extends Vue {
   }
   // 颜色主题
   private get theme():string {
-    return localStorage.getItem('code-theme') || ''
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

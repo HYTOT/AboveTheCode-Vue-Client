@@ -3,7 +3,8 @@
     <Header title="草稿箱" :back="true"/>
     <section class="draft-list" v-if="mailsFromDraft.length">
       <SectionItem v-for="(mail, i) in mailsFromDraft" :key="i"
-        :title="mail.fromuser.name" :title2="mail.title"/>
+        :title="mail.fromuser.name" :title2="mail.title"
+        @tapItem="editDraft(mail)"/>
       <SectionItem title2="查看更多草稿" v-if="haveMore"
         iconUrl="icon-gengduo" :iconColor="theme"
         @tapItem="getMore"/>
@@ -38,6 +39,13 @@ export default class Draft extends Vue {
     )).data
     this.mailsFromDraft.push(...Object.freeze(res.data))
     res.data.length < this.pageSize && (this.haveMore = false)
+  }
+  private editDraft(mail:Email_VO):void {
+    this.$router.go(-1)
+    setTimeout(() => this.$router.push({
+      name: 'Send',
+      params: { mail }
+    }), 300)
   }
 
   // 颜色主题

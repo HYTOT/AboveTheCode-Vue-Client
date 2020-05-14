@@ -10,6 +10,8 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Toast } from 'mint-ui'
 import { Route } from 'vue-router'
+import { menu } from './util/menu.config'
+import { wsBaseUrl } from './util/ws.config'
 import axios from './http/axios.config'
 
 @Component
@@ -23,15 +25,33 @@ export default class App extends Vue {
     const res = (await axios.post('/api/user/init')).data
     if (res && res.code === 200) {
       this.$store.dispatch('saveUserLoginState', res.data)
+      this.$store.dispatch('setWS', `${wsBaseUrl}${this.$store.getters.getLoginState.token}`)
+      const ws:WebSocket = this.$store.getters.getWS
+      // socket 监听账号重复登录
+      ws.onmessage = (e:MessageEvent) => {
+        if (/^error/.test(e.data)) {
+          Toast(e.data.split('|')[1])
+          this.cleanAllState()
+          this.$route.path !== '/login' && this.$router.push('/login')
+        }
+      }
     } else {
-      this.$store.dispatch('setMailCount', 0)
-      this.$store.dispatch('setPageLoadState', true)
-      this.$store.dispatch('setFileBuffer', [{}, '', ''])
-      this.$store.dispatch('setFileBuffer2', ['', ''])
-      localStorage.removeItem('code-theme')
-      localStorage.removeItem('code-login')
-      localStorage.removeItem('code-search-history')
+      this.cleanAllState()
+      this.$route.path !== '/login' && this.$router.push('/login')
     }
+  }
+  // 清理所有状态缓存
+  private cleanAllState():void {
+    this.$store.dispatch('setWS', null)
+    this.$store.dispatch('setMailCount', 0)
+    this.$store.dispatch('setPageLoadState', true)
+    this.$store.dispatch('setFileBuffer', [{}, '', ''])
+    this.$store.dispatch('setFileBuffer2', ['', ''])
+    this.$store.dispatch('clearWorkspace')
+    this.$store.dispatch('setOperationsMenu', menu)
+    localStorage.removeItem('code-theme')
+    localStorage.removeItem('code-login')
+    localStorage.removeItem('code-search-history')
   }
 
   // 判断路由组件 index 值，动态改变过渡动画方向
@@ -46,6 +66,11 @@ export default class App extends Vue {
 
   private created():void {
     this.initAppRootComponent()
+    window.onbeforeunload = () => {
+      // 监听页面离开，传 socket 连接到后端
+      this.$store.getters.getLoginState &&
+        this.$store.dispatch('setWS', `${wsBaseUrl}${this.$store.getters.getLoginState.token}`)
+    }
   }
 
 }

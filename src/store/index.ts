@@ -4,6 +4,7 @@ import {
   User_VO,
   File_Object,
   OperationItem,
+  Roles,
 } from './../util/types'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -15,8 +16,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state,
   getters: {
+    getWS: (state):WebSocket => state.ws,
     getLoginState: (state):User_VO => state.userLoginInfo,
-    managable: (state):boolean => state.userLoginInfo?.roles.includes('管理员'),
+    managable: (state):boolean => state.userLoginInfo?.roles.includes(Roles.ADMINISTRATOR),
     isPageFirstLoad: (state):boolean => state.pageFirstLoad,
     getMenu: (state):Array<OperationItem> => state.indexOperations,
     getFutureSchedules: (state):Array<Schedule_VO> => state.futureSchedules,
@@ -34,6 +36,11 @@ export default new Vuex.Store({
     getWorkspace: (state):Array<ManagementItem> => state.workspace,
   },
   mutations: {
+    [Types.SET_WEB_SOCKET]: (state, wsURL:string):void => {
+      state.ws = wsURL === null
+        ? null
+        : state.ws || new WebSocket(wsURL)
+    },
     [Types.SAVE_USER_LOGIN_STATE]: (state, user:User_VO = null):void => {
       state.userLoginInfo = user
     },
@@ -75,6 +82,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    setWS: ({ commit }, wsURL:string):void => {
+      commit(Types.SET_WEB_SOCKET, wsURL)
+    },
     saveUserLoginState: ({ commit }, user:User_VO):void => {
       commit(Types.SAVE_USER_LOGIN_STATE, user)
     },
@@ -94,7 +104,11 @@ export default new Vuex.Store({
       commit(Types.SET_FILE_BUFFER_2, [fileBuffer, fileName])
     },
     setMailCount: ({ commit }, count:number):void => {
-      commit(Types.SET_MAIL_COUNT, count)
+      commit(Types.SET_MAIL_COUNT,
+        Object.prototype.toString.call(count) === '[object Number]'
+          ? count
+          : 0
+      )
     },
     allowMailCount: ({ commit }, flag:boolean):void => {
       commit(Types.ALLOW_MAIL_COUNT, flag)

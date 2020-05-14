@@ -5,6 +5,7 @@ import {
   Schedule_VO,
   Official_VO,
   Email_VO,
+  SuccessCode,
 } from './../../util/types'
 
 const login:Function = ():User_VO => {
@@ -13,7 +14,7 @@ const login:Function = ():User_VO => {
     data: Mock.mock({
       "permissions": ["addEmailOrDraft", "deleteEmail", "uploadFile", "queryReceiveEmail", "updateEmail", "queryDraft", "queryDocument", "querySendEmail", "queryByEmail"],
       "email": "3123321@163.com",
-      "roles": Roles.ADMINISTRATOR,
+      "roles": Roles.SUPERVISOR,
       "token": "33F2C8B757644402ABA0E54BD716A4DB",
       "user": {
         "depart": {
@@ -35,7 +36,7 @@ const login:Function = ():User_VO => {
   }
 }
 
-const logout:Function = ():any => ({ code: 200 })
+const logout:Function = ():SuccessCode => ({ code: 200 })
 
 const futureSchedules:Function = ():Schedule_VO => ({
   code: 200,
@@ -80,7 +81,7 @@ const todaySchedules:Function = ():Schedule_VO => ({
   }).list
 })
 
-const uploadFile:Function = ():any => ({ code: 200 })
+const uploadFile:Function = ():SuccessCode => ({ code: 200 })
 
 const officialList:Function = ():Official_VO => {
   return {
@@ -130,7 +131,7 @@ const inboxList:Function = ():Email_VO => {
         "email": "3123321@163.com",
         "worktime": "2017-08-22 00:00:00",
         "depart": {
-          "departName": "IT部",
+          "departname": "IT部",
         }
       },
       "ifread|1": [1, 2],
@@ -145,7 +146,7 @@ const inboxList:Function = ():Email_VO => {
   }
 }
 
-const sentOutList:Function = ():Email_VO => {
+const draftList:Function = ():Email_VO => {
   return {
     code: 200,
     data: Mock.mock({
@@ -156,16 +157,6 @@ const sentOutList:Function = ():Email_VO => {
         "createtime": "@datetime",
         "sendtime": "@datetime",
         "fromuser": {
-          "uid": "@guid",
-          "sex|1": [0, 1],
-          "name": "@cname",
-          "email": "@email",
-          "worktime": "@datetime",
-          "depart": {
-            "departname|1": ["人力资源部", "IT部", "财务部"],
-          }
-        },
-        "touser": {
           "uid": "8363BCB85F064430A1A41D05CD1B5342",
           "sex": 1,
           "name": "模拟张三",
@@ -173,7 +164,17 @@ const sentOutList:Function = ():Email_VO => {
           "email": "3123321@163.com",
           "worktime": "2017-08-22 00:00:00",
           "depart": {
-            "departName": "IT部",
+            "departname": "IT部",
+          }
+        },
+        "touser": {
+          "uid": "@guid",
+          "sex|1": [0, 1],
+          "name": "@cname",
+          "email": "@email",
+          "worktime": "@datetime",
+          "depart": {
+            "departname|1": ["人力资源部", "IT部", "财务部"],
           }
         },
         "ifread|1": [1, 2],
@@ -189,7 +190,25 @@ const mailCount:Function = ():number => {
   }).count
 }
 
-const deleteEmail:Function = ():any => ({ code: 200 })
+const emailUserList:Function = ():User_VO => {
+  return {
+    code: 200,
+    data: Mock.mock({
+      "list|20": [{
+        "uid": "@guid",
+        "sex|1": [0, 1],
+        "name": "@cname",
+        "email": "@email",
+        "worktime": "@datetime",
+        "depart": {
+          "departname|1": ["人力资源部", "IT部", "财务部"],
+        }
+      }]
+    }).list
+  }
+}
+
+const deleteEmail:Function = ():SuccessCode => ({ code: 200 })
 
 export const mockMapper:{ [index:string]:any } = {
   '/api/user/login': login(),
@@ -203,8 +222,9 @@ export const mockMapper:{ [index:string]:any } = {
   '/api/documentinfo/queryDocument': officialList(),
   '/api/documentinfo/searchDocument': officialList(),
   '/api/email/queryReceiveEmail': inboxList(),
-  '/api/email/queryDraft': sentOutList(),
-  '/api/email/querySendEmail': sentOutList(),
+  '/api/email/queryDraft': draftList(),
+  '/api/email/querySendEmail': draftList(),
   '/api/email/selectNotReadCount': mailCount(),
+  '/api/email/getUser': emailUserList(),
   '/api/email/deleteEmail': deleteEmail(),
 }

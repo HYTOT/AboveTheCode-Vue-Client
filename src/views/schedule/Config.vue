@@ -17,6 +17,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { MessageBox } from 'mint-ui'
+import { menu } from '../../util/menu.config'
 import axios from '../../http/axios.config'
 
 @Component({
@@ -32,18 +33,27 @@ export default class Config extends Vue {
     MessageBox.confirm('您确定要退出登录吗？')
     .then(async (action:any) => {
       let res = (await axios.post('/api/user/logout')).data
-      if (res.code === 200) {
-        // 退登重新初始化 vuex，清除登录 storage 值
-        this.$store.dispatch('setMailCount', 0)
-        this.$store.dispatch('setPageLoadState', true)
-        this.$store.dispatch('setFileBuffer', [{}, '', ''])
-        this.$store.dispatch('setFileBuffer2', ['', ''])
-        localStorage.removeItem('code-theme')
-        localStorage.removeItem('code-login')
-        localStorage.removeItem('code-search-history')
-        this.$router.push('/login')
-      }
+      this.cleanAllState()
+      const wsURL = `ws://192.168.13.9:90/socket/${this.$store.getters.getLoginState.token}`
+      const ws:WebSocket = this.$store.getters.getWS
+      ws.close()
+      // 关闭 socket 后，vuex 的 socket 单例对象清空
+      this.$store.dispatch('setWS', null)
+      this.$router.push('/login')
     }).catch(() => {})
+  }
+  // 清理所有状态缓存
+  private cleanAllState():void {
+    // 退登重新初始化 vuex，清除登录 storage 值
+    this.$store.dispatch('setMailCount', 0)
+    this.$store.dispatch('setPageLoadState', true)
+    this.$store.dispatch('setFileBuffer', [{}, '', ''])
+    this.$store.dispatch('setFileBuffer2', ['', ''])
+    this.$store.dispatch('clearWorkspace')
+    this.$store.dispatch('setOperationsMenu', menu)
+    localStorage.removeItem('code-theme')
+    localStorage.removeItem('code-login')
+    localStorage.removeItem('code-search-history')
   }
 
 }

@@ -20,6 +20,7 @@
       @tapItem="$router.push('/official/list')"/>
     <GapLine/>
     <SectionItem title="我的公文"
+      v-if="isManager"
       iconUrl="icon-news" :iconColor="theme"
       @tapItem="$router.push('/official/self')"/>
   </div>
@@ -27,7 +28,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { SwiperBgColor } from '../../util/types'
+import { SwiperBgColor, Roles } from '../../util/types'
 
 @Component({
   components: {
@@ -53,6 +54,10 @@ export default class Official extends Vue {
   // 颜色主题
   private get theme():string {
     return localStorage.getItem('code-theme') || '#294E80'
+  }
+  // 主管身份显示我的公文
+  private get isManager():boolean {
+    return this.$store.getters.getLoginState?.roles.includes(Roles.SUPERVISOR)
   }
 
 }

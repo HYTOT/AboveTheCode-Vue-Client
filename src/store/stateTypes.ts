@@ -7,6 +7,7 @@ import {
 } from './../util/types'
 
 export interface StateInterface {
+  ws: WebSocket
   userLoginInfo: User_VO
   pageFirstLoad: boolean
   futureSchedules: Array<Schedule_VO>

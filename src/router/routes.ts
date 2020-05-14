@@ -194,6 +194,15 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/official/add',
+    name: 'AddOfficial',
+    component: () => import(/* webpackChunkName: "addOfficial" */ '../views/official/AddOfficial.vue'),
+    meta: {
+      index: 12.7,
+      title: '码上OA-发表公文',
+    }
+  },
+  {
     path: '/mail/inbox',
     name: 'Inbox',
     component: () => import(/* webpackChunkName: "inbox" */ '../views/mail/Inbox.vue'),

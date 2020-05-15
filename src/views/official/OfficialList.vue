@@ -4,7 +4,7 @@
       :class="{'show': searchPadding >= 16}"
       :style="{ background: theme, boxShadow: shadowTheme }"
       @click="toTop"></i>
-    <i class="iconfont icon-icon_addmessage"></i>
+    <i class="iconfont icon-wuxupailie"></i>
     <Header title="公文列表" :back="true"/>
     <div class="official-search" :style="{ background: theme }">
       <input v-model.trim="searchValue" placeholder="输入关键词筛选" class="searchInput">
@@ -169,12 +169,12 @@ export default class OfficialList extends Vue {
       top: 50vh;
     }
   }
-  .icon-icon_addmessage {
+  .icon-wuxupailie {
     @extend .flexCenter;
     width: 20vw;
     height: 13vw;
     left: 80vw;
-    font-size: 5vw;
+    font-size: 5.5vw;
     position: fixed;
     z-index: 5;
     color: white;

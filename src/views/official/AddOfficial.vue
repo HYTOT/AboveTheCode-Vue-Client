@@ -6,12 +6,18 @@
     <GapLine/>
     <mt-field label="内容" type="textarea" rows="6" v-model="form.content"/>
     <GapLine/>
+    <SectionItem title="发表" v-if="formOK"
+      iconUrl="icon-success" :iconColor="theme"
+      @tapItem="createOfficial"/>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { AddOfficialForm } from '../../util/types'
+import { Toast } from 'mint-ui'
 import { Route } from 'vue-router'
+import axios from '../../http/axios.config'
 
 @Component({
   components: {
@@ -23,9 +29,27 @@ import { Route } from 'vue-router'
 })
 export default class AddOfficial extends Vue {
 
-  private form:any = {
+  private form:AddOfficialForm = {
     title: '',
     content: '',
+  }
+
+  private async createOfficial():Promise<void> {
+    const res = (await axios.post('/api')).data
+    Toast({
+      message: '成功发表公文',
+      duration: 1000,
+    })
+    this.$router.go(-1)
+  }
+
+  // 表单通过
+  private get formOK():boolean {
+    return !!(this.form.title.trim() && this.form.content.trim())
+  }
+  // 颜色主题
+  private get theme():string {
+    return localStorage.getItem('code-theme') || '#294E80'
   }
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {

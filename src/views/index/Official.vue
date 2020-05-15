@@ -16,13 +16,15 @@
     </section>
     <GapLine/>
     <SectionItem title="公文列表"
-      iconUrl="icon-news" :iconColor="theme"
+      iconUrl="icon-shiyongwendang" :iconColor="theme"
       @tapItem="$router.push('/official/list')"/>
     <GapLine/>
-    <SectionItem title="我的公文"
-      v-if="isManager"
-      iconUrl="icon-news" :iconColor="theme"
+    <SectionItem title="我的公文" v-if="isSupervisor"
+      iconUrl="icon-ceshishenqing" :iconColor="theme"
       @tapItem="$router.push('/official/self')"/>
+    <SectionItem title="公文审核" v-if="isManager"
+      iconUrl="icon-tianshenpi" :iconColor="theme"
+      @tapItem="$router.push('/official/audit')"/>
   </div>
 </template>
 
@@ -56,8 +58,12 @@ export default class Official extends Vue {
     return localStorage.getItem('code-theme') || '#294E80'
   }
   // 主管身份显示我的公文
-  private get isManager():boolean {
+  private get isSupervisor():boolean {
     return this.$store.getters.getLoginState?.roles.includes(Roles.SUPERVISOR)
+  }
+  // 经理身份显示公文审核
+  private get isManager():boolean {
+    return this.$store.getters.getLoginState?.roles.includes(Roles.MANAGER)
   }
 
 }

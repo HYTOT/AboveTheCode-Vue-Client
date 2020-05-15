@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { AddScheduleForm } from '../../util/types'
-import { MessageBox, Toast } from 'mint-ui'
+import { Toast } from 'mint-ui'
 import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
 import Util from '../../util/util'

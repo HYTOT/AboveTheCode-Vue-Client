@@ -203,6 +203,15 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/official/audit',
+    name: 'Audit',
+    component: () => import(/* webpackChunkName: "audit" */ '../views/official/Audit.vue'),
+    meta: {
+      index: 12.9,
+      title: '码上OA-公文审核',
+    }
+  },
+  {
     path: '/mail/inbox',
     name: 'Inbox',
     component: () => import(/* webpackChunkName: "inbox" */ '../views/mail/Inbox.vue'),

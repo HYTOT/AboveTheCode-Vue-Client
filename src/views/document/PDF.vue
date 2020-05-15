@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Indicator, Toast } from 'mint-ui'
+import { MessageBox, Indicator, Toast } from 'mint-ui'
 import { Route } from 'vue-router'
 import { PDF_File, File_VO } from '../../util/types'
 import axios from '../../http/axios.config'
@@ -74,22 +74,25 @@ export default class PDF extends Vue {
     Indicator.open()
   }
   // 删除服务端文件
-  private async deleteFile():Promise<void> {
-    const params = new URLSearchParams()
-    params.append('fileInfoId', this.fileId)
-    const res = (await axios.post('/api/file/deleteFile', params)).data
-    if (res.code === 200) {
-      Toast({
-        message: '已删除该文档',
-        duration: 1000,
-      })
-      this.$router.go(-1)
-    } else {
-      Toast({
-        message: '删除失败',
-        duration: 1000,
-      })
-    }
+  private deleteFile():void {
+    MessageBox.confirm('您确定要删除此文件吗？')
+    .then(async (action:any) => {
+      const params = new URLSearchParams()
+      params.append('fileInfoId', this.fileId)
+      const res = (await axios.post('/api/file/deleteFile', params)).data
+      if (res.code === 200) {
+        Toast({
+          message: '已删除该文档',
+          duration: 1000,
+        })
+        this.$router.go(-1)
+      } else {
+        Toast({
+          message: '删除失败',
+          duration: 1000,
+        })
+      }
+    })
   }
   
   // 截取文件名

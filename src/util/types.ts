@@ -13,6 +13,12 @@ export interface AddScheduleForm {
   participants:Array<User_VO>
 }
 
+export interface AddOfficialForm {
+  [key:string]:any // 索引签名
+  title:string
+  content:string
+}
+
 export interface EmailForm {
   [key:string]:any // 索引签名
   title:string

@@ -35,12 +35,21 @@ export default class AddOfficial extends Vue {
   }
 
   private async createOfficial():Promise<void> {
-    const res = (await axios.post('/api')).data
-    Toast({
-      message: '成功发表公文',
-      duration: 1000,
-    })
-    this.$router.go(-1)
+    const params = new URLSearchParams()
+    params.append('json', JSON.stringify(this.form))
+    const res = (await axios.post('/api/documentinfo/addDocument', params)).data
+    if (res.code === 200) {
+      Toast({
+        message: '成功发表公文',
+        duration: 1000,
+      })
+      this.$router.go(-1)
+    } else {
+      Toast({
+        message: '公文发表失败',
+        duration: 1000,
+      })
+    }
   }
 
   // 表单通过

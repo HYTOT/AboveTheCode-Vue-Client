@@ -80,14 +80,18 @@ export default class Send extends Vue {
     const params = new URLSearchParams()
     params.append('json', JSON.stringify(submit))
     const res = (await axios.post('/api/email/addEmailOrDraft', params)).data
-    Toast({
-      message: send ? '邮件已发送' : '已存到草稿',
-      duration: 1000,
-    })
-    this.$router.go(-1)
-    setTimeout(() => this.$router.push(
-      send ? '/mail/sentout' : '/mail/draft'
-    ), 300)
+    if (res.code === 200) {
+      const ws = this.$store.getters.getWS
+      send && ws.send(`email:${submit.toUser.uid}`)
+      Toast({
+        message: send ? '邮件已发送' : '已存到草稿',
+        duration: 1000,
+      })
+      this.$router.go(-1)
+      setTimeout(() => this.$router.push(
+        send ? '/mail/sentout' : '/mail/draft'
+      ), 300)
+    }
   }
 
   // 颜色主题

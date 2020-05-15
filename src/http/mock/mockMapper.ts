@@ -8,13 +8,16 @@ import {
   SuccessCode,
 } from './../../util/types'
 
+// 模拟成功状态码
+const success:SuccessCode = { code: 200 }
+
 const login:Function = ():User_VO => {
   return {
     code: 200,
     data: Mock.mock({
       "permissions": ["addEmailOrDraft", "deleteEmail", "uploadFile", "queryReceiveEmail", "updateEmail", "queryDraft", "queryDocument", "querySendEmail", "queryByEmail"],
       "email": "3123321@163.com",
-      "roles": Roles.SUPERVISOR,
+      "roles": Roles.MANAGER,
       "token": "33F2C8B757644402ABA0E54BD716A4DB",
       "user": {
         "depart": {
@@ -36,7 +39,7 @@ const login:Function = ():User_VO => {
   }
 }
 
-const logout:Function = ():SuccessCode => ({ code: 200 })
+const logout:Function = ():SuccessCode => success
 
 const futureSchedules:Function = ():Schedule_VO => ({
   code: 200,
@@ -81,13 +84,15 @@ const todaySchedules:Function = ():Schedule_VO => ({
   }).list
 })
 
-const uploadFile:Function = ():SuccessCode => ({ code: 200 })
+const addSchedule:Function = ():SuccessCode => success
+
+const uploadFile:Function = ():SuccessCode => success
 
 const officialList:Function = ():Official_VO => {
   return {
     code: 200,
     data: Mock.mock({
-      "list|5": [{
+      "list|10": [{
         "id": "@guid",
         "title": "@ctitle",
         "content": "@cparagraph",
@@ -99,11 +104,16 @@ const officialList:Function = ():Official_VO => {
           "depart": {
             "departname|1": ["人力资源部", "IT部", "财务部"],
           }
-        }
+        },
+        "isaudit|1": [0, 1, 2]
       }]
     }).list
   }
 }
+
+const addDocument:Function = ():SuccessCode => success
+
+const auditOfficial:Function = ():SuccessCode => success
 
 const inboxList:Function = ():Email_VO => {
   const list = Mock.mock({
@@ -145,6 +155,8 @@ const inboxList:Function = ():Email_VO => {
     }
   }
 }
+
+const addEmailOrDraft:Function = ():SuccessCode => success
 
 const draftList:Function = ():Email_VO => {
   return {
@@ -208,7 +220,7 @@ const emailUserList:Function = ():User_VO => {
   }
 }
 
-const deleteEmail:Function = ():SuccessCode => ({ code: 200 })
+const deleteEmail:Function = ():SuccessCode => success
 
 export const mockMapper:{ [index:string]:any } = {
   '/api/user/login': login(),
@@ -217,11 +229,14 @@ export const mockMapper:{ [index:string]:any } = {
   '/api/schedule/querySchedules': futureSchedules(),
   '/api/schedule/queryTodaySchedules': todaySchedules(),
   '/api/schedule/searchSchedules': futureSchedules(),
-  '/api/schedule/addSchedule': uploadFile(),
+  '/api/schedule/addSchedule': addSchedule(),
   '/api/file/uploadFile': uploadFile(),
   '/api/documentinfo/queryDocument': officialList(),
   '/api/documentinfo/searchDocument': officialList(),
+  '/api/documentinfo/addDocument': addDocument(),
+  '/api/documentinfo/auditDocument': auditOfficial(),
   '/api/email/queryReceiveEmail': inboxList(),
+  '/api/email/addEmailOrDraft': addEmailOrDraft(),
   '/api/email/queryDraft': draftList(),
   '/api/email/querySendEmail': draftList(),
   '/api/email/selectNotReadCount': mailCount(),

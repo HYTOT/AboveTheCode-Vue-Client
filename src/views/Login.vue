@@ -87,6 +87,10 @@ export default class Login extends Vue {
           Toast(e.data.split('|')[1])
           this.cleanAllState()
           this.$route.path !== '/login' && this.$router.push('/login')
+        } else if (/^email/.test(e.data)) {
+          const num = parseInt(e.data.split('|')[1])
+          Object.prototype.toString.call(num) === '[object Number]'
+            && this.$store.dispatch('setMailCount', num)
         }
       }
     } else {

@@ -83,7 +83,7 @@ export default class OfficialList extends Vue {
     if (this.haveMore && !this.searchValue.trim()) {
       this.loadMsg = '拼命加载中...'
       const res = (await axios.get(
-        `/api/documentinfo/queryDocument?pageIndex=${++this.pageIndex}&pageSize=${this.pageSize}`
+        `/api/documentinfo/queryDocument?pageIndex=${++this.pageIndex}&pageSize=${this.pageSize}&isaudit=1`
       )).data
       this.officialItems.push(...Object.freeze(res.data))
       res.data.length < this.pageSize && (this.haveMore = false)
@@ -158,7 +158,7 @@ export default class OfficialList extends Vue {
     position: fixed;
     z-index: 10;
     top: 80vh;
-    left: 87vw;
+    left: 80vw;
     font-size: 4vw;
     color: white;
     text-shadow: 0 0 1vw white;

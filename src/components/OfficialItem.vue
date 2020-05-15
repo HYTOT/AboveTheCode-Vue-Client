@@ -1,5 +1,5 @@
 <template>
-  <article class="official-item" v-if="item">
+  <article class="official-item" v-if="item" @click="showMore=false">
     <h3 class="item-user" :style="{ color: theme }">
       <span>{{ item.createUser.depart.departname }}主管</span>
       <span>{{ item.createUser.name }}</span>
@@ -10,22 +10,36 @@
     <p class="item-title">{{ item.title }}</p>
     <section @click="$emit('readContent', item.content)" class="item-content">{{ item.content }}</section>
     <div class="bottom">
-      <time class="publish-time">{{ item.documentTime }}</time>
-      <i :style="{ color: theme }">··</i>
+      <time class="publish-time">{{ item.documentTime || item.createTime }}</time>
+      <div class="afterMoreBtn" :class="{ showMore }">
+        <span @click="audit(1)">通过</span>
+        <span @click="audit(2)">不通过</span>
+      </div>
+      <i :style="{ color: theme }" v-if="moreBtn"
+        @click.stop="showMore = !showMore">··</i>
     </div>
   </article>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Official_VO } from '../util/types'
 
 @Component
 export default class OfficialItem extends Vue {
 
   @Prop(Object)
-  private item?:any
+  private item?:Official_VO
+  @Prop({ type: Boolean, default: false })
+  private moreBtn?:boolean
 
   private male:boolean = !this.item.createUser.sex
+  private showMore:boolean = false
+
+  private audit(state:number):void {
+    this.$emit('audit', this.item, state)
+    this.showMore = false
+  }
 
   private get gender():string {
     return !this.item.createUser.sex ? 'icon-gender-male' : 'icon-gender-female'
@@ -98,6 +112,41 @@ export default class OfficialItem extends Vue {
       border-radius: 1vw;
       padding: 0 2vw;
       color: $typescript-color;
+    }
+    .afterMoreBtn {
+      width: 30vw;
+      height: 8vw;
+      position: relative;
+      right: 0;
+      background: #666;
+      @extend .flexCenter;
+      border-radius: 1vw;
+      transform: scaleX(0) translateX(15vw);
+      opacity: 0;
+      transform-origin: right;
+      transition: all .2s;
+      span {
+        flex: 1;
+        position: relative;
+        z-index: 2;
+        @extend .flexCenter;
+        height: inherit;
+        color: white;
+        font-size: 3.5vw;
+      }
+      &.showMore {
+        transform: scaleX(1) translateX(0);
+        opacity: 1;
+      }
+      &::after {
+        content: '';
+        width: 4vw;
+        height: 4vw;
+        background: #666;
+        position: absolute;
+        left: 27vw;
+        transform: rotate(45deg);
+      }
     }
   }
 }

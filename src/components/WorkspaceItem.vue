@@ -10,9 +10,8 @@
     <section class="workspace-item-section"
       :class="{'minimize': min}">
       <BScroll ref="bscroll">
-        <!-- 遍历管理数据 -->
-        <h1 v-for="i in 30" :key="i"
-          style="text-align: center; line-height: 15vw;">{{ i }}</h1>
+        <SectionItem v-for="i in 20" :key="i"
+          :title="`XX管理${i}`"/>
       </BScroll>
     </section>
   </div>
@@ -24,6 +23,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component({
   components: {
     BScroll: () => import('vue-bscroll'),
+    SectionItem: () => import('./SectionItem.vue'),
   }
 })
 export default class WorkspaceItem extends Vue {

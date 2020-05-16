@@ -3,6 +3,7 @@ import {
   Roles,
   User_VO,
   Schedule_VO,
+  File_VO,
   Official_VO,
   Email_VO,
   SuccessCode,
@@ -87,6 +88,18 @@ const todaySchedules:Function = ():Schedule_VO => ({
 const addSchedule:Function = ():SuccessCode => success
 
 const uploadFile:Function = ():SuccessCode => success
+
+const fileList:Function = ():File_VO => {
+  return {
+    code: 200,
+    data: Mock.mock({
+      "list|10": [{
+        "id": "@guid",
+        "filename": "@ctitle",
+      }]
+    }).list
+  }
+}
 
 const officialList:Function = ():Official_VO => {
   return {
@@ -231,6 +244,8 @@ export const mockMapper:{ [index:string]:any } = {
   '/api/schedule/searchSchedules': futureSchedules(),
   '/api/schedule/addSchedule': addSchedule(),
   '/api/file/uploadFile': uploadFile(),
+  '/api/file/queryMyFile': fileList(),
+  '/api/file/queryFilesByPage': fileList(),
   '/api/documentinfo/queryDocument': officialList(),
   '/api/documentinfo/searchDocument': officialList(),
   '/api/documentinfo/addDocument': addDocument(),

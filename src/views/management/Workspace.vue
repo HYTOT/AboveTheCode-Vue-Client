@@ -3,7 +3,7 @@
     <i class="iconfont icon-wuxupailie show-more-btn"
       @click="showOperations=true"></i>
     <Header :title="enableDrag ?'拖拽调换选项卡':'后台管理工作区'" :back="true"/>
-    <section v-if="!enableDrag">
+    <section v-if="!enableDrag" class="work-sections">
       <WorkspaceItem v-for="item in workspace" :key="item"
         :title="item" @close="closeItem(item)"/>
     </section>

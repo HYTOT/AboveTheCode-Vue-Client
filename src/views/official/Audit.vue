@@ -3,7 +3,8 @@
     <Header title="公文审核" :back="true"/>
     <OfficialItem v-for="(item, i) in unauditList" :key="i"
       @readContent="readContent" :item="item" :moreBtn="true"
-      @audit="auditOfficial"/>
+      @audit="auditOfficial" @clickMore="clickMore"
+      ref="official_item"/>
     <SectionItem title2="查看更多" v-if="haveMore"
       iconUrl="icon-gengduo" :iconColor="theme"
       @tapItem="getMore"/>
@@ -20,6 +21,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Official_VO } from '../../util/types'
 import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
+import OfficialItem from '../../components/OfficialItem.vue'
 
 @Component({
   components: {
@@ -59,6 +61,13 @@ export default class Audit extends Vue {
   private readContent(content:string):void {
     this.clickedContent = content
   }
+  private clickMore():void {
+    // 将所有 item 的审核按钮隐藏
+    (this.$refs.official_item as Array<OfficialItem>)
+    .forEach((item:OfficialItem) => {
+      item.setShowMore(false)
+    })
+  }
 
   // 颜色主题
   private get theme():string {
@@ -72,6 +81,7 @@ export default class Audit extends Vue {
   private mounted():void {
     this.$nextTick(() => {
       document.onscroll = () => {
+        this.clickMore()
         this.clickedContent = ''
       }
     })

@@ -7,11 +7,12 @@
       :title="item.title.length > 8
         ? item.title.slice(0, 8).concat('...')
         : item.title"
-      :title2="item.isaudit === 0
-        ? '未审核'
-        : item.isaudit === 1
-          ? '审核通过'
-          : '审核失败'"/>
+      :title2="STATE_MAP[item.isaudit].msg"
+      :title2Color="STATE_MAP[item.isaudit].color"
+      @tapItem="$router.push({
+        name: 'SelfDetails',
+        params: { item }
+      })"/>
     <SectionItem title2="查看更多" v-if="haveMore"
       iconUrl="icon-gengduo" :iconColor="theme"
       @tapItem="getMore"/>
@@ -20,7 +21,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Official_VO } from '../../util/types'
+import { Official_VO, AuditState } from '../../util/types'
 import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
 
@@ -36,6 +37,11 @@ export default class Self extends Vue {
   private pageIndex:number = 0
   private pageSize:number = 10
   private haveMore:boolean = true
+  private readonly STATE_MAP:Array<AuditState> = [
+    { msg: '未审核', color: '#888' },
+    { msg: '审核通过', color: '#56C229' },
+    { msg: '审核失败', color: '#F56C6C' },
+  ]
 
   private async getMore():Promise<void> {
     const uid = this.$store.getters.getLoginState?.user.uid

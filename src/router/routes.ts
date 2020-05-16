@@ -189,8 +189,17 @@ export const routes:Array<RouteConfig> = [
     name: 'Self',
     component: () => import(/* webpackChunkName: "self" */ '../views/official/Self.vue'),
     meta: {
-      index: 12.5,
+      index: 12.3,
       title: '码上OA-我的公文',
+    }
+  },
+  {
+    path: '/official/self/details',
+    name: 'SelfDetails',
+    component: () => import(/* webpackChunkName: "selfDetails" */ '../views/official/SelfDetails.vue'),
+    meta: {
+      index: 12.5,
+      title: '码上OA-我的公文详情',
     }
   },
   {

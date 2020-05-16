@@ -16,7 +16,7 @@
         <span @click="audit(2)">不通过</span>
       </div>
       <i :style="{ color: theme }" v-if="moreBtn"
-        @click.stop="showMore = !showMore">··</i>
+        @click.stop="clickMore">··</i>
     </div>
   </article>
 </template>
@@ -39,6 +39,14 @@ export default class OfficialItem extends Vue {
   private audit(state:number):void {
     this.$emit('audit', this.item, state)
     this.showMore = false
+  }
+  private clickMore():void {
+    this.$emit('clickMore')
+    this.showMore = true
+  }
+  // 对父组件公开 setter 方法
+  public setShowMore(showMore:boolean):void {
+    this.showMore = showMore
   }
 
   private get gender():string {

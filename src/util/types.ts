@@ -47,6 +47,11 @@ export interface ThemeConfig {
   color:string
 }
 
+export interface AuditState {
+  msg:string
+  color:string
+}
+
 export interface PDF_File {
   src:string
   page:number

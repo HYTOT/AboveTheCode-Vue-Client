@@ -5,7 +5,9 @@
       'color': iconColor || '#333'
     }"></i>
     <h3 class="title">{{ title }}</h3>
-    <h3 class="title2">{{ title2 && titleSlice }}</h3>
+    <h3 class="title2" :style="{color: title2Color}">
+      {{ title2 && titleSlice }}
+    </h3>
     <i class="iconfont icon-angle-right"></i>
     <span v-if="showHotText" class="hot-text">{{ hotText }}</span>
   </div>
@@ -25,6 +27,8 @@ export default class SectionItem extends Vue {
   private title?:string
   @Prop(String)
   private title2?:string
+  @Prop({ type: String, default: '#888' })
+  private title2Color?:string
   @Prop(String)
   private hotText?:string
 

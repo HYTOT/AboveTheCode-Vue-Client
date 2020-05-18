@@ -275,6 +275,42 @@ export const routes:Array<RouteConfig> = [
     }
   },
   {
+    path: '/management/depart',
+    name: 'Depart',
+    component: () => import(/* webpackChunkName: "depart" */ '../views/management/Depart.vue'),
+    meta: {
+      index: 14.2,
+      title: '码上OA-部门管理',
+    }
+  },
+  {
+    path: '/management/employee',
+    name: 'Employee',
+    component: () => import(/* webpackChunkName: "employee" */ '../views/management/Employee.vue'),
+    meta: {
+      index: 14.4,
+      title: '码上OA-员工管理',
+    }
+  },
+  {
+    path: '/management/role',
+    name: 'Role',
+    component: () => import(/* webpackChunkName: "role" */ '../views/management/Role.vue'),
+    meta: {
+      index: 14.6,
+      title: '码上OA-角色管理',
+    }
+  },
+  {
+    path: '/management/power',
+    name: 'Power',
+    component: () => import(/* webpackChunkName: "power" */ '../views/management/Power.vue'),
+    meta: {
+      index: 14.8,
+      title: '码上OA-权限管理',
+    }
+  },
+  {
     path: '*',
     name: '404',
     redirect: '/schedule',

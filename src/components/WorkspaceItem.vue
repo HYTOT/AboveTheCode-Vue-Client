@@ -2,6 +2,8 @@
   <div class="workspace-item">
     <header class="workspace-item-title">
       <span>{{ title }}管理</span>
+      <i class="iconfont icon-jia_sekuai"
+        @click="$emit('add')"></i>
       <i class="iconfont icon-angle-right" v-if="minimizable"
         :class="{'hide': !min}" @click="min=!min"></i>
       <i class="iconfont icon-guanbi" v-if="closeable"
@@ -9,20 +11,29 @@
     </header>
     <section class="workspace-item-section"
       :class="{'minimize': min}">
-      <BScroll ref="bscroll">
-        <SectionItem v-for="i in 20" :key="i"
-          :title="`XX管理${i}`"/>
-      </BScroll>
+      <SectionItem v-for="(item, i) in workMap[title]" :key="i"
+        :title="item.name || item.departname || item.powername"
+        :title2="item.status
+          ? '可用'
+          : item.status === 0
+            ? '异常'
+            : ''"
+        :title2Color="item.status
+          ? '#56C229'
+          : item.status === 0
+            ? '#F56C6C'
+            : ''"
+        @tapItem="$emit('manageThis', title, item)"/>
     </section>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { WorkspaceData } from '../util/types'
 
 @Component({
   components: {
-    BScroll: () => import('vue-bscroll'),
     SectionItem: () => import('./SectionItem.vue'),
   }
 })
@@ -37,6 +48,11 @@ export default class WorkspaceItem extends Vue {
 
   // true 为折叠选项卡
   private min:boolean = false
+
+  // 管理工作区存数据的 Map 集合
+  private get workMap():WorkspaceData {
+    return this.$store.getters.getWorkspaceItem
+  }
 
 }
 </script>
@@ -86,6 +102,13 @@ export default class WorkspaceItem extends Vue {
       }
       transform: skewX(2deg);
     }
+    .icon-jia_sekuai {
+      font-size: 5vw;
+      position: absolute;
+      top: 2vw;
+      left: 10vw;
+      color: #555;
+    }
     .icon-angle-right {
       font: {
         size: 4vw;
@@ -113,7 +136,7 @@ export default class WorkspaceItem extends Vue {
   }
   .workspace-item-section {
     width: 100vw;
-    height: 100vw;
+    max-height: 80vw;
     overflow: {
       x: hidden;
       y: scroll;
@@ -121,7 +144,7 @@ export default class WorkspaceItem extends Vue {
     background: #eee;
     transition: all .3s;
     &.minimize {
-      height: 0;
+      max-height: 0;
     }
   }
 }

@@ -5,7 +5,8 @@
     <Header :title="enableDrag ?'拖拽调换选项卡':'后台管理工作区'" :back="true"/>
     <section v-if="!enableDrag" class="work-sections">
       <WorkspaceItem v-for="item in workspace" :key="item"
-        :title="item" @close="closeItem(item)"/>
+        :title="item" @close="closeItem(item)" @add="doAdd(item)"
+        @manageThis="manageItem"/>
     </section>
     <section v-else class="drag-section">
       <Draggable v-model="workspace">
@@ -35,7 +36,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { ManagementItem } from '../../util/types'
+import { ManagementItem, WorkspaceData, ManageMap } from '../../util/types'
 import { MessageBox } from 'mint-ui'
 import { Route } from 'vue-router'
 
@@ -52,6 +53,13 @@ export default class Workspace extends Vue {
 
   private showOperations:boolean = false
   private enableDrag:boolean = false
+  // 路由映射
+  private readonly ROUTE_MAP:ManageMap<string> = {
+    "部门": "Depart",
+    "员工": "Employee",
+    "角色": "Role",
+    "权限": "Power",
+  }
 
   private closeItem(item:ManagementItem):void {
     MessageBox.confirm(`您确定要关闭“${item}管理”选项卡吗？`, '请注意保存！')
@@ -67,9 +75,26 @@ export default class Workspace extends Vue {
       this.$router.go(-1)
     }).catch(() => {})
   }
+  private doAdd(title:string):void {
+    this.$router.push({
+      name: this.ROUTE_MAP[title],
+      params: { add: 'true' },
+    })
+  }
+  // 切换能否拖拽
   private switchSort():void {
     this.showOperations = false
     this.enableDrag = !this.enableDrag
+  }
+  /**
+   * 管理某一条的方法
+   * title：管理类别，item：点击的那个对象
+   */
+  private manageItem(title:string, item:WorkspaceData):void {
+    this.$router.push({
+      name: this.ROUTE_MAP[title],
+      params: { item },
+    })
   }
 
   // 当前工作空间包含的选项卡
@@ -86,8 +111,10 @@ export default class Workspace extends Vue {
 
   private beforeRouteEnter (to:Route, from:Route, next:Function) {
     next((vm:Workspace) => {
-      vm.$store.getters.managable || vm.$router.push('/schedule')
-      vm.workspace.length || vm.$router.push('/management')
+      if (!/^\/management/.test(from.path)) {
+        vm.$router.push('/schedule')
+        return
+      }
     })
   }
 

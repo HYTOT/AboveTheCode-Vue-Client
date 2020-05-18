@@ -67,6 +67,14 @@ export interface ManagementItem {
   type:string
 }
 
+export interface ManageMap<T> {
+  [key:string]:T // 索引签名
+  '部门':T
+  '员工':T
+  '角色':T
+  '权限':T
+}
+
 export enum Greet {
   MORNING = '上午好',
   AFTERNOON = '下午好',
@@ -92,6 +100,12 @@ export type File_Object = File | Object
 export type File_VO = any
 export type Official_VO = any
 export type Email_VO = any
+export type Depart_VO = any
+export type Employee_VO = any
+export type Role_VO = any
+export type Power_VO = any
+export type WorkspaceData = any
+export type ManagementFormdata = any
 export type Chart = any
 export type MapConfig = any
 export type SuccessCode = { code:number }

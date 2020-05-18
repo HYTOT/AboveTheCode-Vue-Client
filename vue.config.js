@@ -3,8 +3,8 @@ const TerserPlugin = require("terser-webpack-plugin")
 const CompressionPlugin = require("compression-webpack-plugin")
 const OptimizeCss = require('optimize-css-assets-webpack-plugin')
 
-const isProduction = !true
-const openProxy = !true
+const isProduction = true
+const openProxy = true
 
 module.exports = {
   chainWebpack: config => {
@@ -25,8 +25,8 @@ module.exports = {
       compress: true,
       proxy: openProxy ? {
         '/api': {
-          // target: 'http://127.0.0.1:8080/',
-          target: 'http://192.168.13.9:8080/',
+          target: 'http://127.0.0.1:8080/',
+          // target: 'http://172.20.10.3:8080/',
           changeOrigin: true,
           ws: true,
           pathRewrite: {

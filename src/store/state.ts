@@ -20,4 +20,10 @@ export const state:StateInterface = {
   mailCount_show: true,
   // 后台管理工作区
   workspace: [],
+  workspace_datas: {
+    "部门": [],
+    "员工": [],
+    "角色": [],
+    "权限": [],
+  },
 }

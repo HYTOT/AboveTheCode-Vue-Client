@@ -37,6 +37,7 @@ export default class App extends Vue {
           const num = parseInt(e.data.split('|')[1])
           Object.prototype.toString.call(num) === '[object Number]'
             && this.$store.dispatch('setMailCount', num)
+          Toast('您收到一封新邮件！')
         }
       }
     } else {

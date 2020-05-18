@@ -4,6 +4,8 @@ import {
   File_Object,
   OperationItem,
   ManagementItem,
+  ManageMap,
+  WorkspaceData,
 } from './../util/types'
 
 export interface StateInterface {
@@ -20,4 +22,5 @@ export interface StateInterface {
   mailCount: number
   mailCount_show: boolean
   workspace: Array<ManagementItem>
+  workspace_datas: ManageMap<WorkspaceData>
 }

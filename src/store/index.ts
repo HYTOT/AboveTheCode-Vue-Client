@@ -5,6 +5,7 @@ import {
   File_Object,
   OperationItem,
   Roles,
+  WorkspaceData,
 } from './../util/types'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     },
     getRealMailCount: (state):string => `${state.mailCount}`,
     getWorkspace: (state):Array<ManagementItem> => state.workspace,
+    getWorkspaceItem: (state):WorkspaceData => state.workspace_datas,
   },
   mutations: {
     [Types.SET_WEB_SOCKET]: (state, wsURL:string):void => {
@@ -79,6 +81,13 @@ export default new Vuex.Store({
     },
     [Types.CLEAR_WORKSPACE]: (state):void => {
       state.workspace.splice(0, state.workspace.length)
+      const map = state.workspace_datas
+      for (const key in map) {
+        map[key].splice(0, map[key].length) 
+      }
+    },
+    [Types.SET_WORKSPACE_ITEM]: (state, [item, data]):void => {
+      state.workspace_datas[item] = data
     },
   },
   actions: {
@@ -121,6 +130,9 @@ export default new Vuex.Store({
     },
     clearWorkspace: ({ commit }):void => {
       commit(Types.CLEAR_WORKSPACE)
+    },
+    setWorkspaceItem: ({ commit }, [item, data]):void => {
+      commit(Types.SET_WORKSPACE_ITEM, [item, data])
     },
   }
 })

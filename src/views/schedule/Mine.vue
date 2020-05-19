@@ -17,8 +17,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { MessageBox } from 'mint-ui'
 import { User_VO } from '../../util/types'
+import { MessageBox } from 'mint-ui'
+import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
 
 @Component({
@@ -47,6 +48,15 @@ export default class Mine extends Vue {
 
   private get gender():string {
     return this.user.sex === 0 ? '男' : '女'
+  }
+
+  private beforeRouteEnter (to:Route, from:Route, next:Function) {
+    next((vm:Mine) => {
+      if (!/^\/schedule/.test(from.path)) {
+        vm.$router.push('/schedule')
+        return
+      }
+    })
   }
 
 }

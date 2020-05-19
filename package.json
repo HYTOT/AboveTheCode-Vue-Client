@@ -9,9 +9,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
-    "echarts": "^4.7.0",
     "mint-ui": "^2.2.13",
-    "v-charts": "^1.19.0",
     "vue": "^2.6.11",
     "vue-calendar-component": "^2.8.2",
     "vue-class-component": "^7.2.3",

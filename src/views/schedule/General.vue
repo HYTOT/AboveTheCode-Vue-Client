@@ -34,10 +34,7 @@ export default class General extends Vue {
   private switchMailConfig():void {
     MessageBox.confirm(`您确定要${this.$store.getters.isAllowMailCount ?'禁用':'开启'}未读邮件提示吗？`)
     .then((action:any) => {
-      Toast({
-        message: `邮件提示功能已${this.$store.getters.isAllowMailCount ?'禁用':'开启'}`,
-        duration: 1000,
-      })
+      Toast(`邮件提示功能已${this.$store.getters.isAllowMailCount ?'禁用':'开启'}`)
       this.$store.dispatch('allowMailCount', !this.$store.getters.isAllowMailCount)
     }).catch(() => {})
   }

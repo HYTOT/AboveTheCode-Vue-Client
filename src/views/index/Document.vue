@@ -31,48 +31,35 @@
     <SectionItem title="所有文档"
       iconUrl="icon-folder-open" :iconColor="theme || '#294E80'"
       @tapItem="$router.push('/document/alldocs')"/>
-    <!-- 图表 -->
-    <!-- <ve-line :data="chartData" width="100vw"/> -->
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Indicator, Toast, MessageBox } from 'mint-ui'
-import { HTMLInputEvent, Chart } from '../../util/types'
+import { HTMLInputEvent } from '../../util/types'
 import axios from '../../http/axios.config'
 
 @Component({
   components: {
     GapLine: () => import('../../components/GapLine.vue'),
     SectionItem: () => import('../../components/SectionItem.vue'),
-    've-line': () => import('v-charts/lib/line.common'),
   }
 })
 export default class Document extends Vue {
 
   // 用于重新渲染 文件上传表单组件
   private renderInput:boolean = true
-  private chartData:Chart = {
-    columns: ['日期', '访问用户', '好评用户'],
-    rows: [
-      { '日期': '12月', '访问用户': 1393, '好评用户': 1093 },
-      { '日期': '1月', '访问用户': 1723, '好评用户': 1423 },
-      { '日期': '2月', '访问用户': 2623, '好评用户': 2323 },
-      { '日期': '3月', '访问用户': 3792, '好评用户': 3492 },
-      { '日期': '4月', '访问用户': 5830, '好评用户': 5530 },
-      { '日期': '5月', '访问用户': 7593, '好评用户': 7293 },
-    ],
-  }
 
   private getFile(e:HTMLInputEvent):void {
     const file:File = e.target.files[0]
     if (!file) return
     if (!/^pdf$/.test(file.name.split('.').pop())) {
-      Toast({
-        message: '请上传pdf文件',
-        duration: 1000,
-      })
+      Toast('请上传pdf文件！')
+      return
+    }
+    if (file.size > 888888) {
+      Toast('抱歉，文件大小已超出限制！')
       return
     }
     Indicator.open()
@@ -82,10 +69,7 @@ export default class Document extends Vue {
       setTimeout(() => {
         this.$store.dispatch('setFileBuffer', [file, reader.result, file.name])
         Indicator.close()
-        Toast({
-          message: '文件上传成功',
-          duration: 1000,
-        })
+        Toast('点击“保存此文档”即可完成上传！')
       }, 500)
     }
   }
@@ -100,10 +84,6 @@ export default class Document extends Vue {
         this.$store.dispatch('setFileBuffer', [{}, '', ''])
         this.renderInput = true
         Indicator.close()
-        Toast({
-          message: '已移除文件',
-          duration: 1000,
-        })
       }, 500)
     }).catch(() => {})
   }

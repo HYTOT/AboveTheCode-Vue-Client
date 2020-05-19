@@ -40,17 +40,11 @@ export default class ScheduleDetails extends Vue {
       params.append('id', this.schedule.id)
       const res = (await axios.post(`/api/schedule/deleteSchedule`, params)).data
       if (res.code === 200) {
-        Toast({
-          message: '已删除该日程',
-          duration: 1000,
-        })
+        Toast('已删除该日程')
         this.$store.dispatch('setFutureSchedules', [])
         this.$router.go(-1)
       } else {
-        Toast({
-          message: '删除失败',
-          duration: 1000,
-        })
+        Toast('删除失败')
       }
     }).catch(() => {})
   }

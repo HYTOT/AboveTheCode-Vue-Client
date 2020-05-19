@@ -8,7 +8,7 @@
     <GapLine/>
     <SectionItem title="通用" @tapItem="$router.push('/schedule/config/general')"/>
     <GapLine/>
-    <SectionItem title="关于码上" title2="v0.0.0"/>
+    <SectionItem title="关于码上" title2="v1.0.1"/>
     <GapLine/>
     <button class="logout" @click="logout">退出登录</button>
   </div>
@@ -17,7 +17,9 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { MessageBox } from 'mint-ui'
+import { wsBaseUrl } from '../../util/ws.config'
 import { menu } from '../../util/menu.config'
+import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
 
 @Component({
@@ -32,9 +34,9 @@ export default class Config extends Vue {
   private logout():void {
     MessageBox.confirm('您确定要退出登录吗？')
     .then(async (action:any) => {
-      let res = (await axios.post('/api/user/logout')).data
+      const res = (await axios.post('/api/user/logout')).data
       this.cleanAllState()
-      const wsURL = `ws://192.168.13.9:90/socket/${this.$store.getters.getLoginState.token}`
+      const wsURL = `${wsBaseUrl}${this.$store.getters.getLoginState.token}`
       const ws:WebSocket = this.$store.getters.getWS
       ws.close()
       // 关闭 socket 后，vuex 的 socket 单例对象清空
@@ -54,6 +56,15 @@ export default class Config extends Vue {
     localStorage.removeItem('code-theme')
     localStorage.removeItem('code-login')
     localStorage.removeItem('code-search-history')
+  }
+
+  private beforeRouteEnter (to:Route, from:Route, next:Function) {
+    next((vm:Config) => {
+      if (!/^\/schedule/.test(from.path)) {
+        vm.$router.push('/schedule')
+        return
+      }
+    })
   }
 
 }

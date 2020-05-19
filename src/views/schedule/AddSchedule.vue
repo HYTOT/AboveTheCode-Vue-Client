@@ -76,17 +76,11 @@ export default class AddSchedule extends Vue {
     params.append('json', JSON.stringify(submit))
     const res = (await axios.post('/api/schedule/addSchedule', params)).data
     if (res.code === 200) {
-      Toast({
-        message: '成功创建日程',
-        duration: 1000,
-      })
+      Toast('成功创建日程')
       this.$store.dispatch('setFutureSchedules', [])
       this.$router.go(-1)
     } else {
-      Toast({
-        message: '创建日程失败',
-        duration: 1000,
-      })
+      Toast('创建日程失败')
     }
   }
 

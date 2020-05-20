@@ -50,7 +50,8 @@ export default class Management extends Vue {
     if (!this.workMap[`${item}`].length) {
       // 根据 key 值请求对应的数据集合，并存到 vuex 中缓存
       const res = (await axios.get(this.REQUEST_MAP[`${item}`])).data
-      this.$store.dispatch('setWorkspaceItem', [item, res.data])
+      res?.data.length &&
+        this.$store.dispatch('setWorkspaceItem', [item, res.data])
     }
     this.$router.push('/management/workspace')
   }

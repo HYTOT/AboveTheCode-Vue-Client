@@ -20,8 +20,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { Indicator } from 'mint-ui'
 import { User_VO } from '../../util/types'
+import { Indicator } from 'mint-ui'
+import { Route } from 'vue-router'
 
 @Component({
   components: {
@@ -61,6 +62,15 @@ export default class QR extends Vue {
 
   private created():void {
     Indicator.open()
+  }
+
+  private beforeRouteEnter (to:Route, from:Route, next:Function) {
+    next((vm:QR) => {
+      if (!/^\/schedule/.test(from.path)) {
+        vm.$router.push('/schedule')
+        return
+      }
+    })
   }
 
 }

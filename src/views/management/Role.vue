@@ -40,15 +40,19 @@ export default class Role extends Vue {
         ? '/api/role/addRole'
         : '/api/role/updateRole'
     , params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`${this.add ? '新增' : '修改'}成功`)
       this.reloadStore(res.data)
+    } else {
+      Toast(`${this.add ? '新增' : '修改'}失败`)
     }
   }
   private async deleteRole():Promise<void> {
     const params = new URLSearchParams()
     params.append('id', this.item.id)
     const res = (await axios.post('/api/role/deleteRole', params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`删除成功`)
       this.reloadStore(res.data)
     } else {
       Toast(res.message)

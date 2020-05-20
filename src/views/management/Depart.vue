@@ -45,15 +45,19 @@ export default class Depart extends Vue {
         ? '/api/depart/addDepart'
         : '/api/depart/updateDepart'
     , params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`${this.add ? '新增' : '修改'}成功`)
       this.reloadStore(res.data)
+    } else {
+      Toast(`${this.add ? '新增' : '修改'}失败`)
     }
   }
   private async deleteDepart():Promise<void> {
     const params = new URLSearchParams()
     params.append('departid', this.item.departid)
     const res = (await axios.post('/api/depart/deleteDepart', params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`删除成功`)
       this.reloadStore(res.data)
     } else {
       Toast(res.message)

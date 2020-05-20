@@ -82,8 +82,17 @@ export default class NavBar extends Vue {
           padding: .5vw 1vw;
           border-radius: 3vw;
         }
+        animation: hot-point 1.5s 1s;
       }
     }
   }
+}
+
+@keyframes hot-point {
+  0% { transform: translateX(60%) translateY(0); text-shadow: 0 0 2vh white; }
+  25% { transform: translateX(60%) translateY(-2vh); text-shadow: 0 0 2vh white; }
+  50% { transform: translateX(60%) translateY(0); text-shadow: 0 0 2vh white; }
+  75% { transform: translateX(60%) translateY(-2vh); text-shadow: 0 0 2vh white; }
+  100% { transform: translateX(60%) translateY(0); text-shadow: 0 0 2vh white; }
 }
 </style>

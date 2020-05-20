@@ -8,7 +8,7 @@
     <GapLine/>
     <SectionItem title="通用" @tapItem="$router.push('/schedule/config/general')"/>
     <GapLine/>
-    <SectionItem title="关于码上" title2="v1.0.1"/>
+    <SectionItem title="关于码上" title2="v1.1.0"/>
     <GapLine/>
     <button class="logout" @click="logout">退出登录</button>
   </div>

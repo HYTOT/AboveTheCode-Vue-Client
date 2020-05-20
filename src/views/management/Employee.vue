@@ -103,14 +103,16 @@ export default class Employee extends Vue {
     this.showOperations = true
     if (!this.departList.length) {
       const res = (await axios.get('/api/depart/queryDepart')).data
-      this.departList = Object.freeze(res.data)
+      res?.data.length &&
+        (this.departList = Object.freeze(res.data))
     }
   }
   private async selectRoles():Promise<void> {
     this.showOperations2 = true
     if (!this.roleList.length) {
       const res = (await axios.get('/api/role/queryRoles')).data
-      this.roleList = Object.freeze(res.data)
+      res?.data.length &&
+        (this.roleList = Object.freeze(res.data))
     }
   }
   private selectOk(depart:Depart_VO):void {
@@ -129,15 +131,19 @@ export default class Employee extends Vue {
         ? '/api/user/register'
         : '/api/admin/updateUser'
     , params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`${this.add ? '新增' : '修改'}成功`)
       this.reloadStore(res.data)
+    } else {
+      Toast(`${this.add ? '新增' : '修改'}失败`)
     }
   }
   private async deleteEmployee():Promise<void> {
     const params = new URLSearchParams()
     params.append('uid', this.item.uid)
     const res = (await axios.post('/api/admin/deleteUser', params)).data
-    if (res.code === 200) {
+    if (res?.code === 200) {
+      Toast(`删除成功`)
       this.reloadStore(res.data)
     } else {
       Toast(res.message)

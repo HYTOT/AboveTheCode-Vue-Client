@@ -3,10 +3,12 @@
     <header class="logo">
       <h1>码上</h1><h2>大型办公自动化系统</h2>
     </header>
-    <InputGroup v-model="model.username" placeholder="登录账号"
-      :error="error.username"/>
-    <InputGroup v-model="model.password" placeholder="登录密码"
-      :error="error.password" type="password"/>
+    <form method="post" class="login-form">
+      <InputGroup v-model="model.username" placeholder="登录账号"
+        :error="error.username"/>
+      <InputGroup v-model="model.password" placeholder="登录密码"
+        :error="error.password" type="password"/>
+    </form>
     <slide-verify v-if="!validated" :l="40" :r="10"
       :w="getWidth * 0.7" :h="getWidth * 0.35"
       slider-text="向右滑动" @success="validateSuccess"/>
@@ -91,6 +93,10 @@ export default class Login extends Vue {
           const num = parseInt(e.data.split('|')[1])
           Object.prototype.toString.call(num) === '[object Number]'
             && this.$store.dispatch('setMailCount', num)
+          this.$store.dispatch('allowMailCount', !this.$store.getters.isAllowMailCount)
+          setTimeout(() => {
+            this.$store.dispatch('allowMailCount', !this.$store.getters.isAllowMailCount)
+          }, 0)
           Toast('您收到一封新邮件！')
         }
       }

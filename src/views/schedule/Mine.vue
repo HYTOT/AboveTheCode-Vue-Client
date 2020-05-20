@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { User_VO } from '../../util/types'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 import { Route } from 'vue-router'
 import axios from '../../http/axios.config'
 
@@ -41,8 +41,13 @@ export default class Mine extends Vue {
       afterUpdate.user[key] = value
       const params = new URLSearchParams()
       params.append('json', JSON.stringify(afterUpdate))
-      const res = (await axios.post('/api/admin/updateUser', params))
-      this.$store.dispatch('saveUserLoginState', afterUpdate)
+      const res = (await axios.post('/api/admin/updateUser', params)).data
+      if (res.code === 200) {
+        Toast(`修改成功`)
+        this.$store.dispatch('saveUserLoginState', afterUpdate)
+      } else {
+        Toast(`修改失败`)
+      }
     }).catch(() => {})
   }
 
